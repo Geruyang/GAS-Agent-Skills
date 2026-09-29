@@ -10,7 +10,7 @@
 
 为多 Agent 开发设计的三种协作模式，让任务分工、决策边界、独立验收与最终交付都有据可循。
 
-[集权模式](#01-集权模式) · [分权模式](#02-分权模式) · [组合模式](#03-组合模式) · [快速开始](#快速开始) · [验证记录](GAS-Agent-Skills/VALIDATION.md)
+[集权模式](#01-集权模式) · [分权模式](#02-分权模式) · [组合模式](#03-组合模式) · [快速开始](#快速开始) · [验证记录](GAS-Agent-Skills/VALIDATION.md) · [参与贡献](CONTRIBUTING.md) · [讨论区](https://github.com/Geruyang/GAS-Agent-Skills/discussions)
 
 </div>
 
@@ -161,13 +161,17 @@ GAS 交付的是协作协议、模板与检查工具。真实调度、权限隔�
 
 GAS 目前仍处于探索与验证阶段。**三种模式在不同模型、宿主环境和任务规模下的实际表现，还需要更多真实项目的检验。** 我们希望与使用者一起，逐步确认哪些规则有效、哪些流程增加了协调成本，以及哪些场景需要调整。
 
-欢迎通过 [GitHub Issues](https://github.com/Geruyang/GAS-Agent-Skills/issues) 分享试用记录和问题，或通过 Pull Request 补充可复现案例、验证方法与改进：
+欢迎在 [Discussions](https://github.com/Geruyang/GAS-Agent-Skills/discussions) 交流用法和验证经验，通过 [GitHub Issues](https://github.com/Geruyang/GAS-Agent-Skills/issues/new/choose) 提交验证报告、问题或建议，或通过 Pull Request 补充案例与改进。具体步骤见 [中文贡献指南](CONTRIBUTING.md)。
 
 - **说明环境与任务：** 所用模型、Agent 宿主、技能版本、协作模式、实际角色数量，以及任务目标和规模。
 - **记录过程与证据：** 验收标准、执行与审查记录、耗时及调用成本；条件允许时，与不使用本技能的同类任务进行对照。
 - **如实报告结果：** 哪些步骤有效、哪里失败或停滞、是否发生角色越权或重复返工，以及仍未验证的部分。成功与失败案例同样有价值。
 
 可以先从一个边界明确、结果可核验的小任务开始。提交记录时请注明实际执行了哪些步骤，区分静态检查、文字推演与真实多 Agent 工程运行，帮助大家共同积累可信的验证证据。
+
+## 许可证
+
+本项目采用 [MIT 许可证](LICENSE)，允许使用、修改、分发和商用，需保留版权及许可声明。项目仍需更多实际工程验证，欢迎共同完善。
 
 ---
 
