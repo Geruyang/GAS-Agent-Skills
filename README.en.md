@@ -26,7 +26,7 @@ When several agents write code together, who sets the rules? Who assigns tasks? 
 
 Each mode includes a **Skill entry point, a collaboration protocol, JSON record templates, and pressure-test scenarios**. The repository also provides three architecture diagrams, a copy installer, and offline checks using only the Python standard library. Your agent host must provide file access and real subagents to run the full collaboration modes.
 
-The architecture diagrams and detailed Skill protocols are currently in Chinese. The English descriptions below explain the roles and workflows; linked Chinese documents are labeled where helpful.
+English architecture diagrams are provided below. Detailed Skill protocols are currently in Chinese; links to Chinese documents are labeled where helpful.
 
 ## 01 Centralized mode
 
@@ -34,7 +34,7 @@ The architecture diagrams and detailed Skill protocols are currently in Chinese.
 
 **Unified direction. Independent evidence. Centralized decisions.** The commander breaks down work, assigns tasks, evaluates technical evidence, and handles integration and release. Executors, reviewers, and supervisors have distinct responsibilities and report to the commander.
 
-[![Centralized architecture: a human authorizes a commander, who directs executors, reviewers, and supervisors](docs/images/01-centralized.png)](docs/images/01-centralized.png)
+[![Centralized architecture: a human authorizes a commander, who directs executors, reviewers, and supervisors](docs/images/01-centralized-en.png)](docs/images/01-centralized-en.png)
 
 **Suggested use cases:** Cross-module refactoring, tightly coupled features, frequently changing shared interfaces, and delivery that needs a single set of priorities.
 
@@ -50,7 +50,7 @@ The architecture diagrams and detailed Skill protocols are currently in Chinese.
 
 **Bounded rulemaking. Autonomous execution. Independent adjudication.** The rulemaker defines rules and acceptance criteria. The executor works autonomously within the effective contract. The arbiter independently checks both whether the rules reflect the human's intent and whether the result meets those rules.
 
-[![Decentralized architecture: three peer agents independently handle rulemaking, execution, and adjudication](docs/images/02-decentralized.png)](docs/images/02-decentralized.png)
+[![Decentralized architecture: three peer agents independently handle rulemaking, execution, and adjudication](docs/images/02-decentralized-en.png)](docs/images/02-decentralized-en.png)
 
 **Suggested use cases:** Tasks with clear boundaries and stable interfaces that need independent acceptance and protection against implementers lowering their own acceptance standards.
 
@@ -66,7 +66,7 @@ The architecture diagrams and detailed Skill protocols are currently in Chinese.
 
 **Separation of powers outside. Centralized execution inside.** The outer rulemaker, executor, and arbiter remain peers. The outer executor also serves as the inner commander, directing an implementation, review, and supervision team.
 
-[![Combined architecture: the outer executor is also the inner commander, connecting independent governance with centralized implementation](docs/images/03-combined.png)](docs/images/03-combined.png)
+[![Combined architecture: the outer executor is also the inner commander, connecting independent governance with centralized implementation](docs/images/03-combined-en.png)](docs/images/03-combined-en.png)
 
 **Suggested use cases:** Complex development that needs both coordinated implementation across modules and independent acceptance outside the implementation team.
 
@@ -76,7 +76,7 @@ The architecture diagrams and detailed Skill protocols are currently in Chinese.
 
 [Skill (Chinese)](GAS-Agent-Skills/gas-combined-development/SKILL.md) · [Combined protocol (Chinese)](GAS-Agent-Skills/gas-combined-development/references/protocol.md) · [Run template](GAS-Agent-Skills/gas-combined-development/templates/run.example.json) · [Architecture and usage guide (Chinese)](GAS-Agent-Skills/gas-combined-development/references/architecture-guide.md)
 
-> Click any diagram to view the original. Paths such as `E:/AIProject/GAS/...` refer to the author's local workspace; replace them with your clone path. The YAML repair note in the centralized diagram reflects an earlier state: the published Skill entry points have already been fixed.
+> Click any diagram to view the full-size English image. Replace `<repo>` in the diagrams with the absolute path to your local clone. The diagrams summarize the architecture and usage; consult each Skill and its protocol for the complete rules.
 
 ## Choosing a mode
 
