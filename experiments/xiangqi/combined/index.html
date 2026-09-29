@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4efe5">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23a32b23'/%3E%3Ctext x='32' y='46' font-size='42' text-anchor='middle' fill='%23fff4df'%3E弈%3C/text%3E%3C/svg%3E">
+  <title>一局 · 本地双人象棋</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main class="room">
+    <header class="page-header">
+      <div class="brand"><span class="seal" aria-hidden="true">弈</span><div><h1>一局象棋</h1><p>落子有声，静候好棋。</p></div></div>
+      <p class="edition">本地双人 <span>组合实验版</span></p>
+    </header>
+    <div class="game-layout">
+      <section class="board-section" aria-label="象棋对弈区">
+        <div class="board-caption"><span id="top-side">黑方</span><span id="orientation">红方在下</span></div>
+        <div class="board-frame">
+          <div class="board-surface">
+            <svg id="board-lines" viewBox="0 0 900 1000" aria-hidden="true"></svg>
+            <div id="board" role="group" aria-label="象棋棋盘，方向键移动焦点，回车选子或落子" aria-describedby="board-help"></div>
+          </div>
+        </div>
+        <div class="board-caption"><span id="bottom-side">红方</span><span>九路 · 十行</span></div>
+        <p id="board-help" class="board-help">点选己方棋子，再点落点。圆点可走，虚线圈可吃。<br>键盘：方向键移动，回车落子，Esc 取消选择。</p>
+      </section>
+      <aside class="sidebar" aria-label="对局信息与操作">
+        <section class="turn-panel" aria-labelledby="turn-title">
+          <p class="eyebrow">当前局面 <span id="ply-count">第 1 回合</span></p>
+          <h2 id="turn-title"><span class="turn-mark red" aria-hidden="true"></span><span id="turn-text">红方先行</span></h2>
+          <p id="status" role="status" aria-live="polite" aria-atomic="true">红方先行，请选择一枚红方棋子。</p>
+          <div class="actions"><button id="undo" type="button" disabled>悔棋一步</button><button id="flip" type="button">翻转棋盘</button><button id="restart" class="restart" type="button">重新开始</button></div>
+        </section>
+        <section class="record-panel" aria-labelledby="record-title">
+          <div class="section-title"><h2 id="record-title">棋谱</h2><span id="move-count">0 手</span></div>
+          <p id="empty-history" class="empty-history">棋局刚启，静待第一着。</p>
+          <ol id="history" aria-label="走棋记录"></ol>
+        </section>
+        <details class="rules"><summary>对弈说明</summary><p>两位棋手共用此设备，红方先行。将死或无合法着的困毙均判负；将军时必须应将。</p><p>已支持马腿、象眼、九宫、过河、炮架及将帅照面规则。本局不裁定比赛长将、长捉，不设联网、AI 或计时。</p><p>棋谱使用固定坐标：从黑方左上角起，列 A–I、行 1–10。翻转不改变坐标。</p></details>
+      </aside>
+    </div>
+    <footer>楚河汉界之间，与眼前人下一盘。</footer>
+  </main>
+</body>
+</html>

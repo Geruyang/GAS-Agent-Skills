@@ -1,0 +1,1 @@
+{"name":"gas-xiangqi-comparison","private":true,"type":"module","scripts":{"test":"node --test tests/acceptance.test.mjs","start":"node serve.mjs"}}

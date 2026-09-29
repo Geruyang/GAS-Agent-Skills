@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4eee1">
+  <title>对弈 · 象棋棋室</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><span class="seal" aria-hidden="true">弈</span><div><h1>对弈</h1><p>一局棋，一段闲时。</p></div></div>
+    <span class="edition">本地双人 · 分权实验版</span>
+  </header>
+  <main class="room">
+    <section class="table" aria-label="象棋对弈区">
+      <div class="player-line"><span id="top-player">黑方</span><span>楚河汉界 · 九路十行</span></div>
+      <div class="board-frame">
+        <div id="board" class="board" role="group" aria-label="象棋棋盘" aria-describedby="board-help"></div>
+      </div>
+      <div class="player-line"><span id="bottom-player">红方</span><span id="orientation">红方在下</span></div>
+      <p id="board-help" class="board-help">点选棋子，再点落点。圆点可走，方框可吃；方向键移动焦点，回车落子。</p>
+    </section>
+    <aside class="sidebar" aria-label="对局信息与操作">
+      <section class="turn-panel">
+        <p class="eyebrow">当前对局</p>
+        <h2 id="turn" class="turn red">红方行棋</h2>
+        <p id="status" class="status" role="status" aria-live="polite">红方先行，请选择一枚红棋。</p>
+        <div class="progress-line"><span id="move-count">第 1 回合</span><span id="piece-count">棋盘 32 子</span></div>
+      </section>
+      <div class="controls">
+        <button id="undo" type="button" disabled>悔棋 <span>撤回一步</span></button>
+        <button id="flip" type="button">翻转棋盘 <span>交换视角</span></button>
+        <button id="restart" class="restart" type="button">重新开始</button>
+      </div>
+      <section class="record-panel" aria-labelledby="record-title">
+        <div class="record-heading"><h2 id="record-title">本局棋谱</h2><span id="record-count">0 步</span></div>
+        <p id="empty-record" class="empty-record">落子之后，棋谱在此展开。</p>
+        <ol id="records" aria-label="走棋记录"></ol>
+      </section>
+      <details class="rules"><summary>对弈规则</summary><p>红先黑后，本地两人轮流行棋。不能自陷将军；将死、困毙或缺将均判负。终局后可悔棋或重新开始。</p><p>本局不裁定比赛长将、长捉；不含联网、电脑对手及计时。</p></details>
+    </aside>
+  </main>
+  <footer>落子有据，进退从容。</footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

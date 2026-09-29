@@ -1,0 +1,43 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+
+const modes = process.env.XIANGQI_MODE ? [process.env.XIANGQI_MODE] : ['centralized','decentralized','combined'];
+const at=(x,y)=>({x,y});
+const piece=(side,type)=>({side,type});
+const empty=()=>Array.from({length:10},()=>Array(9).fill(null));
+const fixture=()=>{const b=empty();b[0][4]=piece('black','general');b[9][4]=piece('red','general');b[5][4]=piece('red','soldier');return b;};
+for(const mode of modes){
+ const e=await import(`../${mode}/engine.js`);
+ const has=(b,x,y,tx,ty,side='red')=>e.getLegalMoves(b,at(x,y),side).some(p=>p.x===tx&&p.y===ty);
+ const t=(name,fn)=>test(`${mode}: ${name}`,fn);
+ t('初始棋盘尺寸、数量与双方将位置',()=>{const b=e.createInitialBoard();assert.equal(b.length,10);assert.ok(b.every(r=>r.length===9));assert.equal(b.flat().filter(Boolean).length,32);for(const s of ['red','black'])assert.equal(b.flat().filter(p=>p?.side===s).length,16);assert.deepEqual(b[9][4],piece('red','general'));assert.deepEqual(b[0][4],piece('black','general'));});
+ t('初始棋盘彼此独立',()=>{const a=e.createInitialBoard(),b=e.createInitialBoard();a[9][0].side='black';assert.equal(b[9][0].side,'red');});
+ t('初始双方未被将军',()=>{const b=e.createInitialBoard();assert.equal(e.isInCheck(b,'red'),false);assert.equal(e.isInCheck(b,'black'),false);assert.equal(e.getGameStatus(b,'red').over,false);});
+ t('拒绝空位、越界和非本方来源',()=>{const b=e.createInitialBoard();for(const p of [at(4,4),at(-1,0),at(9,9),at(0,0)])assert.deepEqual(e.getLegalMoves(b,p,'red'),[]);});
+ t('车直行并受阻',()=>{const b=e.createInitialBoard();assert.ok(has(b,0,9,0,7));assert.equal(has(b,0,9,0,5),false);assert.equal(has(b,0,9,1,8),false);assert.equal(has(b,0,9,0,6),false);});
+ t('车吃敌子、不得越过敌子',()=>{const b=fixture();b[8][0]=piece('red','rook');b[4][0]=piece('black','soldier');assert.ok(has(b,0,8,0,4));assert.equal(has(b,0,8,0,3),false);});
+ t('马走日与蹩马腿',()=>{const b=e.createInitialBoard();assert.ok(has(b,1,9,2,7));assert.equal(has(b,1,9,3,8),false);assert.equal(has(b,1,9,1,7),false);});
+ t('象走田与塞象眼',()=>{const b=e.createInitialBoard();assert.ok(has(b,2,9,4,7));b[8][3]=piece('red','soldier');assert.equal(has(b,2,9,4,7),false);});
+ t('双方象均不能过河',()=>{const b=fixture();b[5][2]=piece('red','elephant');b[4][6]=piece('black','elephant');assert.equal(has(b,2,5,0,3),false);assert.equal(has(b,6,4,8,6,'black'),false);});
+ t('士斜行限九宫',()=>{const b=fixture();b[8][4]=piece('red','advisor');assert.ok(has(b,4,8,3,7));assert.equal(has(b,4,8,4,7),false);b[8][4]=null;b[7][3]=piece('red','advisor');assert.equal(has(b,3,7,2,6),false);});
+ t('将帅正交一步限九宫',()=>{const b=fixture();assert.ok(has(b,4,9,3,9));assert.equal(has(b,4,9,3,8),false);b[9][4]=null;b[7][4]=piece('red','general');assert.equal(has(b,4,7,4,6),false);});
+ t('炮不吃子时不能跳跃',()=>{const b=fixture();b[8][0]=piece('red','cannon');assert.ok(has(b,0,8,0,2));b[5][0]=piece('red','soldier');assert.equal(has(b,0,8,0,2),false);});
+ t('炮吃子须恰好一个炮架',()=>{const b=fixture();b[8][0]=piece('red','cannon');b[1][0]=piece('black','rook');assert.equal(has(b,0,8,0,1),false);b[5][0]=piece('red','soldier');assert.ok(has(b,0,8,0,1));b[3][0]=piece('black','soldier');assert.equal(has(b,0,8,0,1),false);});
+ t('炮可借敌炮架吃子',()=>{const b=e.createInitialBoard();assert.ok(has(b,1,7,1,0));});
+ t('红兵河前只进、河后可横不退',()=>{const b=fixture();b[6][0]=piece('red','soldier');assert.ok(has(b,0,6,0,5));assert.equal(has(b,0,6,1,6),false);b[6][0]=null;b[4][0]=piece('red','soldier');assert.ok(has(b,0,4,1,4));assert.equal(has(b,0,4,0,5),false);});
+ t('黑卒方向及过河相反',()=>{const b=fixture();b[3][8]=piece('black','soldier');assert.ok(has(b,8,3,8,4,'black'));assert.equal(has(b,8,3,7,3,'black'),false);b[3][8]=null;b[5][8]=piece('black','soldier');assert.ok(has(b,8,5,7,5,'black'));assert.equal(has(b,8,5,8,4,'black'),false);});
+ t('底线兵仍能横行',()=>{const b=fixture();b[0][0]=piece('red','soldier');assert.ok(has(b,0,0,1,0));assert.equal(has(b,0,0,0,1),false);});
+ t('将帅照面被识别',()=>{const b=fixture();b[5][4]=null;assert.equal(e.isInCheck(b,'red'),true);assert.equal(e.isInCheck(b,'black'),true);});
+ t('不能移开遮挡造成将帅照面',()=>{const b=fixture();b[5][4]=piece('red','rook');assert.equal(has(b,4,5,3,5),false);assert.ok(has(b,4,5,4,4));});
+ t('车将军检测和自陷将军过滤',()=>{const b=empty();b[0][3]=piece('black','general');b[9][4]=piece('red','general');b[1][4]=piece('black','rook');b[5][4]=piece('red','rook');assert.equal(e.isInCheck(b,'red'),false);assert.equal(has(b,4,5,3,5),false);b[5][4]=null;assert.equal(e.isInCheck(b,'red'),true);});
+ t('马的攻击受马腿阻挡',()=>{const b=fixture();b[7][3]=piece('black','horse');assert.equal(e.isInCheck(b,'red'),true);b[8][3]=piece('red','soldier');assert.equal(e.isInCheck(b,'red'),false);});
+ t('炮攻击恰好隔一子',()=>{const b=empty();b[0][3]=piece('black','general');b[9][4]=piece('red','general');b[1][4]=piece('black','cannon');assert.equal(e.isInCheck(b,'red'),false);b[5][4]=piece('red','soldier');assert.equal(e.isInCheck(b,'red'),true);b[7][4]=piece('red','rook');assert.equal(e.isInCheck(b,'red'),false);});
+ t('applyMove合法移动且不修改输入',()=>{const b=e.createInitialBoard();const before=structuredClone(b);const r=e.applyMove(b,at(0,6),at(0,5),'red');assert.equal(r.ok,true);assert.deepEqual(b,before);assert.equal(r.board[6][0],null);assert.deepEqual(r.board[5][0],piece('red','soldier'));r.board[9][0].side='black';assert.equal(b[9][0].side,'red');});
+ t('applyMove非法时棋盘不变',()=>{const b=e.createInitialBoard();const before=structuredClone(b);for(const [from,to] of [[at(0,6),at(0,7)],[at(0,6),at(-1,5)],[at(0,0),at(0,1)]]){const r=e.applyMove(b,from,to,'red');assert.equal(r.ok,false);assert.deepEqual(r.board,before);assert.deepEqual(b,before);}});
+ t('吃子后棋子数量减少',()=>{const b=fixture();b[8][0]=piece('red','rook');b[1][0]=piece('black','soldier');const r=e.applyMove(b,at(0,8),at(0,1),'red');assert.ok(r.ok);assert.equal(r.board.flat().filter(Boolean).length,b.flat().filter(Boolean).length-1);});
+ t('困毙判负而非和棋',()=>{const b=empty();b[0][3]=piece('black','general');b[9][4]=piece('red','general');b[8][3]=piece('black','rook');b[8][5]=piece('black','rook');const s=e.getGameStatus(b,'red');assert.equal(s.inCheck,false);assert.equal(s.over,true);assert.equal(s.winner,'black');assert.ok(s.reason);});
+ t('将死判负',()=>{const b=empty();b[0][3]=piece('black','general');b[9][4]=piece('red','general');b[8][3]=piece('black','rook');b[8][5]=piece('black','rook');b[1][4]=piece('black','rook');const s=e.getGameStatus(b,'red');assert.equal(s.inCheck,true);assert.equal(s.over,true);assert.equal(s.winner,'black');});
+ t('有将军但可逃脱不是终局',()=>{const b=empty();b[0][3]=piece('black','general');b[9][4]=piece('red','general');b[1][4]=piece('black','rook');const s=e.getGameStatus(b,'red');assert.equal(s.inCheck,true);assert.equal(s.over,false);assert.equal(s.winner,null);});
+ t('缺将方判负',()=>{const b=fixture();b[9][4]=null;const s=e.getGameStatus(b,'red');assert.equal(s.over,true);assert.equal(s.winner,'black');});
+ t('所有合法初始红方着都不使红将被将',()=>{const b=e.createInitialBoard();let count=0;for(let y=0;y<10;y++)for(let x=0;x<9;x++)if(b[y][x]?.side==='red')for(const to of e.getLegalMoves(b,at(x,y),'red')){const r=e.applyMove(b,at(x,y),to,'red');assert.ok(r.ok);assert.equal(e.isInCheck(r.board,'red'),false);count++;}assert.ok(count>20);});
+}
