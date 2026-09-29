@@ -114,19 +114,42 @@ cd GAS-Agent-Skills
 
 使用分权模式时，将入口改为 `gas-decentralized-development/SKILL.md`、模式改为“分权”；使用组合模式时，改为 `gas-combined-development/SKILL.md`、模式改为“组合”，并读取它要求的两个同级技能与协议。
 
-### 3. 按需复制安装
+### 3. 安装到 Codex
 
-三个技能目录保留同级关系；集权、分权可以分别使用，组合依赖二者。可以复制完整文件夹到所用宿主支持的技能目录，也可用 PowerShell 将三者复制到一个明确的绝对路径：
+三个完整技能目录必须保留同级关系；组合模式依赖集权和分权模式。Codex 的用户级技能目录为 `~/.agents/skills`，也支持目标项目中的 `.agents/skills`。[官方技能文档](https://learn.chatgpt.com/docs/build-skills)。
+
+在仓库根目录打开 PowerShell，安装到当前用户的 Codex 技能目录：
 
 ```powershell
-# 先查看复制计划；将路径替换为你的目标目录
-powershell -NoProfile -File .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination 'D:\AgentSkills' -WhatIf
+$gasSkillDestination = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.agents\skills'
 
-# 确认路径后复制，已有同名技能时停止，不覆盖
-powershell -NoProfile -File .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination 'D:\AgentSkills'
+# 预览；已有同名目录时停止，不覆盖
+& .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $gasSkillDestination -WhatIf
+
+# 安装三个完整技能，逐文件校验 SHA-256
+& .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $gasSkillDestination
 ```
 
-脚本负责校验与复制，宿主的技能发现、子 Agent 能力和并发限制需在使用环境中确认。[查看完整安装说明](GAS-Agent-Skills/README.zh-CN.md)。
+脚本适用于 PowerShell 5.1+。若本机执行策略阻止运行，可在 PowerShell 7 中执行，或手动将包内的三个 `gas-*-development` 完整目录复制到上述目标目录。macOS/Linux 也可手动复制到 `~/.agents/skills/`。请先处理既有同名安装，避免同一技能存在多份不同版本；不要只复制 `SKILL.md`。
+
+安装后的结构应为：
+
+```text
+~/.agents/skills/
+├── gas-centralized-development/SKILL.md
+├── gas-decentralized-development/SKILL.md
+└── gas-combined-development/SKILL.md
+```
+
+上图只展示入口；各目录中的 `references/`、`templates/`、`evals/`、`agents/` 及其他附带文件必须一并保留。Codex 会发现技能变更；未显示时重启 Codex。在技能选择器中确认三个技能，然后任选一种启动：
+
+```text
+请使用 $gas-centralized-development，按集权模式完成【任务】，验收标准是【标准】。
+请使用 $gas-decentralized-development，按分权模式完成【任务】，验收标准是【标准】。
+请使用 $gas-combined-development，按组合模式完成【任务】，验收标准是【标准】。
+```
+
+三个技能不依赖临时演示项目。完整运行仍需要宿主支持真实子 Agent 与足够并发席位；技能不会自行提供模型运行器。[查看完整安装说明](GAS-Agent-Skills/README.zh-CN.md)。
 
 ## 仓库导航
 

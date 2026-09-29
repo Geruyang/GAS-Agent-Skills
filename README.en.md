@@ -119,21 +119,42 @@ integration, and release as separate states.
 
 For decentralized mode, use `gas-decentralized-development/SKILL.md` and request decentralized development. For combined mode, use `gas-combined-development/SKILL.md`, request combined development, and also read the sibling centralized and decentralized Skills and protocols it requires.
 
-### 3. Optionally install copies
+### 3. Install in Codex
 
-Keep the three Skill folders as siblings. Centralized and decentralized modes can be used separately; combined mode depends on both. Copy the complete folders into a Skill directory supported by your host, or use the PowerShell installer with an explicit absolute destination:
+Keep all three complete Skill folders as siblings: combined mode depends on centralized and decentralized modes. Codex discovers user Skills in `~/.agents/skills` and project Skills in `.agents/skills`. See the [official Skill documentation](https://learn.chatgpt.com/docs/build-skills).
+
+From the repository root, run these commands in PowerShell to install for the current user:
 
 ```powershell
-# Preview the copy plan; replace the destination with your own directory.
-powershell -NoProfile -File .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination 'D:\AgentSkills' -WhatIf
+$gasSkillDestination = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.agents\skills'
 
-# Copy all three Skills. Existing folders with the same names are not overwritten.
-powershell -NoProfile -File .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination 'D:\AgentSkills'
+# Preview; existing Skill folders are never overwritten.
+& .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $gasSkillDestination -WhatIf
+
+# Install all three complete Skills, verifying every file's SHA-256.
+& .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $gasSkillDestination
 ```
 
-For PowerShell 7, use `pwsh` in place of `powershell`. If local policy prevents script execution, you can copy the complete folders manually without changing the policy.
+The script targets PowerShell 5.1+. If local execution policy blocks it, use PowerShell 7 or manually copy the three complete `gas-*-development` folders from the package to that destination. On macOS/Linux, you can also copy them into `~/.agents/skills/`. Resolve existing installations first to avoid duplicate versions; copying only `SKILL.md` is insufficient.
 
-The installer verifies and copies files. Confirm Skill discovery, subagent capabilities, and concurrency limits in your host environment. It does not change IDE configuration or register Skills automatically. See the [full installation notes (Chinese)](GAS-Agent-Skills/README.zh-CN.md).
+The installed entry points should be:
+
+```text
+~/.agents/skills/
+├── gas-centralized-development/SKILL.md
+├── gas-decentralized-development/SKILL.md
+└── gas-combined-development/SKILL.md
+```
+
+This tree shows entry points only. Retain every folder's `references/`, `templates/`, `evals/`, `agents/`, and other supporting files. Codex detects Skill changes; restart it if they do not appear. Confirm all three in the Skill selector, then choose one invocation:
+
+```text
+Use $gas-centralized-development to complete [task], with acceptance criteria [criteria].
+Use $gas-decentralized-development to complete [task], with acceptance criteria [criteria].
+Use $gas-combined-development to complete [task], with acceptance criteria [criteria].
+```
+
+The Skills do not depend on temporary demo projects. Full execution still requires real subagents and enough concurrent slots in your host; these Skills do not provide a model runtime. See the [full installation notes (Chinese)](GAS-Agent-Skills/README.zh-CN.md).
 
 ## Repository layout
 
