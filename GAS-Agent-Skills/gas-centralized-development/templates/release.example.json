@@ -1,0 +1,69 @@
+{
+  "schema_version": 3,
+  "example_only": true,
+  "record_type": "commander_delivery_action",
+  "run_id": "example-team-invitations",
+  "order_id": null,
+  "task_id": "INVITE-API-001",
+  "action": "DEPLOY",
+  "contract_version": "draft-1",
+  "plan_version": null,
+  "command": {
+    "command_id": null,
+    "issued": false,
+    "issued_by": null,
+    "coordinator_epoch": null,
+    "recipient_identity": null,
+    "expires_at": null,
+    "acknowledged": false,
+    "recipient_role": "coordinator"
+  },
+  "authorization": {
+    "approved": false,
+    "record_ref": null,
+    "approver_identity": null,
+    "allowed_action": null,
+    "environment": null,
+    "scope": null,
+    "valid_until": null
+  },
+  "target": {
+    "base_commit": null,
+    "head_commit": null,
+    "integration_commit": null,
+    "artifact_digest": null,
+    "environment": null,
+    "resource": null
+  },
+  "management_decision_ref": null,
+  "verification_refs": [],
+  "preconditions": {
+    "current_command_verified": false,
+    "authorization_matches_target": false,
+    "required_checks_passed": null,
+    "independent_review_satisfied": false,
+    "platform_approvals_satisfied": null,
+    "unresolved_blocking_count": null,
+    "unresolved_major_risk_count": null,
+    "budget_available": null,
+    "idempotency_state_known": false,
+    "verification_scope": "delivery-target",
+    "supervision_satisfied": false
+  },
+  "idempotency_key": null,
+  "rollback_authorization_ref": null,
+  "execution": {
+    "status": "NOT_RUN",
+    "started_at": null,
+    "completed_at": null,
+    "platform_receipt": null,
+    "observed_artifact": null,
+    "observed_environment": null,
+    "post_checks": [],
+    "error": null,
+    "executor_role": "coordinator",
+    "executor_identity": null
+  },
+  "notes": "指挥者亲自承担交付，记录当前任期、身份与动作；自身行动记录不是用户授权或独立技术验证。精确产物门禁、适用批准和幂等状态须核实。",
+  "supervision_refs": []
+}

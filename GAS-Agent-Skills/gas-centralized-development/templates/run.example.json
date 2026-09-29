@@ -1,0 +1,162 @@
+{
+  "schema_version": 3,
+  "example_only": true,
+  "run_id": "example-team-invitations",
+  "mode": "centralized",
+  "project_root": null,
+  "goal": "为现有 SaaS 增加团队邀请功能；本文件仅演示契约结构，不授权修改实际项目。",
+  "approval": {
+    "approved": false,
+    "approver_identity": null,
+    "record": null
+  },
+  "contract_version": "draft-1",
+  "baseline_commit": null,
+  "runtime": {
+    "subagents_verified": false,
+    "isolated_workspaces_verified": false,
+    "permission_isolation_verified": false,
+    "budget_enforcement_verified": false,
+    "reviewer_identity": null,
+    "coordinator_identity": null,
+    "coordinator_epoch": null,
+    "limitations": [
+      "运行器能力尚未探测；不能把此示例当作已建立的权限或审批。"
+    ],
+    "single_authority_verified": false,
+    "command_fencing_verified": false,
+    "idempotency_enforcement_verified": false,
+    "supervisor_identity": null,
+    "supervision_available_verified": false
+  },
+  "budget": {
+    "max_active_workers": 2,
+    "max_tool_calls_total": 80,
+    "reserved_tool_calls_for_review": 20,
+    "max_task_attempts": 2,
+    "max_review_rounds": 2,
+    "max_conflict_rounds": 2,
+    "max_tokens_total": null,
+    "max_cost": null,
+    "currency": null,
+    "max_elapsed_minutes": null,
+    "note": "示例总额含指挥者、执行、审查、监督、集成发布和重试；审查与监督预留均包含在总额内，不构成新增批准。",
+    "reserved_tool_calls_for_supervision": 10
+  },
+  "controls": {
+    "production_release_enabled": false,
+    "independent_review_required": true,
+    "require_exact_commit_checks": true,
+    "protected_paths": [
+      ".github/workflows/**",
+      "infra/**",
+      "tests/acceptance/**",
+      ".env*"
+    ],
+    "blocked_actions": [
+      "权限或凭证升级",
+      "绕过受保护检查",
+      "未经批准的生产发布",
+      "未经批准的数据删除",
+      "放宽受保护验收标准"
+    ],
+    "allowed_external_actions": [],
+    "enforcement_note": "Skill 是流程约定，不创建沙箱、受保护分支或权限隔离。必须由运行器或项目管理者配置真实限制。",
+    "mandatory_gate_ids": [],
+    "mandatory_gates_configured": false,
+    "findings_policy": {
+      "advisory_final_authority": "current-coordinator",
+      "blocking_override_by_coordinator": false,
+      "unresolved_major_risk_blocks_acceptance": true,
+      "review_history_append_only": true
+    }
+  },
+  "dispatch": {
+    "method": "coordinator-assignment",
+    "authority": "named-coordinator",
+    "fallback": "single-executor-with-recorded-assignments",
+    "notes": "全部角色接收指挥者有效指令；审查独立判断但不独立调度，发布按指令和对应授权执行。"
+  },
+  "state_location": ".gas/runs/example-team-invitations/",
+  "display_name": "指挥者",
+  "record_type": "run_contract",
+  "delegation": {
+    "approved": false,
+    "authorization_ref": null,
+    "technical_decisions": [
+      "internal_architecture",
+      "internal_api_changes",
+      "cross_module_planning"
+    ],
+    "allowed_paths": [],
+    "external_api_changes_allowed": false,
+    "protected_gate_changes_allowed": false,
+    "note": "仅演示可授予的范围；必须根据真实授权确认范围后生效，不是默认授权。"
+  },
+  "command_scope": {
+    "authority": "current-coordinator",
+    "roles": [
+      "executor",
+      "reviewer",
+      "supervisor"
+    ],
+    "coordinator_powers": [
+      "assign",
+      "prioritize",
+      "pause",
+      "cancel",
+      "replace",
+      "reverify",
+      "adjudicate_advisories",
+      "accept_verified_work",
+      "schedule_authorized_delivery"
+    ],
+    "accepted_command_types": [
+      "IMPLEMENT",
+      "REVIEW",
+      "REVERIFY",
+      "PREPARE_INTEGRATION",
+      "MERGE",
+      "DEPLOY",
+      "ROLLBACK",
+      "PAUSE",
+      "CANCEL",
+      "SUPERVISE",
+      "RECHECK_SUPERVISION"
+    ],
+    "note": "指挥者统一指挥全部角色；真实验证、用户授权与平台门禁不能被职位取代。",
+    "notes": "三个下属角色接收指挥者有效指令；集成发布由指挥者承担，以coordinator角色记录，不另设integrator。"
+  },
+  "release_authorizations": [],
+  "note": "先从实际项目核定必选检查、真实能力与授权；空的门槛列表和授权列表不代表无限权限。",
+  "delivery_responsibility": {
+    "owner_role": "coordinator",
+    "separate_integrator_required": false
+  },
+  "supervision": {
+    "required_before_acceptance": true,
+    "target_roles": [
+      "executor",
+      "reviewer"
+    ],
+    "reports_to": "coordinator",
+    "commander_supervised_by": "human-only",
+    "coverage_requirements": [
+      "rule_compliance",
+      "unsafe_actions",
+      "instruction_alignment"
+    ],
+    "independence_required": true,
+    "can_modify_artifacts": false,
+    "can_assign_tasks": false,
+    "can_release": false,
+    "pause_authority": {
+      "granted": false,
+      "authorization_ref": null,
+      "task_ids": [],
+      "coordinator_epoch": null,
+      "expires_at": null,
+      "revoked": false
+    }
+  }
+}

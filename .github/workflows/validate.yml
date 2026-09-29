@@ -1,0 +1,50 @@
+name: Validate skills
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: '3.9'
+          - os: windows-latest
+            python: '3.13'
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Verify package and hashes
+        run: python -B GAS-Agent-Skills/verify_bundle.py
+      - name: Package regression tests
+        run: python -B -m unittest discover -s GAS-Agent-Skills/tests -v
+      - name: Centralized contract checks
+        run: python -B GAS-Agent-Skills/gas-centralized-development/scripts/validate_skill.py
+      - name: Centralized regression tests
+        run: python -B -m unittest discover -s GAS-Agent-Skills/gas-centralized-development/tests -v
+      - name: Windows copy installer
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $target = Join-Path $env:RUNNER_TEMP 'gas-install-check'
+          & .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $target -WhatIf
+          if (Test-Path -LiteralPath $target) { throw 'WhatIf created a target directory.' }
+          & .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $target
+          foreach ($name in @('gas-centralized-development', 'gas-decentralized-development', 'gas-combined-development')) {
+            if (-not (Test-Path -LiteralPath (Join-Path $target "$name/SKILL.md"))) {
+              throw "Missing installed skill: $name"
+            }
+          }

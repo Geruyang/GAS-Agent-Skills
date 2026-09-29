@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "mode": "combined",
+  "combined_run_id": null,
+  "status": "DRAFT",
+  "mode_selection_record": null,
+  "approval": {"approved": false, "record": null},
+  "outer": {
+    "run_id": null,
+    "run_ref": null,
+    "contract_version": null,
+    "effective_contract_ref": null,
+    "intent_version": null,
+    "roles": {
+      "legislator": {"identity": null, "epoch": null, "available": false},
+      "executor": {"identity": null, "epoch": null, "available": false},
+      "arbiter": {"identity": null, "epoch": null, "available": false}
+    }
+  },
+  "inner": {
+    "run_id": null,
+    "run_ref": null,
+    "plan_version": null,
+    "roles": {
+      "coordinator": {"identity": null, "epoch": null, "available": false},
+      "executor": {"identity": null, "epoch": null, "available": false},
+      "reviewer": {"identity": null, "epoch": null, "available": false},
+      "supervisor": {"identity": null, "epoch": null, "available": false}
+    }
+  },
+  "bridge": {
+    "outer_executor_is_inner_coordinator": true,
+    "authority_record_ref": null,
+    "authorized_registry_writer": null,
+    "identity_equality_verified": false,
+    "epoch_equality_verified": false,
+    "outer_peers_outside_inner_command": true,
+    "inner_delegation_levels": 1,
+    "task_bindings": [{
+      "outer_task_id": null,
+      "outer_task_ref": null,
+      "outer_task_version": null,
+      "outer_contract_version": null,
+      "inner_plan_version": null,
+      "inner_task_ids": [],
+      "allowed_paths": [],
+      "protected_paths": [],
+      "budget_allocation_ref": null,
+      "candidate_digest": null,
+      "status": "DRAFT"
+    }]
+  },
+  "runtime": {
+    "mode_status": "NOT_VERIFIED",
+    "main_session_role": "outer.executor+inner.coordinator",
+    "required_distinct_identities_minimum": 6,
+    "required_concurrent_slots_default": 6,
+    "host_active_slot_limit": null,
+    "active_identity_count": null,
+    "roles_verified": false,
+    "communication_verified": false,
+    "permission_isolation_verified": false,
+    "missing_capabilities": []
+  },
+  "budget": {
+    "shared_ledger_ref": null,
+    "authorization_ref": null,
+    "hard_limits": null,
+    "consumed": null,
+    "inner_allocation": null,
+    "outer_review_reserve": null,
+    "inner_review_and_supervision_reserve": null
+  },
+  "controls": {
+    "independent_inner_review_required": true,
+    "inner_supervision_required": true,
+    "independent_outer_adjudication_required": true,
+    "exact_candidate_binding_required": true,
+    "production_release_enabled": false
+  },
+  "delivery": {
+    "action_id": null,
+    "action": null,
+    "actor_identity": null,
+    "shared_epoch": null,
+    "candidate_digest": null,
+    "environment": null,
+    "inner_verification_refs": [],
+    "inner_supervision_refs": [],
+    "inner_candidate_acceptance_ref": null,
+    "outer_intent_review_ref": null,
+    "outer_candidate_adjudication_ref": null,
+    "authorization_ref": null,
+    "inner_action_ref": null,
+    "outer_delivery_ref": null,
+    "idempotency_key": null,
+    "gates_verified": false,
+    "receipt_ref": null,
+    "status": "NOT_RUN"
+  },
+  "blockers": [],
+  "dispute_refs": [],
+  "retrospective_ref": null,
+  "unverified_items": []
+}

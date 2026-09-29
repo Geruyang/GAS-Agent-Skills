@@ -1,0 +1,130 @@
+{
+  "schema_version": 2,
+  "example_only": true,
+  "run_id": "example-team-invitations",
+  "mode": "decentralized",
+  "project_root": null,
+  "goal": "为现有 SaaS 增加团队邀请功能；本文件仅演示契约结构，不授权修改实际项目。",
+  "approval": {
+    "approved": false,
+    "approver_identity": null,
+    "record": null
+  },
+  "contract_version": "draft-1",
+  "baseline_commit": null,
+  "runtime": {
+    "subagents_verified": false,
+    "isolated_workspaces_verified": false,
+    "permission_isolation_verified": false,
+    "atomic_claim_service_verified": false,
+    "budget_enforcement_verified": false,
+    "reviewer_identity": null,
+    "limitations": [
+      "运行器能力尚未探测；不能把此示例当作已建立的权限或审批。"
+    ],
+    "three_distinct_identities_verified": false
+  },
+  "budget": {
+    "max_active_workers": 1,
+    "max_tool_calls_total": 80,
+    "reserved_tool_calls_for_review": 20,
+    "max_task_attempts": 2,
+    "max_review_rounds": 2,
+    "max_conflict_rounds": 2,
+    "max_tokens_total": null,
+    "max_cost": null,
+    "currency": null,
+    "max_elapsed_minutes": null,
+    "note": "仅为可调整的试运行建议；全局总额包含规划、所有子 Agent、测试与评审，评审预留不是额外额度。未测量的指标必须报告为未知。",
+    "max_active_agents": 3
+  },
+  "controls": {
+    "production_release_enabled": false,
+    "independent_review_required": true,
+    "require_exact_commit_checks": true,
+    "protected_paths": [
+      ".github/workflows/**",
+      "infra/**",
+      "tests/acceptance/**",
+      ".env*"
+    ],
+    "blocked_actions": [
+      "权限或凭证升级",
+      "绕过受保护检查",
+      "未经批准的生产发布",
+      "未经批准的数据删除",
+      "放宽受保护验收标准"
+    ],
+    "allowed_external_actions": [],
+    "enforcement_note": "Skill 是流程约定，不创建沙箱、受保护分支或权限隔离。必须由运行器或项目管理者配置真实限制。"
+  },
+  "dispatch": {
+    "method": "single-executor-self-claim",
+    "authority": "effective-versioned-contract",
+    "state_writer": "single-writer-tool",
+    "fallback": "serial-local-work-awaiting-independent-review",
+    "notes": "工具单写登记不获得治理权；可选原子后端须验证能力，不新增执行席。"
+  },
+  "state_location": ".gas/runs/example-team-invitations/",
+  "release_approval": null,
+  "governance": {
+    "model": "separation-of-powers",
+    "agent_count": 3,
+    "main_session_role": "legislator",
+    "roles": {
+      "legislator": {
+        "display_name": "立规者",
+        "identity": null,
+        "epoch": null,
+        "available": false
+      },
+      "executor": {
+        "display_name": "执行者",
+        "identity": null,
+        "epoch": null,
+        "available": false
+      },
+      "arbiter": {
+        "display_name": "裁衡者",
+        "identity": null,
+        "epoch": null,
+        "available": false
+      }
+    },
+    "role_combination_allowed": false,
+    "majority_override_allowed": false,
+    "replacement_authority_record": null,
+    "note": "主会话默认占一席，仅再创建两名角色；三权平级，不设第四名总管。"
+  },
+  "contract": {
+    "status": "DRAFT",
+    "authored_by_role": "legislator",
+    "authority_record": null,
+    "scope": [],
+    "interfaces": [],
+    "acceptance_criteria": [],
+    "executor_feasibility": "NOT_REVIEWED",
+    "arbiter_authority_check": "NOT_REVIEWED",
+    "blocking_dispute_ids": [],
+    "effective_record": null,
+    "intent_review": {
+      "verdict": "NOT_RUN",
+      "reviewer_role": "arbiter",
+      "reviewer_identity": null,
+      "reviewer_epoch": null,
+      "intent_version": null,
+      "contract_version": "draft-1",
+      "source_records": [],
+      "findings": [],
+      "record": null
+    }
+  },
+  "human_intent": {
+    "version": null,
+    "source_records": [],
+    "goals": [],
+    "constraints": [],
+    "preferences": [],
+    "unconfirmed_interpretations": []
+  }
+}

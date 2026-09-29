@@ -1,0 +1,39 @@
+{
+  "schema_version": 3,
+  "example_only": true,
+  "record_type": "command",
+  "run_id": "example-team-invitations",
+  "command_id": null,
+  "assignment_id": null,
+  "task_id": "INVITE-API-001",
+  "issued": false,
+  "issued_by": null,
+  "coordinator_epoch": null,
+  "recipient_identity": null,
+  "recipient_role": "reviewer",
+  "action": "REVIEW",
+  "plan_version": null,
+  "contract_version": "draft-1",
+  "base_commit": null,
+  "head_commit": null,
+  "artifact_digest": null,
+  "issued_at": null,
+  "expires_at": null,
+  "revoked": false,
+  "acknowledged": false,
+  "acknowledged_at": null,
+  "supersedes_command_id": null,
+  "idempotency_key": null,
+  "scope": {
+    "allowed_paths": [],
+    "allowed_external_actions": [],
+    "mandatory_gate_ids": [],
+    "expected_output": "对指定成果形成真实验证记录；不代表要求得出通过结论。"
+  },
+  "budget": {
+    "max_tool_calls": 10,
+    "charged_to_run": true
+  },
+  "preconditions_verified": false,
+  "note": "这是未签发的审查指令示例。实际签发、确认、任期和时间必须有真实记录；任务、审查与交付只引用该权威指令。"
+}

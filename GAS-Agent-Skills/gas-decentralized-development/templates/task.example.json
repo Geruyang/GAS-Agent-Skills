@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "example_only": true,
+  "id": "INVITE-API-001",
+  "mode": "decentralized",
+  "goal": "实现团队邀请接口；以已经批准的接口和权限契约为准。",
+  "allowed_paths": [
+    "src/invitations/**",
+    "tests/unit/invitations/**"
+  ],
+  "protected_paths": [
+    "tests/acceptance/**",
+    ".github/workflows/**",
+    "infra/**",
+    ".env*"
+  ],
+  "allowed_external_actions": [],
+  "dependencies": [],
+  "acceptance_criteria": [
+    "仅具备邀请权限的成员能创建邀请。",
+    "创建后 24h 到期的邀请不能接受；以生效契约确定的时间边界为准。",
+    "重复接受邀请不会创建重复成员关系。",
+    "接口行为符合批准的契约，未修改其他模块的公共语义。"
+  ],
+  "contract_version": "draft-1",
+  "base_commit": null,
+  "head_commit": null,
+  "owner": null,
+  "state": "DRAFT",
+  "state_version": 0,
+  "budget": {
+    "max_attempts": 2,
+    "max_tool_calls": 20,
+    "charged_to_run": true
+  },
+  "test_plan": {
+    "commands": [],
+    "status": "NOT_CONFIGURED",
+    "note": "先读取真实仓库确定命令与环境；不得把示例验收标准伪装成已存在测试。"
+  },
+  "evidence": [],
+  "blocking_issues": [
+    "真实项目目录、审批记录、基础提交与测试命令尚未提供。"
+  ],
+  "dispatch": {
+    "lease_id": null,
+    "lease_expires_at": null,
+    "fencing_token": null,
+    "expected_state_version": 0
+  },
+  "run_id": "example-team-invitations",
+  "owner_role": "executor",
+  "owner_epoch": null,
+  "contract_record": null,
+  "blocking_dispute_ids": []
+}

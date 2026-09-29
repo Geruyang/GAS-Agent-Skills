@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "example_only": true,
+  "task_id": "INVITE-API-001",
+  "reviewer_identity": null,
+  "author_identities": [],
+  "independence_verified": false,
+  "contract_version": "draft-1",
+  "base_commit": null,
+  "head_commit": null,
+  "integration_commit": null,
+  "verdict": "NOT_RUN",
+  "checks": [],
+  "blocking_findings": [],
+  "unverified_items": [
+    "所有检查均未执行；空的缺陷列表不代表通过。"
+  ],
+  "release_authorized": false,
+  "notes": "执行检查后记录真实命令、退出码、日志位置、时间和被检查提交；不要填入虚构的成功结果。",
+  "run_id": "example-team-invitations",
+  "reviewer_role": "arbiter",
+  "reviewer_epoch": null,
+  "rule_references": [],
+  "dispute_ids": [],
+  "review_record_id": null
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 2,
+  "example_only": true,
+  "run_id": "example-team-invitations",
+  "contract_version": "draft-1",
+  "actor_role": "executor",
+  "actor_identity": null,
+  "actor_epoch": null,
+  "action": null,
+  "integration_commit": null,
+  "artifact_digest": null,
+  "effective_contract_record": null,
+  "review_record": null,
+  "authorization_record": null,
+  "gates": {
+    "contract_effective": false,
+    "independent_review_passed": false,
+    "exact_artifact_verified": false,
+    "action_authorized": false,
+    "all_roles_available": false,
+    "current_epochs_verified": false,
+    "no_blocking_disputes": false,
+    "budget_available": false
+  },
+  "status": "NOT_RUN",
+  "actions": [],
+  "receipt": null,
+  "note": "合并、部署、回滚各记一次行动；门禁须来自真实记录。现有适用授权可复用。"
+}

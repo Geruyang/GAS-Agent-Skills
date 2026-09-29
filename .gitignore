@@ -1,0 +1,30 @@
+# Local history, generated checks, and publishing helpers
+/update-audit/
+/output/
+/.publish-local/
+/.agents/
+/.codex/
+/.gas/
+
+# Original diagrams remain local; curated copies live in docs/images/
+/*.png
+/render-centralized-architecture.py
+
+# Python / editor / OS artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key

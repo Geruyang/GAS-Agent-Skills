@@ -1,0 +1,44 @@
+{
+  "schema_version": 3,
+  "example_only": true,
+  "record_type": "supervision",
+  "run_id": "example-team-invitations",
+  "report_id": null,
+  "task_id": "INVITE-API-001",
+  "contract_version": "draft-1",
+  "plan_version": null,
+  "coordinator_epoch": null,
+  "supervisor_identity": null,
+  "independence_verified": false,
+  "assignment": {
+    "command_id": null,
+    "assigned_by": null,
+    "acknowledged": false
+  },
+  "scope": {
+    "target_roles": [
+      "executor",
+      "reviewer"
+    ],
+    "subject_identities": [],
+    "command_refs": [],
+    "scope_ref": null
+  },
+  "status": "NOT_RUN",
+  "coverage": {
+    "rule_compliance": "NOT_RUN",
+    "unsafe_actions": "NOT_RUN",
+    "instruction_alignment": "NOT_RUN"
+  },
+  "checks": [],
+  "findings": [],
+  "pause_actions": [],
+  "prior_report_refs": [],
+  "supersedes_report_id": null,
+  "unverified_items": [
+    "尚未执行监督；空发现不代表通过。"
+  ],
+  "notes": "监督报告只提供下属行为证据，向指挥者汇报；不监督指挥者，不替代技术验证或管理决定。",
+  "reports_to_role": "coordinator",
+  "reports_to_identity": null
+}

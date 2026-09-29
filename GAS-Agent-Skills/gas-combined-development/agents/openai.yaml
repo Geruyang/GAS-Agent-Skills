@@ -1,0 +1,4 @@
+interface:
+  display_name: "组合开发模式"
+  short_description: "外层三权分立，执行者兼任内层指挥者，连接集中实施与独立裁衡"
+  default_prompt: "请使用 $gas-combined-development，以外层分权、内层集权的组合开发模式完成当前开发任务。"
