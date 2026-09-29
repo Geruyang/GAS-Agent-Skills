@@ -26,3 +26,6 @@ for(const mode of ['centralized','decentralized','combined']){
 }
 await writeFile(path.join(out,'measurement.json'),JSON.stringify(result,null,2));
 console.log(JSON.stringify(result,null,2));
+
+// Preserve diagnostics while reporting incomplete or failed measurements to automation.
+if(Object.values(result.modes).some(info=>info.error||info.exit_code!==0||info.fail_count!==0||!(info.pass_count>0)))process.exitCode=1;

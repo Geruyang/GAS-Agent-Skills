@@ -1,1 +1,10 @@
-{"name":"gas-xiangqi-comparison","private":true,"type":"module","scripts":{"test":"node --test tests/acceptance.test.mjs","start":"node serve.mjs"}}
+{
+  "name": "gas-xiangqi-comparison",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/acceptance.test.mjs centralized/rules.test.mjs decentralized/rules.test.mjs combined/engine.test.mjs tests/tooling.test.mjs",
+    "start": "node serve.mjs",
+    "test:rules": "node --test tests/acceptance.test.mjs"
+  }
+}

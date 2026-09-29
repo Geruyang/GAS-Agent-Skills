@@ -4,7 +4,7 @@
 
 ## 运行与试玩
 
-需要 Node.js，无需安装 npm 依赖。在本目录运行：
+建议使用 Node.js 22 或更高版本，无需安装 npm 依赖。在本目录运行：
 
 ```powershell
 node serve.mjs
@@ -21,11 +21,14 @@ node serve.mjs
 ## 复核结果
 
 ```powershell
-node --test tests/acceptance.test.mjs
+npm test
+npm run test:rules
 node measure.mjs
 ```
 
-第一条运行每组相同的30项规则测试；第二条由外部观察者重跑共测并记录代码规模及逐文件摘要到项目 `.gas/experiments/xiangqi-v2/external/`。外部测量不修改组内产品，也不代替组内治理决定。
+`npm test` 运行三组共用的 90 项规则测试、24 项组内补充测试和 4 项共享工具回归测试（共 118 项），GitHub CI 在 Windows 与 Linux 上运行同一命令。`npm run test:rules` 仅运行每组相同的 30 项规则测试。
+
+`node measure.mjs` 由外部观察者重跑共测并记录代码规模及逐文件摘要到项目 `.gas/experiments/xiangqi-v2/external/`。测量失败、输入缺失或测试结果不完整时，脚本返回非零退出码；可写出的诊断记录仍会保留。外部测量不修改组内产品，也不代替组内治理决定。
 
 三组自行出具的原始运行记录位于项目 `.gas/runs/xiangqi-v2-centralized/`、`xiangqi-v2-decentralized/`、`xiangqi-v2-combined/`。用户停止的第一轮材料已移至 `output/xiangqi-aborted-20260929-01/`，不计入本轮结果。
 
@@ -36,3 +39,7 @@ node measure.mjs
 ## 公开包与本地证据
 
 仓库公开实验源码、测试、比较报告与截图；`.gas/` 中的历史 Agent 运行记录和 `output/` 中的中止轮次归档未随仓库发布。`node measure.mjs` 会产生你本次复测的记录；随后可运行 `node verify-evidence.mjs` 核对文件是否仍匹配该次测量。复测不能重建或证明原实验的全部角色协作轨迹。
+
+## 后续维护
+
+共享服务已补充棋室目录地址的末尾斜杠重定向，确保浏览器能正确加载相对路径脚本；共享测量工具与 CI 已补充失败检查和回归测试。这些属于实验结束后的维护，不改变三组产品源码，也不追溯改写原比较报告中的实验结果。当前示例和自动测试仍不足以证明三种治理模式在实际项目中的普遍效果，欢迎提交复现实验、问题反馈和真实项目验证。

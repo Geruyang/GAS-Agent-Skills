@@ -1,4 +1,4 @@
-name: Validate skills
+name: Validate project
 
 on:
   push:
@@ -48,3 +48,19 @@ jobs:
               throw "Missing installed skill: $name"
             }
           }
+
+  xiangqi:
+    name: Xiangqi / ${{ matrix.os }} / Node 22
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Rules and tooling regression tests
+        working-directory: experiments/xiangqi
+        run: npm test
