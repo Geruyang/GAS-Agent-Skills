@@ -2,6 +2,8 @@
 
 # GAS · Agent Skills
 
+**简体中文 | [English](README.en.md)**
+
 ### 让 AI 团队有章法地协作。
 
 **集权统一指挥 · 分权独立制衡 · 组合内外协同**
@@ -130,7 +132,8 @@ powershell -NoProfile -File .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destinati
 
 ```text
 GAS-Agent-Skills/
-├── README.md                          # 三种模式的展示与快速开始
+├── README.md                          # 中文展示与快速开始
+├── README.en.md                       # English overview
 ├── docs/
 │   ├── images/                        # 集权 → 分权 → 组合，三张原始高清图
 │   └── history/                       # 历史验证说明
