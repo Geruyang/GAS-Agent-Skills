@@ -10,6 +10,8 @@
 
 ### 让 AI 团队有章法地协作。
 
+**全员就绪后启动：** 所有计划中的子 Agent 全部创建、确认职责并报告就绪前，主会话与已创建成员均不得推进任务；组合模式覆盖内外两层，增补或替换成员后也须重新核齐。
+
 **集权统一指挥 · 分权独立制衡 · 组合内外协同**
 
 [![离线校验](https://github.com/Geruyang/GAS-Agent-Skills/actions/workflows/validate.yml/badge.svg)](https://github.com/Geruyang/GAS-Agent-Skills/actions/workflows/validate.yml)

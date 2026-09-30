@@ -10,6 +10,8 @@ Version 1.2: all three skills require client dialogs for humans to select the mo
 
 ### Give your AI team a clear way to work together.
 
+**Start only when the whole team is ready:** neither the main session nor an early-created child may advance the task until every planned child agent has been created, acknowledged its responsibilities, and reported ready. This covers both layers of combined mode and must be checked again when adding or replacing a member.
+
 **Centralized coordination · Independent checks and balances · Combined governance**
 
 [![Offline validation](https://github.com/Geruyang/GAS-Agent-Skills/actions/workflows/validate.yml/badge.svg)](https://github.com/Geruyang/GAS-Agent-Skills/actions/workflows/validate.yml)
