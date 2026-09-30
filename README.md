@@ -4,7 +4,9 @@
 
 **简体中文 | [English](README.en.md)**
 
-**当前版本：1.2** · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+**当前版本：1.3** · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+
+1.3 更新：子 Agent 默认在 Codex 客户端的子 agent 列表中展示。需要 CLI 时先弹窗征求同意；不同意则继续尝试列表方式，仅在有证据确认只能使用 CLI 时才启用兜底，并在客户端明确说明。未答复或明确禁止任何 CLI 时不启用兜底。
 
 1.2 更新：三个技能创建子 Agent 前，均须通过客户端弹窗由人类选择模型、推理强度和服务档位（默认 / Fast），并审阅、修改和确认职责。弹窗默认预留至少 30 分钟思考时间，未答复则持续等待，保持任务活跃且不推进；客户端强制中断时保留待答状态，恢复后继续。
 
