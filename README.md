@@ -4,6 +4,10 @@
 
 **简体中文 | [English](README.en.md)**
 
+**当前版本：1.1** · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [上一版本 v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+
+1.1 更新：三个技能创建子 Agent 前，均须通过客户端弹窗由人类选择模型、推理强度和速度，并审阅、修改和确认职责。
+
 ### 让 AI 团队有章法地协作。
 
 **集权统一指挥 · 分权独立制衡 · 组合内外协同**
