@@ -221,4 +221,9 @@ GAS is licensed under the [MIT License](LICENSE). Use, modification, redistribut
 
 ---
 
+## Community
+
+This project recognizes and supports the [LINUX DO community](https://linux.do/).
+Join the community to discuss open source and technology.
+
 **Clear boundaries for every task. Evidence behind every conclusion. An accountable path to delivery.**
