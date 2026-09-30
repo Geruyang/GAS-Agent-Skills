@@ -4,11 +4,13 @@
 
 **[简体中文](README.md) | English**
 
-**Current version: 1.3** · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+**Current version: 1.4** · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+
+Version 1.4 removes independent child-agent service-tier selection, configuration, and verification. Child agents inherit the main session's or direct parent's tier. All other requirements remain.
 
 Version 1.3: child agents must appear in the Codex client's subagent list by default. Ask through a client dialog before using CLI hosting. If declined, keep trying native list paths; use the conditional CLI fallback only when evidence establishes it is the only feasible route, and disclose that in the client before launch. Silence or an explicit ban on all CLI use does not authorize fallback.
 
-Version 1.2: all three skills require client dialogs for humans to select the model, reasoning effort, and service tier (Default / Fast), then review, edit, and confirm responsibilities before a child agent is created. Allow at least 30 minutes to think and keep waiting without advancing or ending the task if no answer arrives. Preserve pending input across forced host interruptions and resume from that step.
+All three skills still require client dialogs for humans to select the model and reasoning effort, then review, edit, and confirm responsibilities before a child agent is created. Allow at least 30 minutes to think and keep waiting without advancing or ending the task if no answer arrives. Preserve pending input across forced host interruptions and resume from that step.
 
 ### Give your AI team a clear way to work together.
 
