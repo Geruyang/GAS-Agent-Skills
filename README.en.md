@@ -4,9 +4,9 @@
 
 **[简体中文](README.md) | English**
 
-**Current version: 1.1** · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [Previous version v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+**Current version: 1.2** · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
 
-Version 1.1: all three skills require client dialogs for humans to select the model, reasoning effort, and speed, then review, edit, and confirm responsibilities before a child agent is created.
+Version 1.2: all three skills require client dialogs for humans to select the model, reasoning effort, and service tier (Default / Fast), then review, edit, and confirm responsibilities before a child agent is created. Allow at least 30 minutes to think and keep waiting without advancing or ending the task if no answer arrives. Preserve pending input across forced host interruptions and resume from that step.
 
 ### Give your AI team a clear way to work together.
 
