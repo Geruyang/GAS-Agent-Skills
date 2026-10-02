@@ -2,6 +2,7 @@
   "schema_version": 3,
   "example_only": true,
   "record_type": "verification",
+  "runtime_evidence_ref": null,
   "run_id": "example-team-invitations",
   "review_id": null,
   "task_id": "INVITE-API-001",

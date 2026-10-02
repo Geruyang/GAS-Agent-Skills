@@ -3,6 +3,8 @@
   "example_only": true,
   "run_id": "example-team-invitations",
   "mode": "centralized",
+  "runtime_evidence_ref": null,
+  "task_ledger": [],
   "project_root": null,
   "goal": "为现有 SaaS 增加团队邀请功能；本文件仅演示契约结构，不授权修改实际项目。",
   "approval": {
@@ -36,6 +38,7 @@
     "max_task_attempts": 2,
     "max_review_rounds": 2,
     "max_conflict_rounds": 2,
+    "max_replans": null,
     "max_tokens_total": null,
     "max_cost": null,
     "currency": null,
@@ -74,8 +77,8 @@
   "dispatch": {
     "method": "coordinator-assignment",
     "authority": "named-coordinator",
-    "fallback": "single-executor-with-recorded-assignments",
-    "notes": "全部角色接收指挥者有效指令；审查独立判断但不独立调度，发布按指令和对应授权执行。"
+    "fallback": "wait-for-required-subagents",
+    "notes": "指挥者、执行者、审查者、监督者均为真实子agent，默认4个独立身份；主会话不占席，仅展示进展、人类交互和宿主必要的机械转接。三类下属接收指挥者有效指令；缺少必需角色或能力时等待补齐，不由主会话接任。"
   },
   "state_location": ".gas/runs/example-team-invitations/",
   "display_name": "指挥者",
@@ -158,5 +161,24 @@
       "expires_at": null,
       "revoked": false
     }
+  },
+  "main_session": {
+    "purpose": "progress_display",
+    "identity": null,
+    "governance_role": null,
+    "counts_as_role": false,
+    "business_execution_allowed": false
+  },
+  "role_hosting": {
+    "all_roles_must_be_subagents": true,
+    "required_distinct_subagents_minimum": 4,
+    "required_roles": [
+      "coordinator",
+      "executor",
+      "reviewer",
+      "supervisor"
+    ],
+    "roster": [],
+    "verified": false
   }
 }

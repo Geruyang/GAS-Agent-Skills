@@ -35,7 +35,7 @@
     "max_cost": null,
     "currency": null,
     "max_elapsed_minutes": null,
-    "note": "仅为可调整的试运行建议；全局总额包含规划、所有子 Agent、测试与评审，评审预留不是额外额度。未测量的指标必须报告为未知。",
+    "note": "仅为可调整的试运行建议；max_active_agents=3 仅计治理子 agent。全局总额包含三个治理子 agent、主会话通信与机械转接、规划、工具、测试与评审，评审预留不是额外额度。未测量的指标必须报告为未知。",
     "max_active_agents": 3
   },
   "controls": {
@@ -62,7 +62,7 @@
     "method": "single-executor-self-claim",
     "authority": "effective-versioned-contract",
     "state_writer": "single-writer-tool",
-    "fallback": "serial-local-work-awaiting-independent-review",
+    "fallback": "waiting-for-team-no-main-session-execution",
     "notes": "工具单写登记不获得治理权；可选原子后端须验证能力，不新增执行席。"
   },
   "state_location": ".gas/runs/example-team-invitations/",
@@ -70,7 +70,7 @@
   "governance": {
     "model": "separation-of-powers",
     "agent_count": 3,
-    "main_session_role": "legislator",
+    "main_session_role": null,
     "roles": {
       "legislator": {
         "display_name": "立规者",
@@ -94,7 +94,7 @@
     "role_combination_allowed": false,
     "majority_override_allowed": false,
     "replacement_authority_record": null,
-    "note": "主会话默认占一席，仅再创建两名角色；三权平级，不设第四名总管。"
+    "note": "三个独立子 agent 分别担任立规、执行、裁衡；agent_count=3 仅计治理子 agent。主会话仅展示与宿主必要机械转接，不占席、不行使治理或实施权；总会话为 3 子 agent 加 1 展示主会话。"
   },
   "contract": {
     "status": "DRAFT",
@@ -117,7 +117,12 @@
       "source_records": [],
       "findings": [],
       "record": null
-    }
+    },
+    "acceptance_items": [],
+    "feasibility_evidence_refs": [],
+    "intent_coverage_matrix": [],
+    "acceptance_note": "acceptance_criteria 保留原文；acceptance_items 逐项绑定意图、规则、方法、环境与证据要求。生效前补齐验收定义与 PLANNED 计划覆盖；OBSERVED 实测覆盖和最终候选在验收前据实填写，不要求生效前完成产品。示例不是已获准契约。",
+    "feasibility_trial_permission_ref": null
   },
   "human_intent": {
     "version": null,
@@ -126,5 +131,24 @@
     "constraints": [],
     "preferences": [],
     "unconfirmed_interpretations": []
+  },
+  "runtime_evidence_ref": null,
+  "main_session": {
+    "purpose": "progress_display",
+    "identity": null,
+    "governance_role": null,
+    "counts_as_role": false,
+    "business_execution_allowed": false
+  },
+  "role_hosting": {
+    "all_roles_must_be_subagents": true,
+    "required_distinct_subagents_minimum": 3,
+    "required_roles": [
+      "legislator",
+      "executor",
+      "arbiter"
+    ],
+    "roster": [],
+    "verified": false
   }
 }

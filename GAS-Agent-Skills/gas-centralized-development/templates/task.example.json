@@ -3,6 +3,7 @@
   "example_only": true,
   "id": "INVITE-API-001",
   "mode": "centralized",
+  "runtime_evidence_ref": null,
   "goal": "实现团队邀请接口；以已经批准的接口和权限契约为准。",
   "allowed_paths": [
     "src/invitations/**",
@@ -28,6 +29,23 @@
   "owner": null,
   "state": "DRAFT",
   "state_version": 0,
+  "progress_ledger": {
+    "observed_at": null,
+    "last_actual_progress_at": null,
+    "last_actual_progress": null,
+    "progress_evidence_refs": [],
+    "observation_window": null,
+    "consecutive_no_progress_count": null,
+    "no_progress_threshold": null,
+    "no_progress_reasons": [],
+    "replan_count": null,
+    "max_replans": null,
+    "replan_budget_remaining": null,
+    "replans": [],
+    "next_action": null,
+    "checkpoint_ref": null,
+    "note": "尚未观察、配置或计量；null不是0或无限额度。只按实际产物、检查或阻塞解除证据更新进展，重派不重置累计消耗。"
+  },
   "budget": {
     "max_attempts": 2,
     "max_tool_calls": 20,

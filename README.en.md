@@ -4,9 +4,15 @@
 
 **[简体中文](README.md) | English**
 
-**Current version: 1.4** · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+**Current version: 1.5** · [v1.5](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.5) · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
 
-Version 1.4 removes independent child-agent service-tier selection, configuration, and verification. Child agents inherit the main session's or direct parent's tier. All other requirements remain.
+Version 1.5 runtime evidence updates: shared runtime evidence records and offline verification tools, capability probes, startup and recovery receipts, progress tracking, structured acceptance criteria, and evidence reuse across the two combined layers. See the [usage and validation scope](GAS-Agent-Skills/README.zh-CN.md).
+
+Version 1.5 role hosting update: **every governance role runs as a real subagent. The main session displays progress and carries human interaction; it holds no role.** The complete defaults require 4 centralized, 3 decentralized, or 6 combined subagents, plus one display session. Missing roles must be restored rather than filled by the main session.
+
+[Version 1.5 release notes (Chinese)](docs/releases/1.5.md).
+
+Version 1.4 removed independent child-agent service-tier selection, configuration, and verification. Child agents inherit the main session's or direct parent's tier. All other requirements remain.
 
 Version 1.3: child agents must appear in the Codex client's subagent list by default. Ask through a client dialog before using CLI hosting. If declined, keep trying native list paths; use the conditional CLI fallback only when evidence establishes it is the only feasible route, and disclose that in the client before launch. Silence or an explicit ban on all CLI use does not authorize fallback.
 
@@ -36,7 +42,7 @@ When several agents write code together, who sets the rules? Who assigns tasks? 
 
 Each mode includes a **Skill entry point, a collaboration protocol, JSON record templates, and pressure-test scenarios**. The repository also provides three architecture diagrams, a copy installer, and offline checks using only the Python standard library. Your agent host must provide file access and real subagents to run the full collaboration modes.
 
-English architecture diagrams are provided below. Detailed Skill protocols are currently in Chinese; links to Chinese documents are labeled where helpful.
+Current architecture diagrams are provided below. Earlier raster diagrams remain linked as historical references. Detailed Skill protocols are currently in Chinese; links to Chinese documents are labeled where helpful.
 
 ## 01 Centralized mode
 
@@ -44,7 +50,23 @@ English architecture diagrams are provided below. Detailed Skill protocols are c
 
 **Unified direction. Independent evidence. Centralized decisions.** The commander breaks down work, assigns tasks, evaluates technical evidence, and handles integration and release. Executors, reviewers, and supervisors have distinct responsibilities and report to the commander.
 
-[![Centralized architecture: a human authorizes a commander, who directs executors, reviewers, and supervisors](docs/images/01-centralized-en.png)](docs/images/01-centralized-en.png)
+```mermaid
+flowchart TB
+    Main["Main session: progress display; no role"]
+    C["Subagent: commander"]
+    E["Subagent: executor"]
+    R["Subagent: reviewer"]
+    S["Subagent: supervisor"]
+    C -->|Assignment| E
+    C -->|Assignment| R
+    C -->|Assignment| S
+    E -.->|Artifacts| C
+    R -.->|Review evidence| C
+    S -.->|Supervision evidence| C
+    C -.->|Progress and evidence| Main
+```
+
+The main-session commander in the [historical centralized diagram](docs/images/01-centralized-en.png) is no longer permitted.
 
 **Suggested use cases:** Cross-module refactoring, tightly coupled features, frequently changing shared interfaces, and delivery that needs a single set of priorities.
 
@@ -60,7 +82,21 @@ English architecture diagrams are provided below. Detailed Skill protocols are c
 
 **Bounded rulemaking. Autonomous execution. Independent adjudication.** The rulemaker defines rules and acceptance criteria. The executor works autonomously within the effective contract. The arbiter independently checks both whether the rules reflect the human's intent and whether the result meets those rules.
 
-[![Decentralized architecture: three peer agents independently handle rulemaking, execution, and adjudication](docs/images/02-decentralized-en.png)](docs/images/02-decentralized-en.png)
+```mermaid
+flowchart TB
+    Main["Main session: progress display; no role"]
+    L["Subagent: legislator"]
+    E["Subagent: executor"]
+    A["Subagent: arbiter"]
+    L <-->|Rules and reconsideration| E
+    L <-->|Intent review| A
+    E <-->|Artifacts and adjudication| A
+    L -.->|Progress and evidence| Main
+    E -.->|Progress and evidence| Main
+    A -.->|Progress and evidence| Main
+```
+
+The main-session role in the [historical decentralized diagram](docs/images/02-decentralized-en.png) is no longer permitted.
 
 **Suggested use cases:** Tasks with clear boundaries and stable interfaces that need independent acceptance and protection against implementers lowering their own acceptance standards.
 
@@ -76,25 +112,50 @@ English architecture diagrams are provided below. Detailed Skill protocols are c
 
 **Separation of powers outside. Centralized execution inside.** The outer rulemaker, executor, and arbiter remain peers. The outer executor also serves as the inner commander, directing an implementation, review, and supervision team.
 
-[![Combined architecture: the outer executor is also the inner commander, connecting independent governance with centralized implementation](docs/images/03-combined-en.png)](docs/images/03-combined-en.png)
+```mermaid
+flowchart TB
+    Main["Main session: progress and human interaction; no governance role"]
+    subgraph Team["6 real subagents"]
+      subgraph Outer["Outer layer: three peer seats"]
+        L["Legislator"]
+        C["Outer executor = inner commander"]
+        A["Arbiter"]
+        L <-->|Contract and reconsideration| C
+        C <-->|Artifacts and adjudication| A
+      end
+      subgraph Inner["Inner subordinates"]
+        E["Executor"]
+        R["Reviewer"]
+        S["Supervisor"]
+      end
+      C --> E
+      C --> R
+      C --> S
+    end
+    L -.->|Progress and evidence| Main
+    C -.->|Progress and evidence| Main
+    A -.->|Progress and evidence| Main
+```
+
+The [historical combined diagram](docs/images/03-combined-en.png) contains the superseded main-session role and one-main-plus-five-children arrangement.
 
 **Suggested use cases:** Complex development that needs both coordinated implementation across modules and independent acceptance outside the implementation team.
 
 - **Outer executor = inner commander:** one identity and one term of appointment, responsible for final integration and release.
 - **Two layers of verification, one delivery:** inner acceptance → integration candidate and necessary rechecks → independent outer adjudication → authorized delivery.
-- The complete default configuration needs **6 distinct identities, including the main session**. Passing the inner review does not substitute for outer acceptance.
+- The complete default configuration needs **6 distinct subagents plus one display session**. Passing the inner review does not substitute for outer acceptance.
 
 [Skill (Chinese)](GAS-Agent-Skills/gas-combined-development/SKILL.md) · [Combined protocol (Chinese)](GAS-Agent-Skills/gas-combined-development/references/protocol.md) · [Run template](GAS-Agent-Skills/gas-combined-development/templates/run.example.json) · [Architecture and usage guide (Chinese)](GAS-Agent-Skills/gas-combined-development/references/architecture-guide.md)
 
-> Click any diagram to view the full-size English image. Replace `<repo>` in the diagrams with the absolute path to your local clone. The diagrams summarize the architecture and usage; consult each Skill and its protocol for the complete rules.
+> Historical raster diagrams retain superseded main-session roles and headcounts. Use the current diagrams, Skill entry points, and protocols for the active rules.
 
 ## Choosing a mode
 
-| Mode | Coordination model | Typical roles, including the main session | Main concerns it addresses |
+| Mode | Coordination model | Governance subagents; main session is additional | Main concerns it addresses |
 | --- | --- | --- | --- |
-| **Centralized** | Commander assigns tasks and makes decisions | Commander + executor + reviewer + supervisor | Dependencies, shared priorities, integration and delivery |
-| **Decentralized** | Rulemaking, execution, and adjudication are peers | 3 distinct identities; one execution seat | Separation of rules from implementation, intent alignment, independent acceptance |
-| **Combined** | Outer separation of powers with an inner centralized team | 6 distinct identities by default | Complex implementation alongside independent checks and balances |
+| **Centralized** | Commander assigns tasks and makes decisions | 4 subagents: commander, executor, reviewer, supervisor | Dependencies, shared priorities, integration and delivery |
+| **Decentralized** | Rulemaking, execution, and adjudication are peers | 3 subagents: legislator, executor, arbiter | Separation of rules from implementation, intent alignment, independent acceptance |
+| **Combined** | Outer separation of powers with an inner centralized team | 6 subagents; one subagent holds both bridge responsibilities | Complex implementation alongside independent checks and balances |
 
 These are engineering design suggestions, not a measured performance ranking. Small changes may warrant a lighter workflow.
 
@@ -122,6 +183,7 @@ Acceptance criteria: [executable checks and expected results].
 Budget and stopping conditions: [time, tool calls, or other boundaries].
 
 First verify real subagent support and available concurrent slots.
+All roles must be subagents; keep the main session for progress and human interaction.
 Record actual role identities, tasks, and evidence. Reuse applicable authorization
 already given for this task, and report self-tests, independent verification,
 integration, and release as separate states.

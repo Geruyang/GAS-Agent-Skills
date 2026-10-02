@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "record_type": "combined_review_reuse_annotations",
+  "combined_run_id": null,
+  "bridge_run_ref": null,
+  "runtime_evidence_ref": null,
+  "dependency_details": {
+    "authority_field_in_runtime_evidence": "stage_dependencies",
+    "check_execution": "NOT_RUN",
+    "check_method": null,
+    "checked_by_identity": null,
+    "check_evidence_ref": null,
+    "node_details": [
+      {"node_id": "team_ready", "layer": "combined", "stage": "TEAM_READY", "input_refs": [], "output_refs": []},
+      {"node_id": "feasibility_trial_permission", "layer": "outer", "stage": "FEASIBILITY_TRIAL_PERMISSION", "input_refs": [], "output_refs": []},
+      {"node_id": "capability_preflight", "layer": "combined", "stage": "CAPABILITY_PREFLIGHT", "input_refs": [], "output_refs": []},
+      {"node_id": "outer_contract", "layer": "outer", "stage": "OUTER_CONTRACT", "input_refs": [], "output_refs": []},
+      {"node_id": "inner_implementation", "layer": "inner", "stage": "INNER_IMPLEMENTATION", "input_refs": [], "output_refs": []},
+      {"node_id": "inner_acceptance", "layer": "inner", "stage": "INNER_ACCEPTANCE", "input_refs": [], "output_refs": []},
+      {"node_id": "candidate_preparation", "layer": "inner", "stage": "CANDIDATE_PREPARATION", "input_refs": [], "output_refs": []},
+      {"node_id": "inner_candidate_acceptance", "layer": "inner", "stage": "INNER_CANDIDATE_ACCEPTANCE", "input_refs": [], "output_refs": []},
+      {"node_id": "outer_final_adjudication", "layer": "outer", "stage": "OUTER_FINAL_ADJUDICATION", "input_refs": [], "output_refs": []},
+      {"node_id": "delivery", "layer": "combined", "stage": "DELIVERY", "input_refs": [], "output_refs": []}
+    ],
+    "edge_details": [
+      {"from": "team_ready", "to": "feasibility_trial_permission", "required_output_refs": []},
+      {"from": "feasibility_trial_permission", "to": "capability_preflight", "required_output_refs": []},
+      {"from": "capability_preflight", "to": "outer_contract", "required_output_refs": []},
+      {"from": "outer_contract", "to": "inner_implementation", "required_output_refs": []},
+      {"from": "inner_implementation", "to": "inner_acceptance", "required_output_refs": []},
+      {"from": "inner_acceptance", "to": "candidate_preparation", "required_output_refs": []},
+      {"from": "candidate_preparation", "to": "inner_candidate_acceptance", "required_output_refs": []},
+      {"from": "inner_candidate_acceptance", "to": "outer_final_adjudication", "required_output_refs": []},
+      {"from": "outer_final_adjudication", "to": "delivery", "required_output_refs": []}
+    ]
+  },
+  "opinions": [
+    {
+      "type": "PREPARATORY",
+      "status": "NOT_RUN",
+      "issuer_identity": null,
+      "shared_epoch": null,
+      "contract_version": null,
+      "plan_version": null,
+      "candidate_digest": null,
+      "opinion_ref": null,
+      "affected_node_ids": [],
+      "hard_blocker_refs": []
+    },
+    {
+      "type": "FINAL",
+      "status": "NOT_RUN",
+      "issuer_identity": null,
+      "shared_epoch": null,
+      "contract_version": null,
+      "plan_version": null,
+      "candidate_digest": null,
+      "inner_candidate_acceptance_ref": null,
+      "opinion_ref": null,
+      "affected_node_ids": [],
+      "hard_blocker_refs": []
+    }
+  ],
+  "evidence_reuse": [
+    {
+      "reuse_id": null,
+      "status": "NOT_RUN",
+      "raw_evidence": {
+        "path": null,
+        "sha256": null,
+        "run_id": null,
+        "candidate_digest": null,
+        "environment_ref": null,
+        "original_result_ref": null
+      },
+      "target": {
+        "candidate_manifest_ref": null,
+        "candidate_digest": null,
+        "environment_ref": null,
+        "contract_version": null,
+        "plan_version": null
+      },
+      "coverage": [{"clause_id": null, "scope": null}],
+      "environment_applicability": {"status": "NOT_VERIFIED", "basis_ref": null},
+      "checker_identity": null,
+      "check_method": null,
+      "check_result_ref": null,
+      "rerun_required": null,
+      "rerun_reason": null,
+      "rerun_evidence_refs": [],
+      "full_independent_check_required": null,
+      "full_independent_check_ref": null,
+      "independent_judgment_ref": null
+    }
+  ],
+  "change_impacts": [
+    {
+      "old_candidate_manifest_ref": null,
+      "old_candidate_digest": null,
+      "new_candidate_manifest_ref": null,
+      "new_candidate_digest": null,
+      "change_report_ref": null,
+      "changed_rule_or_interface_refs": [],
+      "affected_clause_ids": [],
+      "affected_check_ids": [],
+      "inner_acceptance": {"affected": null, "record_refs": []},
+      "outer_adjudication": {"affected": null, "record_refs": []},
+      "delivery": {"affected": null, "action_refs": []},
+      "earliest_required_stage": null,
+      "revalidation_refs": [],
+      "new_acceptance_or_adjudication_refs": [],
+      "compatible_reuse_ids": [],
+      "compatibility_basis_refs": [],
+      "impact_reviewer_identity": null,
+      "impact_review_ref": null
+    }
+  ],
+  "delivery_record_ref": null,
+  "unverified_items": []
+}

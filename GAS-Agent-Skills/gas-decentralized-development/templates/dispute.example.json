@@ -28,7 +28,7 @@
     "required": false,
     "reason": null
   },
-  "note": "route 按事实选择 RULE_INTENT_OBJECTION、RULE_RECONSIDERATION、RULING_REVIEW 或 INTENT_CHANGE。规则复议由立规者受理；裁决复核按 SEP-03；意图变更按 SEP-08。人类决定状态为 NOT_REQUESTED/PENDING/NEEDS_CLARIFICATION/APPROVED/REJECTED；只有明确同意范围可修改。维持或改规用 KEEP/PROPOSE_REVISION；均不能让旧失败自动通过。",
+  "note": "route 按事实选择 RULE_INTENT_OBJECTION、RULE_RECONSIDERATION、RULING_REVIEW 或 INTENT_CHANGE。规则复议由立规者受理；裁决复核按 SEP-03；意图变更按 SEP-08。人类决定状态为 NOT_REQUESTED/PENDING/NEEDS_CLARIFICATION/APPROVED/REJECTED；只有明确同意范围可修改。维持或改规用 KEEP/PROPOSE_REVISION；均不能让旧失败自动通过。 风险接受只记录其有权范围，不能改写原始 FAIL、NOT_RUN 或 INCONCLUSIVE，不能以两席同意覆盖裁衡。",
   "raised_by_epoch": null,
   "route": null,
   "intent_version": null,
@@ -65,5 +65,8 @@
     "human_response_record": null,
     "approved_scope": [],
     "new_intent_version": null
-  }
+  },
+  "runtime_evidence_ref": null,
+  "criterion_ids": [],
+  "risk_acceptance_refs": []
 }

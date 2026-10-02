@@ -5,7 +5,10 @@
   "combined_run_id": null,
   "status": "DRAFT",
   "mode_selection_record": null,
-  "approval": {"approved": false, "record": null},
+  "approval": {
+    "approved": false,
+    "record": null
+  },
   "outer": {
     "run_id": null,
     "run_ref": null,
@@ -13,9 +16,21 @@
     "effective_contract_ref": null,
     "intent_version": null,
     "roles": {
-      "legislator": {"identity": null, "epoch": null, "available": false},
-      "executor": {"identity": null, "epoch": null, "available": false},
-      "arbiter": {"identity": null, "epoch": null, "available": false}
+      "legislator": {
+        "identity": null,
+        "epoch": null,
+        "available": false
+      },
+      "executor": {
+        "identity": null,
+        "epoch": null,
+        "available": false
+      },
+      "arbiter": {
+        "identity": null,
+        "epoch": null,
+        "available": false
+      }
     }
   },
   "inner": {
@@ -23,10 +38,26 @@
     "run_ref": null,
     "plan_version": null,
     "roles": {
-      "coordinator": {"identity": null, "epoch": null, "available": false},
-      "executor": {"identity": null, "epoch": null, "available": false},
-      "reviewer": {"identity": null, "epoch": null, "available": false},
-      "supervisor": {"identity": null, "epoch": null, "available": false}
+      "coordinator": {
+        "identity": null,
+        "epoch": null,
+        "available": false
+      },
+      "executor": {
+        "identity": null,
+        "epoch": null,
+        "available": false
+      },
+      "reviewer": {
+        "identity": null,
+        "epoch": null,
+        "available": false
+      },
+      "supervisor": {
+        "identity": null,
+        "epoch": null,
+        "available": false
+      }
     }
   },
   "bridge": {
@@ -37,23 +68,25 @@
     "epoch_equality_verified": false,
     "outer_peers_outside_inner_command": true,
     "inner_delegation_levels": 1,
-    "task_bindings": [{
-      "outer_task_id": null,
-      "outer_task_ref": null,
-      "outer_task_version": null,
-      "outer_contract_version": null,
-      "inner_plan_version": null,
-      "inner_task_ids": [],
-      "allowed_paths": [],
-      "protected_paths": [],
-      "budget_allocation_ref": null,
-      "candidate_digest": null,
-      "status": "DRAFT"
-    }]
+    "task_bindings": [
+      {
+        "outer_task_id": null,
+        "outer_task_ref": null,
+        "outer_task_version": null,
+        "outer_contract_version": null,
+        "inner_plan_version": null,
+        "inner_task_ids": [],
+        "allowed_paths": [],
+        "protected_paths": [],
+        "budget_allocation_ref": null,
+        "candidate_digest": null,
+        "status": "DRAFT"
+      }
+    ]
   },
   "runtime": {
     "mode_status": "NOT_VERIFIED",
-    "main_session_role": "outer.executor+inner.coordinator",
+    "main_session_role": null,
     "required_distinct_identities_minimum": 6,
     "required_concurrent_slots_default": 6,
     "host_active_slot_limit": null,
@@ -102,5 +135,27 @@
   "blockers": [],
   "dispute_refs": [],
   "retrospective_ref": null,
-  "unverified_items": []
+  "unverified_items": [],
+  "main_session": {
+    "purpose": "progress_display",
+    "identity": null,
+    "governance_role": null,
+    "counts_as_role": false,
+    "business_execution_allowed": false
+  },
+  "role_hosting": {
+    "all_roles_must_be_subagents": true,
+    "required_distinct_subagents_minimum": 6,
+    "required_roles": [
+      "outer.legislator",
+      "outer.executor",
+      "outer.arbiter",
+      "inner.coordinator",
+      "inner.executor",
+      "inner.reviewer",
+      "inner.supervisor"
+    ],
+    "roster": [],
+    "verified": false
+  }
 }

@@ -40,6 +40,10 @@ def validate(root: Path) -> dict:
         valid=isinstance(value,list) and all(isinstance(v,str) for v in value)
         add('malformed-structure:'+label+':'+key,valid)
         return value if valid else []
+    def defaults_match(value,expected):
+        return isinstance(value,dict) and all(
+            key in value and type(value[key]) is type(default) and value[key]==default
+            for key,default in expected.items())
     main=text('SKILL.md')
     protocol=text('references/protocol.md')
     for rel in ('README.zh-CN.md','CHANGELOG.md','scripts/validate_skill.py','tests/test_skill.py'):
@@ -90,6 +94,20 @@ def validate(root: Path) -> dict:
             add(name+':json',False,exc)
             docs[name]={}
     run=docs['run']; task=docs['task']; review=docs['review']; command=docs['command']; decision=docs['decision']; delivery=docs['release']
+    # Validate unexecuted example declarations, never claim to authenticate a host.
+    main_session=obj(run,'main_session','run')
+    add('run:main-session:display-only',defaults_match(main_session,{
+        'purpose':'progress_display','identity':None,'governance_role':None,
+        'counts_as_role':False,'business_execution_allowed':False}))
+    hosting=obj(run,'role_hosting','run')
+    add('run:role-hosting:subagents-only',defaults_match(hosting,{'all_roles_must_be_subagents':True}))
+    add('run:role-hosting:minimum-subagents',defaults_match(hosting,{'required_distinct_subagents_minimum':4}))
+    roles=hosting.get('required_roles')
+    add('run:role-hosting:required-roles',isinstance(roles,list)
+        and all(isinstance(role,str) for role in roles) and len(roles)==4
+        and set(roles)=={'coordinator','executor','reviewer','supervisor'})
+    add('run:role-hosting:unverified-example',defaults_match(hosting,{'verified':False}))
+    add('run:role-hosting:empty-roster',defaults_match(hosting,{'roster':[]}))
     # Every declared nested contract remains an object even before it is populated.
     for record, fields in {'command':('scope','budget'), 'release':('target',),
                            'run':('dispatch',), 'task':('budget','test_plan','dispatch','integration','release')}.items():

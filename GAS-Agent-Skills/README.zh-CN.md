@@ -1,4 +1,4 @@
-# GAS 三模式技能包
+# GAS 三模式技能包 · 1.5
 
 [返回项目首页与三张框架图](../README.md)
 
@@ -11,6 +11,36 @@
 | 组合 | [gas-combined-development](gas-combined-development/SKILL.md) | 外层分权，外层执行者兼任内层集权指挥者，两层验收后统一交付 |
 
 集权与分权可以分别复制、分别使用；组合技能依赖同级的集权与分权技能。需要结合时显式使用组合协议，不要将两种独立模式同时作为同一次运行的最高调度权威。
+
+## 所有角色由子 agent 承担（1.5）
+
+三种技能的所有治理角色都由真实子 agent 承担。主会话展示进展、证据引用、等待及需要人类决定的事项，承载已有流程要求的人类交互；不任指挥者、立规者、执行者、审查者、监督者、裁衡者或桥接席，不实施业务、作治理裁决或发布。
+
+完整默认配置为集权 4 个子 agent、分权 3 个子 agent、组合 6 个子 agent，每种模式另有 1 个不占角色席位的主会话。组合的外层执行者与内层指挥者仍是同一个子 agent。宿主工具树上的父子关系不授予治理权；必要的创建或消息转接依据已确认名单或具名角色的原始指令，不由主会话决定业务派工与优先级。缺角色或子 agent 能力时保持 `WAITING_FOR_TEAM`，不能由主会话接任来降级继续。
+
+运行模板以 `main_session` 和 `role_hosting` 记录此边界。真实 roster 需核对宿主创建回执、子 agent 身份、角色覆盖及主会话排除关系；模板中的空名单与 `verified=false` 不能当作已经核验。主会话交互、转接和所有层级子 agent 消耗均计入同一运行总预算。
+
+## 运行证据与策略改进（1.5）
+
+三种技能新增同一套标准库证据工具与运行附表：统一记录检查执行和事实结论、关键能力小样本、启动回执、恢复核对、候选摘要、风险处理及交付。各模式继续使用原来的权责与审批记录；新附表通过引用接入，不改变原模板 schema。
+
+- 集权用任务与进展账本识别实际停滞，并在原预算内重规划。
+- 分权用结构化验收项减少歧义，执行者保留实施自主权，裁衡者保留独立判断。
+- 组合显式记录阶段依赖和原始证据复用，避免两层互等及重复交付。
+
+每个完整技能目录都包含 `scripts/gas_runtime.py`、`references/runtime-evidence.md` 和 `templates/runtime.example.json`。三份工具保持一致，无需导入包根模块。先阅读所用技能的 [运行证据指南](gas-centralized-development/references/runtime-evidence.md)，以已就绪团队的真实记录填写附表；业务能力小样本在 `TEAM_READY` 后开展。
+
+从包目录调用工具，例如对专用候选目录生成清单，再读回校验：
+
+```powershell
+python -B .\gas-centralized-development\scripts\gas_runtime.py manifest --candidate C:\Project\.gas\runs\run-1\candidate --output C:\Project\.gas\runs\run-1\candidate-manifest.json
+python -B .\gas-centralized-development\scripts\gas_runtime.py verify --candidate C:\Project\.gas\runs\run-1\candidate --manifest C:\Project\.gas\runs\run-1\candidate-manifest.json
+python -B .\gas-centralized-development\scripts\gas_runtime.py assess --candidate C:\Project\.gas\runs\run-1\candidate --manifest C:\Project\.gas\runs\run-1\candidate-manifest.json --record C:\Project\.gas\runs\run-1\runtime.json
+```
+
+将 `C:\Project` 替换为真实项目；分权、组合可调用各自目录下的同名脚本。清单必须存于候选目录之外。修改候选后建立新的版本与审查证据，不改写原失败。`assess` 的 `technical_evidence_ready` 只是已声明检查的机械一致性结果，不证明证据内容正确，不授予角色权力或发布权限，也不能代替独立审查。风险接受、治理判断和真实交付继续单独记录。
+
+配套实测区分真实文件故障测试、独立文字判定探针和完整治理团队对照。相同工具在三种安装目录通过同输入测试只说明工具行为一致，不构成治理优劣排名；完整治理实验仍须统一任务、外部验收与总预算，成本未知时保留 `null`。机制来源与采用范围见 [研究借鉴说明](gas-centralized-development/references/research-basis.md)。
 
 ## 创建子 Agent 前的客户端交互
 
@@ -32,7 +62,7 @@
 
 使用宿主的技能发现机制时，将完整技能目录放入该宿主支持的目录，并确认已经识别。普通目录中的文件不会自动注册为技能。详细组合示例见 [架构与使用说明](gas-combined-development/references/architecture-guide.md)；其中作者本机路径需替换为你的路径。
 
-每个技能包含 `SKILL.md`、`references/`、`templates/` 和 `evals/`。复制时保留整个目录；仅复制入口会丢失协议和记录模板。
+每个技能包含 `SKILL.md`、`references/`、`templates/`、`scripts/` 和 `evals/`。复制时保留整个目录；仅复制入口会丢失协议、记录模板和证据工具。
 
 ## PowerShell 复制安装
 
@@ -53,7 +83,7 @@ powershell -NoProfile -File .\Install-GAS-Skills.ps1 -Destination 'D:\AgentSkill
 
 模板保留 `example_only=true` 和未执行、未批准状态。运行前依据真实项目填写路径、身份、版本、预算与证据；实际记录建议保存到目标项目 `.gas/runs/<run-id>/`，不要将运行状态写回模板。
 
-完整分权需要三个独立身份，完整组合默认需要六个独立身份（均含主会话）。没有真实子 Agent 或独立审查者时，按对应技能说明报告能力不足与等待项，不用同一会话切换角色名称冒充独立团队。
+完整集权默认需要四个独立子 agent，分权需要三个，组合默认需要六个；主会话均不计入角色身份。没有必需子 Agent 或独立审查者时，按对应技能说明报告能力不足并等待补齐，不用主会话或单一会话切换名称代替缺席角色。
 
 本包不附带模型运行器、原子任务队列、预算服务、强制沙箱或发布服务。既有适用授权可以复用；技术通过、管理接受、集成与发布分别记录。
 
@@ -66,8 +96,10 @@ python -B .\verify_bundle.py
 python -B -m unittest discover -s tests -v
 python -B .\gas-centralized-development\scripts\validate_skill.py
 python -B -m unittest discover -s .\gas-centralized-development\tests -v
+python -B .\verify_bundle.py --skill gas-combined-development
+python -B .\tests\run_runtime_experiments.py --output C:\Project\gas-runtime-experiment-01
 ```
 
-包检查包含集权与分权的结构、模板和规则检查，以及整个包（含组合目录）的文件完整性与 SHA-256。组合协议没有专用的行为验证器。场景均保留 `NOT_RUN`；静态检查不证明模型行为或协作性能。
+包检查包含集权、分权的既有检查及组合独立 schema 的身份、桥接、双层门禁和未执行默认值检查，以及全包文件完整性与 SHA-256。新增运行工具回归使用真实临时文件，覆盖三种技能目录；实验命令的输出目录必须尚不存在，用于保留每次原始结果。组合完整治理仍没有自动行为验证器。场景定义保留 `NOT_RUN`，实际结果另存；静态检查不证明模型行为或协作性能。
 
 本次结果见 [VALIDATION.md](VALIDATION.md)。历史审计备份保留在作者本地，仓库只收录 [历史验证说明](../docs/history/validation-20260928.md)。修改内容后应重新核验并有意更新交付清单，不能仅为掩盖检查失败而更新散列。

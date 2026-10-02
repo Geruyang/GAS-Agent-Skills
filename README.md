@@ -4,9 +4,15 @@
 
 **简体中文 | [English](README.en.md)**
 
-**当前版本：1.4** · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+**当前版本：1.5** · [v1.5](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.5) · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
 
-1.4 更新：取消子 Agent 独立服务档位（速度）的选择、配置与核验要求，统一沿用主会话／父 Agent 的档位。其他要求保留。
+1.5 运行证据改进：新增三模式运行证据附表与离线核验工具，补充关键能力预检、启动恢复、进展账本、结构化验收及两层证据复用。[使用与验证范围](GAS-Agent-Skills/README.zh-CN.md)。
+
+1.5 角色承载更新：**所有治理角色均由真实子 agent 承担，主会话只作为进展展示与人类交互窗口，不占角色席位。** 完整默认配置分别需要集权 4 个、分权 3 个、组合 6 个子 agent；各另有 1 个主会话。缺席时等待补齐，不能由主会话接任。
+
+[1.5 发布说明](docs/releases/1.5.md)。
+
+1.4 历史更新：取消子 Agent 独立服务档位（速度）的选择、配置与核验要求，统一沿用主会话／父 Agent 的档位。其他要求保留。
 
 1.3 更新：子 Agent 默认在 Codex 客户端的子 agent 列表中展示。需要 CLI 时先弹窗征求同意；不同意则继续尝试列表方式，仅在有证据确认只能使用 CLI 时才启用兜底，并在客户端明确说明。未答复或明确禁止任何 CLI 时不启用兜底。
 
@@ -42,7 +48,23 @@
 
 **统一指挥，独立取证，集中裁决。** 指挥者拆解任务、统一派工、汇总技术事实，并负责集成发布；执行者、审查者、监督者各司其职，向指挥者汇报。
 
-[![集权开发模式框架图：人类授权、指挥者，以及执行、审查、监督三类角色](docs/images/01-centralized.png)](docs/images/01-centralized.png)
+```mermaid
+flowchart TB
+    Main["主会话：展示进展，不占角色席位"]
+    C["子 agent：指挥者"]
+    E["子 agent：执行者"]
+    R["子 agent：审查者"]
+    S["子 agent：监督者"]
+    C -->|派工| E
+    C -->|派工| R
+    C -->|派工| S
+    E -.->|成果| C
+    R -.->|审查证据| C
+    S -.->|监督证据| C
+    C -.->|进展与证据| Main
+```
+
+[历史集权框架图](docs/images/01-centralized.png) 中的「主会话担任指挥者」已撤销。
 
 **适用场景：** 跨模块重构、依赖紧密的功能开发、共享接口频繁变化、需要统一优先级的交付。
 
@@ -58,7 +80,21 @@
 
 **立规有界，执行自主，裁衡独立。** 立规者制定规则与验收标准，执行者在有效契约内自主实施，裁衡者独立检查规则是否忠实于人类意图、成果是否满足验收要求。
 
-[![分权开发模式框架图：立规者、执行者、裁衡者三个平级 Agent 的制衡与复议关系](docs/images/02-decentralized.png)](docs/images/02-decentralized.png)
+```mermaid
+flowchart TB
+    Main["主会话：展示进展，不占角色席位"]
+    L["子 agent：立规者"]
+    E["子 agent：执行者"]
+    A["子 agent：裁衡者"]
+    L <-->|规则与复议| E
+    L <-->|意图审查| A
+    E <-->|成果与裁衡| A
+    L -.->|进展与证据| Main
+    E -.->|进展与证据| Main
+    A -.->|进展与证据| Main
+```
+
+[历史分权框架图](docs/images/02-decentralized.png) 中的「主会话 + 两个子 agent」已撤销。
 
 **适用场景：** 边界与接口明确、强调独立验收、需要防止实现者自行降低标准的任务。
 
@@ -74,25 +110,50 @@
 
 **外层分权制衡，内层集中执行。** 外层保留立规者、执行者、裁衡者三个平级席位；其中的执行者同时担任内层指挥者，组织执行、审查与监督团队。
 
-[![组合开发模式框架图：外层执行者兼任内层指挥者，连接外层三权制衡与内层统一指挥](docs/images/03-combined.png)](docs/images/03-combined.png)
+```mermaid
+flowchart TB
+    Main["主会话：进展展示与人类交互，不占角色席位"]
+    subgraph Team["6 个真实子 agent"]
+      subgraph Outer["外层：三席平级"]
+        L["立规者"]
+        C["外层执行者 = 内层指挥者"]
+        A["裁衡者"]
+        L <-->|契约与复议| C
+        C <-->|成果与裁衡| A
+      end
+      subgraph Inner["内层下属"]
+        E["执行者"]
+        R["审查者"]
+        S["监督者"]
+      end
+      C --> E
+      C --> R
+      C --> S
+    end
+    L -.->|进展与证据| Main
+    C -.->|进展与证据| Main
+    A -.->|进展与证据| Main
+```
+
+[历史组合框架图](docs/images/03-combined.png) 中的主会话任职与「1 主 + 5 子」已被上述规则替代。
 
 **适用场景：** 同时需要跨模块统一实施和外部独立验收的复杂开发任务。
 
 - **外层执行者 = 内层指挥者**：同一身份、同一任期，承担最终集成发布责任。
 - **两层门禁，一次交付**：内层接受 → 集成候选与必要重验 → 外层独立裁衡 → 获准交付。
-- 完整默认配置需要 **6 个独立身份（含主会话）**；内层通过不能替代外层验收。
+- 完整默认配置需要 **6 个独立子 agent，另加 1 个展示主会话**；内层通过不能替代外层验收。
 
 [阅读 Skill](GAS-Agent-Skills/gas-combined-development/SKILL.md) · [组合协议](GAS-Agent-Skills/gas-combined-development/references/protocol.md) · [运行模板](GAS-Agent-Skills/gas-combined-development/templates/run.example.json) · [架构与使用详解](GAS-Agent-Skills/gas-combined-development/references/architecture-guide.md)
 
-> 点击任意框架图可查看原图。图中的 `E:/AIProject/GAS/...` 是作者本机路径示例，使用时替换为你的克隆路径；集权图底部的 YAML 修复提示属于制图时的历史状态，当前发布文件已修复。
+> 历史图片仅保留归档链接，其中主会话任职、旧人数和 YAML 修复提示不再作为现行指南。当前角色承载以本页流程图、技能入口和协议为准。
 
 ## 怎样选择
 
-| 模式 | 核心机制 | 典型角色配置（含主会话） | 适合优先解决的问题 |
+| 模式 | 核心机制 | 治理子 agent（主会话另计） | 适合优先解决的问题 |
 | --- | --- | --- | --- |
-| **集权** | 指挥者统一派工与裁决 | 指挥者 + 执行者 + 审查者 + 监督者 | 依赖协调、优先级统一、集成交付 |
-| **分权** | 立规、执行、裁衡三方平级 | 3 个独立身份，单执行席 | 规则与实现分离、意图一致性、独立验收 |
-| **组合** | 外层分权，执行席内嵌集权团队 | 默认 6 个独立身份 | 复杂实施与独立制衡同时成立 |
+| **集权** | 指挥者统一派工与裁决 | 4 个：指挥者、执行者、审查者、监督者 | 依赖协调、优先级统一、集成交付 |
+| **分权** | 立规、执行、裁衡三方平级 | 3 个：立规者、执行者、裁衡者 | 规则与实现分离、意图一致性、独立验收 |
+| **组合** | 外层分权，执行席内嵌集权团队 | 默认 6 个，桥接职责由同一子 agent 承担 | 复杂实施与独立制衡同时成立 |
 
 模式选择是工程设计建议，尚无本项目的实测性能排名。普通小改动可按实际需要选择更轻的流程。
 
@@ -119,6 +180,7 @@ cd GAS-Agent-Skills
 验收标准：【可执行的检查与预期结果】。
 预算与停止条件：【时间、调用次数或其他边界】。
 请先核实真实子 Agent 能力与可用席位，登记角色、任务和证据，
+所有角色均交由子 Agent，主会话只展示进展与承载人类交互，
 复用本次已有授权，并如实区分自测、独立验收、集成与发布状态。
 ```
 

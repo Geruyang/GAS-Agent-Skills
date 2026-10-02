@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "record_type": "runtime_evidence",
+  "mode": "decentralized",
+  "binding": {
+    "run_id": null,
+    "task_id": null,
+    "command_or_claim_id": null,
+    "recipient": null,
+    "epoch": null,
+    "contract_version": null,
+    "candidate_digest": null,
+    "idempotency_key": null
+  },
+  "governance_record_refs": [],
+  "task_structure": {
+    "decomposability": null,
+    "dependency_shape": null,
+    "shared_state": null,
+    "error_consequences": null,
+    "suggested_execution_structure": null,
+    "selected_governance_mode": "decentralized",
+    "mode_change_authorization_ref": null,
+    "selected_execution_structure": null,
+    "selection_reason": null,
+    "observable_outcomes": [],
+    "coordination_cost_estimate": null
+  },
+  "checks": [
+    {
+      "id": "replace-with-contract-check-id",
+      "required": true,
+      "execution": "NOT_RUN",
+      "result": "UNKNOWN",
+      "input_digest": null,
+      "evidence_refs": []
+    }
+  ],
+  "critical_capability_preflight": [
+    {
+      "id": "replace-with-critical-path-probe-id",
+      "required": true,
+      "execution": "NOT_RUN",
+      "result": "UNKNOWN",
+      "input_digest": null,
+      "evidence_refs": [],
+      "team_ready_evidence_ref": null,
+      "actual_output_ref": null,
+      "output_assertion": {
+        "kind": "utf8_exact",
+        "expected": null
+      },
+      "applicability": {
+        "source_input_digest": null,
+        "target_candidate_digest": null,
+        "environment": null,
+        "coverage": null,
+        "reviewer": null,
+        "reason": null,
+        "evidence_refs": []
+      }
+    }
+  ],
+  "preflight_applicability": {
+    "status": "NOT_ASSESSED",
+    "reason": null,
+    "contract_ref": null
+  },
+  "evidence": [],
+  "lifecycle": {
+    "sent": {
+      "execution": "NOT_RUN",
+      "host_receipt_ref": null,
+      "binding": null
+    },
+    "received": {
+      "execution": "NOT_RUN",
+      "host_receipt_ref": null,
+      "binding": null
+    },
+    "started": {
+      "execution": "NOT_RUN",
+      "host_receipt_ref": null,
+      "binding": null
+    },
+    "completed": {
+      "execution": "NOT_RUN",
+      "host_receipt_ref": null,
+      "binding": null
+    }
+  },
+  "checkpoint": {
+    "checkpoint_id": null,
+    "resume_from": null,
+    "last_completed_stage": null,
+    "side_effect_status": "UNKNOWN",
+    "retry_requested": false,
+    "reconciliation_execution": "NOT_RUN",
+    "reconciliation_evidence_refs": [],
+    "prior_attempt_ref": null,
+    "remaining_budget_ref": null
+  },
+  "progress": {
+    "execution": "NOT_RUN",
+    "observed_progress_refs": [],
+    "blocking_facts": [],
+    "next_verifiable_step": null,
+    "stagnation_count": null,
+    "replan_count": null,
+    "max_replans": null,
+    "stop_condition": null,
+    "remaining_budget_ref": null
+  },
+  "stage_dependencies": {
+    "nodes": [],
+    "edges": []
+  },
+  "review_method": {
+    "execution": "NOT_RUN",
+    "reviewer_identity": null,
+    "author_method": null,
+    "independent_method": null,
+    "independence_basis_refs": [],
+    "deterministic_calculation_refs": [],
+    "full_scope_required_by_contract": null,
+    "coverage_refs": [],
+    "unverified_items": []
+  },
+  "risk_acceptance": {
+    "status": "NOT_DECIDED",
+    "authority": null,
+    "record_ref": null
+  },
+  "human_adjudication": {
+    "status": "NOT_DECIDED",
+    "identity": null,
+    "record_ref": null
+  },
+  "delivery": {
+    "execution": "NOT_RUN",
+    "result": "UNKNOWN",
+    "target": null,
+    "authorization_ref": null,
+    "evidence_refs": []
+  },
+  "metrics": {
+    "elapsed_seconds": null,
+    "model_calls": null,
+    "tool_calls": null,
+    "tokens": null,
+    "cost": null,
+    "currency": null,
+    "human_interventions": null,
+    "false_acceptances": null
+  },
+  "limitations": [
+    "示例没有执行；业务关键能力小样本只能在原协议全员 TEAM_READY 后进行。",
+    "空预检列表必须注明不适用及契约依据，不能表示已验证；工具不验证授权、真实身份或治理权限。",
+    "原模式的角色任期、指令/申领、审查、裁衡与交付记录仍是治理依据；此绑定只检查机械一致性。"
+  ]
+}

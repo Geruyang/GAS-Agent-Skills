@@ -16,11 +16,14 @@
     "所有检查均未执行；空的缺陷列表不代表通过。"
   ],
   "release_authorized": false,
-  "notes": "执行检查后记录真实命令、退出码、日志位置、时间和被检查提交；不要填入虚构的成功结果。",
+  "notes": "执行检查后记录真实命令、退出码、日志位置、时间和被检查提交；不要填入虚构的成功结果。 每项检查分别记录 execution 与 result；独立裁衡保留本记录 verdict；风险接受、人类决定与实际交付在运行证据附表分维引用，不引入管理接受权。",
   "run_id": "example-team-invitations",
   "reviewer_role": "arbiter",
   "reviewer_epoch": null,
   "rule_references": [],
   "dispute_ids": [],
-  "review_record_id": null
+  "review_record_id": null,
+  "runtime_evidence_ref": null,
+  "intent_coverage_matrix": [],
+  "review_method_ref": null
 }

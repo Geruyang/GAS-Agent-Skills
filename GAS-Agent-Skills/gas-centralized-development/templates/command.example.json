@@ -2,6 +2,7 @@
   "schema_version": 3,
   "example_only": true,
   "record_type": "command",
+  "runtime_evidence_ref": null,
   "run_id": "example-team-invitations",
   "command_id": null,
   "assignment_id": null,
@@ -18,6 +19,16 @@
   "head_commit": null,
   "artifact_digest": null,
   "issued_at": null,
+  "sent_at": null,
+  "send_receipt_ref": null,
+  "received_at": null,
+  "receipt_ref": null,
+  "started_at": null,
+  "start_evidence_ref": null,
+  "completed_at": null,
+  "completion_evidence_ref": null,
+  "latest_checkpoint_ref": null,
+  "next_action": null,
   "expires_at": null,
   "revoked": false,
   "acknowledged": false,
@@ -35,5 +46,5 @@
     "charged_to_run": true
   },
   "preconditions_verified": false,
-  "note": "这是未签发的审查指令示例。实际签发、确认、任期和时间必须有真实记录；任务、审查与交付只引用该权威指令。"
+  "note": "这是未签发的审查指令示例。实际签发、发送、接收、理解确认、开始、完成、任期和时间必须有真实证据；发送返回不等于开始，完成不等于技术通过。任务、审查与交付只引用该权威指令；附表观察须绑定同一指令。"
 }

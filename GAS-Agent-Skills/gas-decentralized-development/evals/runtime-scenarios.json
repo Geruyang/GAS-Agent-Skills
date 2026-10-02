@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "mode": "decentralized",
+  "execution_status": "NOT_RUN",
+  "scope": "Local file/CLI fault specifications; not executed agent-team or governance comparison.",
+  "runner": "tests/run_runtime_experiments.py in the source bundle; independent skill runtime remains scripts/gas_runtime.py",
+  "cases": [
+    {
+      "id": "normal",
+      "status": "NOT_RUN",
+      "expected_exit_code": 0,
+      "expected_technical_evidence_ready": true,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "changed_during_review",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "missing_file",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "added_file",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "empty_checks",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "not_run_claims_pass",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "risk_accepts_failed_check",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "unknown_side_effect_retry",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "confirmed_absent_retry",
+      "status": "NOT_RUN",
+      "expected_exit_code": 0,
+      "expected_technical_evidence_ready": true,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "already_applied_retry",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "preflight_wrong_output",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "preflight_missing_output",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "receipt_wrong_epoch",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "receipt_missing_started",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "dependency_order",
+      "status": "NOT_RUN",
+      "expected_exit_code": 0,
+      "expected_technical_evidence_ready": true,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "dependency_cycle",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "historical_binary_preflight",
+      "status": "NOT_RUN",
+      "expected_exit_code": 0,
+      "expected_technical_evidence_ready": true,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    },
+    {
+      "id": "historical_preflight_wrong_target",
+      "status": "NOT_RUN",
+      "expected_exit_code": 1,
+      "expected_technical_evidence_ready": false,
+      "observed_result": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost": null
+    }
+  ]
+}
