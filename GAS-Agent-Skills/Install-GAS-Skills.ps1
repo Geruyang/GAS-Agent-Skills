@@ -10,7 +10,7 @@ Validation scope and Windows smoke-test results are recorded in VALIDATION.md.
 param(
     [Parameter()]
     [ValidateNotNullOrEmpty()]
-    [string] $Destination = 'E:\AIProject\GAS'
+    [string] $Destination = (Join-Path ([Environment]::GetFolderPath('UserProfile')) '.agents\skills')
 )
 
 Set-StrictMode -Version Latest

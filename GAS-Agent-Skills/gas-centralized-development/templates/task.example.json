@@ -54,7 +54,10 @@
   "test_plan": {
     "commands": [],
     "status": "NOT_CONFIGURED",
-    "note": "先读取真实仓库确定命令与环境；不得把示例验收标准伪装成已存在测试。"
+    "note": "先读取真实仓库确定命令与环境；不得把示例验收标准伪装成已存在测试。",
+    "code_owner_identity": null,
+    "code_paths": [],
+    "execution_evidence_refs": []
   },
   "evidence": [],
   "blocking_issues": [
@@ -95,5 +98,15 @@
     "required": true,
     "status": "NOT_RUN",
     "report_refs": []
-  }
+  },
+  "execution_assignment": {
+    "executor_identity": null,
+    "task_id": "INVITE-API-001",
+    "allowed_paths": [
+      "src/invitations/**",
+      "tests/unit/invitations/**"
+    ],
+    "verification_owner_identity": null
+  },
+  "resource_locks": []
 }

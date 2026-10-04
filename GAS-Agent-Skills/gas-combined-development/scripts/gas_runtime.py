@@ -273,7 +273,7 @@ def assess(candidate, manifest_path, record_path):
         need((type(epoch) is int and epoch >= 0) or (isinstance(epoch, str) and bool(epoch.strip())), "missing epoch")
         need(binding.get("candidate_digest") == expected_digest, "candidate binding mismatch")
 
-    evidence, evidence_digests, evidence_paths = {}, {}, {}
+    evidence, evidence_digests, evidence_paths, observed_evidence = {}, {}, {}, {}
     entries = record.get("evidence", [])
     if need(isinstance(entries, list), "evidence must be an array"):
         for entry in entries:
@@ -286,11 +286,13 @@ def assess(candidate, manifest_path, record_path):
                 require(isinstance(source_digest, str) and DIGEST.fullmatch(source_digest), "bad evidence input digest: " + name)
                 path = record_path.parent / relative_name(entry.get("path"))
                 data = read_regular(path)
+                # Preserve the observed bytes for readback even when validation fails.
+                evidence_paths[name] = path
+                observed_evidence[name] = data
                 require(bool(data), "empty evidence: " + name)
                 require(entry.get("sha256") == digest_bytes(data), "evidence hash mismatch: " + name)
                 evidence[name] = data
                 evidence_digests[name] = source_digest
-                evidence_paths[name] = path
             except (OSError, ValueError, TypeError) as exc:
                 issues.append("invalid evidence: " + str(exc))
 
@@ -406,7 +408,7 @@ def assess(candidate, manifest_path, record_path):
     # drift; it is not a filesystem lock or protection against hostile writers.
     try:
         for name, path in evidence_paths.items():
-            need(read_regular(path) == evidence[name], "evidence changed during assessment: " + name)
+            need(read_regular(path) == observed_evidence[name], "evidence changed during assessment: " + name)
         need(read_regular(record_path) == record_bytes, "runtime record changed during assessment")
         final_verification = verify_candidate(candidate, manifest_path)
         need(final_verification["ok"] and final_verification["candidate_digest"] == expected_digest,

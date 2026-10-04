@@ -22,7 +22,8 @@
     "limitations": [
       "运行器能力尚未探测；不能把此示例当作已建立的权限或审批。"
     ],
-    "three_distinct_identities_verified": false
+    "three_distinct_identities_verified": false,
+    "planned_roster_identities_verified": false
   },
   "budget": {
     "max_active_workers": 1,
@@ -35,7 +36,7 @@
     "max_cost": null,
     "currency": null,
     "max_elapsed_minutes": null,
-    "note": "仅为可调整的试运行建议；max_active_agents=3 仅计治理子 agent。全局总额包含三个治理子 agent、主会话通信与机械转接、规划、工具、测试与评审，评审预留不是额外额度。未测量的指标必须报告为未知。",
+    "note": "仅为可调整的试运行建议；N=1 默认 max_active_workers=1、max_active_agents=3，实际按已确认 N 与 N+2 登记。全局总额包含完整 N+2 名治理子 agent、主会话通信与机械转接、规划、工具、测试与评审，评审预留不是额外额度。未测量的指标必须报告为未知。",
     "max_active_agents": 3
   },
   "controls": {
@@ -63,7 +64,8 @@
     "authority": "effective-versioned-contract",
     "state_writer": "single-writer-tool",
     "fallback": "waiting-for-team-no-main-session-execution",
-    "notes": "工具单写登记不获得治理权；可选原子后端须验证能力，不新增执行席。"
+    "notes": "默认 N=1 保留 single-executor-self-claim；N>1 用 peer-executor-self-claim，协商具名任务、开发/测试路径与共享资源后尽可能并行全部就绪独立任务；共享冲突串行。公共记录通过真实原子服务或单写工具登记；工具单写不获得治理权。",
+    "parallel_method": "peer-executor-self-claim"
   },
   "state_location": ".gas/runs/example-team-invitations/",
   "release_approval": null,
@@ -94,7 +96,7 @@
     "role_combination_allowed": false,
     "majority_override_allowed": false,
     "replacement_authority_record": null,
-    "note": "三个独立子 agent 分别担任立规、执行、裁衡；agent_count=3 仅计治理子 agent。主会话仅展示与宿主必要机械转接，不占席、不行使治理或实施权；总会话为 3 子 agent 加 1 展示主会话。"
+    "note": "三类平级职能，默认 N=1、agent_count=3；实际 N 名具名执行者加立规者、裁衡者，共 N+2 个独立子 agent。主会话仅展示与宿主必要机械转接，不占席、不行使治理或实施权。roles.executor 为默认单执行者兼容记录，多执行者以 execution_team.executor_roster 和 role_hosting.roster 核对，不增加指挥/监督职能。"
   },
   "contract": {
     "status": "DRAFT",
@@ -122,7 +124,8 @@
     "feasibility_evidence_refs": [],
     "intent_coverage_matrix": [],
     "acceptance_note": "acceptance_criteria 保留原文；acceptance_items 逐项绑定意图、规则、方法、环境与证据要求。生效前补齐验收定义与 PLANNED 计划覆盖；OBSERVED 实测覆盖和最终候选在验收前据实填写，不要求生效前完成产品。示例不是已获准契约。",
-    "feasibility_trial_permission_ref": null
+    "feasibility_trial_permission_ref": null,
+    "executor_feasibility_records": []
   },
   "human_intent": {
     "version": null,
@@ -149,6 +152,15 @@
       "arbiter"
     ],
     "roster": [],
-    "verified": false
+    "verified": false,
+    "note": "required_distinct_subagents_minimum=3 和 required_roles 是 N=1 最低默认配置；实际完整名单、确认及全员就绪须覆盖 execution_team.planned_distinct_subagents=N+2，不能用旧 three_distinct_identities_verified 代替完整名单核对。"
+  },
+  "execution_team": {
+    "executor_count": 1,
+    "count_source": "default",
+    "planned_distinct_subagents": 3,
+    "executor_roster": [],
+    "assignments": [],
+    "note": "默认示例未组建；实际按用户指定数量、真实身份、任务/路径/验证归属登记。计划人数=N+2，独立模块尽可能并行；具名执行者同时负责开发及该项测试/验证代码、实际验证和执行监控，协商共享资源，无平级指挥权。"
   }
 }

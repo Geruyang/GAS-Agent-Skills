@@ -125,7 +125,10 @@
     "deterministic_calculation_refs": [],
     "full_scope_required_by_contract": null,
     "coverage_refs": [],
-    "unverified_items": []
+    "unverified_items": [],
+    "executor_output_refs": [],
+    "supervisor_output_refs": [],
+    "supplement_request_refs": []
   },
   "risk_acceptance": {
     "status": "NOT_DECIDED",
@@ -157,6 +160,43 @@
   "limitations": [
     "示例没有执行；业务关键能力小样本只能在原协议全员 TEAM_READY 后进行。",
     "空预检列表必须注明不适用及契约依据，不能表示已验证；工具不验证授权、真实身份或治理权限。",
-    "原模式的角色任期、指令/申领、审查、裁衡与交付记录仍是治理依据；此绑定只检查机械一致性。"
-  ]
+    "原模式的角色任期、指令/申领、审查、裁衡与交付记录仍是治理依据；此绑定只检查机械一致性。",
+    "分工、并行约束与监控扩展由具名治理角色据实核对；gas_runtime机械证据检查不自动验证全部登记、人数授权、板卡测量能力或安全状态。"
+  ],
+  "verification_ownership": {
+    "executor_identity": null,
+    "task_ref": null,
+    "test_code_paths": [],
+    "execution_evidence_refs": [],
+    "analysis_owner_identity": null,
+    "supplement_request_refs": []
+  },
+  "parallel_dispatch": {
+    "policy": "maximize_independent_ready_tasks_after_team_ready",
+    "execution": "NOT_RUN",
+    "constraints": [],
+    "resource_allocations": [],
+    "schedule_refs": [],
+    "note": "全员就绪后主动尽可能并行独立就绪任务；仅文件冲突、真实共享板卡烧录/调试、依赖或预算限制约束范围，逐项登记占用者、原因与释放条件。监控可与实现和输出就绪部分审查并行；AGENT-01屏障优先。"
+  },
+  "supervision_monitoring": {
+    "reports_to": "inner.coordinator",
+    "target_executor_identities": [],
+    "target_reviewer_identity": null,
+    "intent_ref": null,
+    "execution": "NOT_RUN",
+    "board_applicability": null,
+    "voltage_current_sampling_available": null,
+    "thresholds_ref": null,
+    "observations": [],
+    "unmeasurable_items": [],
+    "report_refs": [],
+    "note": "持续覆盖全部具名内层执行者和审查者，报告板卡电压/电流/运行、agent工作状态和软硬件异常；观察项记录对象、来源、时间、单位、实际值、阈值依据、异常证据及处置请求。未知采样或阈值标记不可测/未知；无板卡须有不适用依据，未测不写安全或正常。每条观察分别记录sampled_at、evaluated_at、freshness_rule_ref及有效窗口（freshness_window_seconds单位为秒）；无新鲜度依据、采样时刻不明或采样过期时当前评估INCONCLUSIVE/不可用，不用旧正常值写安全。单一通道不可测只阻塞依赖该通道的硬件动作及门禁，登记affected_action_refs和解除条件，不等同监督角色整体失联；角色身份/通信/独立履职整体能力缺失才关闭全员屏障，已有暂停授权仍生效。",
+    "sampled_at": null,
+    "evaluated_at": null,
+    "freshness_rule_ref": null,
+    "freshness_window_seconds": null,
+    "freshness_status": "NOT_ASSESSED",
+    "affected_action_refs": []
+  }
 }

@@ -43,9 +43,9 @@ class SeparationContractTests(unittest.TestCase):
         self.mutate('run', lambda d: d.pop('governance', None))
         self.assert_bad(':separation:three-roles')
 
-    def test_extra_implementation_worker_rejected(self):
+    def test_workers_cannot_exceed_configured_executor_count(self):
         self.mutate('run', lambda d: d['budget'].update(max_active_workers=2))
-        self.assert_bad(':separation:single-executor')
+        self.assert_bad(':separation:executor-capacity')
 
     def test_dispatch_cannot_restore_multiple_worker_race(self):
         self.mutate('run', lambda d: d['dispatch'].update(method='atomic-self-claim'))

@@ -41,6 +41,8 @@
 
 ```bash
 python -B GAS-Agent-Skills/verify_bundle.py
+python -B GAS-Agent-Skills/scripts/sync_shared_assets.py --check
+python -B GAS-Agent-Skills/scripts/update_manifest.py --check
 python -B -m unittest discover -s GAS-Agent-Skills/tests -v
 python -B GAS-Agent-Skills/gas-centralized-development/scripts/validate_skill.py
 python -B -m unittest discover -s GAS-Agent-Skills/gas-centralized-development/tests -v
@@ -49,6 +51,22 @@ python -B -m unittest discover -s GAS-Agent-Skills/gas-centralized-development/t
 使用 `-B` 避免产生缓存。包级校验覆盖集权、分权的结构与模板，以及含组合目录的全包 SHA-256；它不是组合治理的行为验证器。各模式的评估场景保留未执行模板状态，真实运行结果单独记录。
 
 技能包内的文件变更会影响 `GAS-Agent-Skills/manifest.sha256.json`。确认变更内容后同步更新对应文件的 SHA-256，并再次运行完整包校验；新增或删除文件也要更新清单。不要仅为消除失败而更新哈希。只修改根目录 README、社区文件或许可证时，无需修改技能包清单。
+
+共享资源以 `gas-centralized-development` 为规范来源：`scripts/gas_runtime.py`、`references/runtime-evidence.md`、`references/research-basis.md` 保留三份独立副本。先审查规范来源的修改，再执行同步。工具也检查三份 `SKILL.md` 的 AGENT-01 段落；段落不一致时会在写入资源前停止，须人工核对，工具不会自动改写或移走启动规则。
+
+```bash
+git diff HEAD -- GAS-Agent-Skills
+python -B GAS-Agent-Skills/scripts/sync_shared_assets.py --write
+git diff HEAD -- GAS-Agent-Skills
+git status --short -- GAS-Agent-Skills
+python -B GAS-Agent-Skills/scripts/update_manifest.py --check
+# 核对上述差异以及新增/删除文件，确认每一项均属预期后才更新清单。
+python -B GAS-Agent-Skills/scripts/update_manifest.py --write
+python -B GAS-Agent-Skills/scripts/update_manifest.py --check
+python -B GAS-Agent-Skills/verify_bundle.py
+```
+
+两个维护工具省略参数时均为只读检查；`--write` 才写入，`--root` 指定技能包根目录（默认是脚本所在的 `GAS-Agent-Skills`）。清单更新按 POSIX 相对路径排序，排除所有 `manifest.sha256.json` 文件和 `__pycache__`；工具拒绝路径中的符号链接与 Windows reparse point。共享文件逐个原子替换，不提供整批事务；请在无其他进程改写技能包时维护，并完成上述复核。
 
 ## 交流与许可
 

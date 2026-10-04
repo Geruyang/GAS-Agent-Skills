@@ -41,5 +41,75 @@
   ],
   "notes": "监督报告只提供下属行为证据，向指挥者汇报；不监督指挥者，不替代技术验证或管理决定。",
   "reports_to_role": "coordinator",
-  "reports_to_identity": null
+  "reports_to_identity": null,
+  "monitoring": {
+    "subordinate_agent_status": {
+      "status": "NOT_RUN",
+      "source_ref": null,
+      "observations": [],
+      "sampled_at": null,
+      "evaluated_at": null,
+      "freshness_rule_ref": null,
+      "validity_window": null
+    },
+    "board_voltage": {
+      "status": "NOT_RUN",
+      "source_ref": null,
+      "observations": [],
+      "unit": "V",
+      "threshold_ref": null,
+      "sampled_at": null,
+      "evaluated_at": null,
+      "freshness_rule_ref": null,
+      "validity_window": null
+    },
+    "board_current": {
+      "status": "NOT_RUN",
+      "source_ref": null,
+      "observations": [],
+      "unit": "A",
+      "threshold_ref": null,
+      "sampled_at": null,
+      "evaluated_at": null,
+      "freshness_rule_ref": null,
+      "validity_window": null
+    },
+    "board_runtime": {
+      "status": "NOT_RUN",
+      "source_ref": null,
+      "observations": [],
+      "sampled_at": null,
+      "evaluated_at": null,
+      "freshness_rule_ref": null,
+      "validity_window": null
+    },
+    "software_anomalies": {
+      "status": "NOT_RUN",
+      "source_ref": null,
+      "observations": [],
+      "sampled_at": null,
+      "evaluated_at": null,
+      "freshness_rule_ref": null,
+      "validity_window": null
+    },
+    "hardware_anomalies": {
+      "status": "NOT_RUN",
+      "source_ref": null,
+      "observations": [],
+      "sampled_at": null,
+      "evaluated_at": null,
+      "freshness_rule_ref": null,
+      "validity_window": null
+    }
+  },
+  "monitoring_capabilities": {
+    "authorization_ref": null,
+    "tools": [],
+    "verified": false,
+    "safety_guaranteed": false,
+    "limitations": [
+      "未核实监测权限、手段、阈值及读数；无监测手段不能保证安全。",
+      "尚无采样时刻、评估时刻或新鲜度依据；过期或无法判断新鲜度的遥测不可用，不能写安全结论。"
+    ]
+  }
 }

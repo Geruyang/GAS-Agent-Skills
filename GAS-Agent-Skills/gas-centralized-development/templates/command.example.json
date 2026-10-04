@@ -39,7 +39,15 @@
     "allowed_paths": [],
     "allowed_external_actions": [],
     "mandatory_gate_ids": [],
-    "expected_output": "对指定成果形成真实验证记录；不代表要求得出通过结论。"
+    "expected_output": "接收执行者与监督者输出，独立分析精确产物及问题；只读检查或复跑已有命令，不编写／修改测试验证代码，补证请求交指挥者派给具名执行者。",
+    "input_refs": {
+      "executor_outputs": [],
+      "supervisor_outputs": []
+    },
+    "verification_code_owner_identity": null,
+    "verification_code_paths": [],
+    "reviewer_may_write_verification_code": false,
+    "resource_lock_refs": []
   },
   "budget": {
     "max_tool_calls": 10,

@@ -16,7 +16,7 @@
 
 ## 1. 运行结构与记录
 
-由用户或已有授权机制指定指挥者子 agent，明示技术与交付决策范围。默认完整团队包含 4 个身份互不相同的真实子 agent：指挥者、执行者、审查者、监督者；所有模式角色必须由子 agent 承担，主会话不占任何席位。四类身份和新增的必需成员均计入已确认名单及 `TEAM_READY`，不能用主会话兼任或缩减名单补足缺席。
+由用户或已有授权机制指定指挥者子 agent，明示技术与交付决策范围。执行者数量 N≥1，用户可指定；默认 N=1，完整团队包含 4 个身份互不相同的真实子 agent。实际团队由 N 名执行者及指挥者、审查者、监督者组成，共 N+3 名；所有模式角色必须由子 agent 承担，主会话不占任何席位。四类身份和新增的必需成员均计入已确认名单及 `TEAM_READY`，不能用主会话兼任或缩减名单补足缺席。
 
 主会话是进展展示和人类交互窗口，展示具名子 agent 提供的状态、结果与待答事项，不生成业务计划或结论。只有宿主接口确需主会话调用时，才依人类最终确认的名单或具名角色的有效指令机械转接创建、通知、回执；转接记录保留来源、目标与原始内容，不能重写范围、优先级、角色决定或补造回执。主会话不实施代码／产物改动、不运行业务测试、不作裁决、验收或发布，也不代指挥者签发业务命令。接口能力不足时报告限制并等待，不能把机械转接扩展成代行角色工作。
 
@@ -38,7 +38,7 @@ v3 中技术验证、下属监督和管理决定是三种独立记录。不能�
 
 ### 1.1 运行前依据与关键能力预检
 
-`TEAM_READY` 并统一启动后、具体任务实施前，指挥者在 [独立运行证据附表](runtime-evidence.md) 中登记任务可拆分性、依赖、共享写入、失败后果及选择理由；运行契约的治理模式与实际采用的串行、并行或分阶段执行拓扑分别记录。共享写入按路径／资源指定写入者及交接点；依赖未满足或写入冲突未消除的任务不并行。执行拓扑建议不改变用户选定的治理模式，也不改变指挥者及三类下属的权责。
+`TEAM_READY` 并统一启动后、具体任务实施前，指挥者在 [独立运行证据附表](runtime-evidence.md) 中登记任务可拆分性、依赖、共享写入、失败后果及选择理由；运行契约的治理模式与实际采用的串行、并行或分阶段执行拓扑分别记录。指挥者主动把工作拆成尽可能多的就绪独立任务并行分派，每名执行者具名绑定任务、允许路径、开发交付与验证责任；不把多名执行者都设为同一可变任务的默认写者。共享写入按路径／资源指定写入者及交接点；依赖未满足或写入冲突未消除的任务不并行。并发上限是额度而非执行人数；不得用示例 max_active_workers=2 推断已组建两名执行者。路径冲突、共享板卡烧录、在线调试器会话使用显式独占资源锁；锁记录资源、持有者、任务、允许操作、获得／释放证据及等待关系。只串行锁冲突动作，锁外的分析、开发和验证继续在预算内并行；同一板卡只读观测是否可并行需核对工具能力及授权，未知时不假设可共享。执行拓扑建议不改变用户选定的治理模式，也不改变指挥者及三类下属的权责。
 
 组建前只核对创建、身份、角色加载、交互与回执等组建能力；涉及项目产物的技术小样本属于业务动作，必须在 `TEAM_READY` 并统一启动后、批量制作前完成。针对会决定后续工作可行性的关键能力，用最小代表性输入核对真实环境、输出是否存在、能否打开／解析及所需质量，不用进程退出 0 代替产物成功。已存在的预检只要输入范围、工具／环境版本、目标要求与有效期仍匹配即可引用；说明复用依据，有影响变化才重做受影响部分。
 
@@ -66,9 +66,9 @@ v3 中技术验证、下属监督和管理决定是三种独立记录。不能�
 
 指挥者管理所有职能，有任命、任务划定、优先级、资源、暂停、替换与复核组织权。独立审查只要求相对于被审查变更的作者独立判断，不要求审查者拥有独立调度权或成为第二个最终决策者。
 
-指挥者兼任作者时，可以在独立验证后做管理接受；不得自己充当该变更的独立审查者。任何实现、测试或冲突修复的修改者计入相关作者集合；审查者改过实现，须换实际独立审查者或人类复核新版本。平台额外要求另一审批身份时仍要满足。
+指挥者兼任作者时，可以在独立验证后做管理接受；不得自己充当该变更的独立审查者。任何实现、测试或冲突修复的修改者计入相关作者集合；若审查者已违规改过实现或测试验证代码，保留违规记录，须换实际独立审查者或人类复核新版本；换人不能把本轮违规变为获准职责。平台额外要求另一审批身份时仍要满足。
 
-审查者应从需求、代码和实际结果建立判断，不仅阅读指挥者或执行者的成功总结。不同身份不保证统计独立，多数投票不能取代证据。worktree 不是安全沙箱，单会话角色切换不是独立审查。
+审查者主要接收执行者的实现、验证代码及执行证据和监督者的行为／状态／异常报告，从需求、精确代码和原始结果独立分析问题，不仅阅读成功总结。审查者不编写或修改测试、验证脚本、断言、夹具或验证配置；独立方法限定为只读检查、证据对照及复跑已有命令，复跑不等于编写验证代码。任何需新增／修改验证代码的缺口由指挥者分派给具名执行者，完成后重新提交精确候选与独立审查。不同身份不保证统计独立，多数投票不能取代证据。worktree 不是安全沙箱，单会话角色切换不是独立审查。
 
 真实限制由运行器、仓库保护、凭证与发布服务实施。发布凭证不交给执行者或监督者；指挥者通过获准工具承担交付，不自动获得管理员绕过凭证。发现共享管理员权限，报告隔离未建立；不把提示词自律说成强制隔离。
 
@@ -76,7 +76,7 @@ v3 中技术验证、下属监督和管理决定是三种独立记录。不能�
 
 验收标准映射到实际测试或具名人工检查，明确哪些为必选门槛。每项检查记录检查 ID、适用标准、命令或具名人工方法、环境、时间、退出码／实际结果、日志位置和精确产物。未执行写 `NOT_RUN`；无法判定写 `INCONCLUSIVE`；空缺陷列表不证明通过。
 
-执行者可新增范围内的测试，不可为通过而删掉、跳过或放宽保护检查。分别报告模块、自测、完整项目、独立审查和最终集成验证。缺环境时披露缺口，不把局部绿灯当全部绿灯。
+每名具名执行者对其独立任务同时承担开发与验证，按范围编写／修改测试验证代码并执行；测试计划绑定执行者身份、任务、代码路径与原始证据；指挥者集成候选新增／修改验证代码也分派给具名执行者，不能以集成发布职责代替验证代码作者归属。审查者发现验证不足只分析并提出具体验证需求，由指挥者交具名执行者补证，不能把审查身份当成写验证代码的许可。执行者不可为通过而删掉、跳过或放宽保护检查。分别报告模块、自测、完整项目、独立审查和最终集成验证。缺环境时披露缺口，不把局部绿灯当全部绿灯。
 
 原始审查报告不可覆盖、删除或隐匿；修正用追加记录，引用被修正记录与新证据。指挥者可决定是否采纳建议，不能把实际失败改成成功或让审查者撤回真实事实。
 
@@ -112,7 +112,7 @@ v3 中技术验证、下属监督和管理决定是三种独立记录。不能�
 
 角色齐备但独立审查证据尚未完成时，任务记 `AWAITING_INDEPENDENT_REVIEW`；必需监督覆盖尚未完成时记 `AWAITING_SUPERVISION`，保留已有成果、实际记录和证据缺口，不作管理 ACCEPT 或交付放行。角色身份／能力本身缺席时，以上证据状态不能解除 `WAITING_FOR_TEAM`。不以人类临时技术复核替代应在席的审查者子 agent；原契约允许的人类复核仍可提供独立技术证据。
 
-没有可信调度服务时，由当前指挥者子 agent 在权限内串行维护业务状态，不宣称自动故障切换；缺少该子 agent 或其必要工具能力则等待补齐。没有强制门禁，报告流程限制并不执行未获授权高风险动作。没有持久化工具就保留并展示恢复摘要，不保证重启无损；没有异步工具不承诺后台继续。
+没有可信调度服务时，由当前指挥者子 agent 在权限内单写维护控制状态，业务任务仍按依赖、资源锁及预算尽可能并行，不宣称自动故障切换；缺少该子 agent 或其必要工具能力则等待补齐。没有强制门禁，报告流程限制并不执行未获授权高风险动作。没有持久化工具就保留并展示恢复摘要，不保证重启无损；没有异步工具不承诺后台继续。
 
 ### CHANGE-01：授权内技术裁决，边界外才升级
 
@@ -144,6 +144,8 @@ v3 中技术验证、下属监督和管理决定是三种独立记录。不能�
 
 接任由原授权者或预先批准的恢复机制确认，接任者仍须是真实子 agent，并按 AGENT-01 完成必要的创建／替换及全员就绪核对。由恢复后的指挥者子 agent 核对持久计划、确认／撤销记录、在途指令、预算和外部副作用。未经授权不能同伴投票设立新指挥者；主会话不因持有工具而继任，不盲目重派所有任务。
 
+普通具名执行者失联后需要替换时，指挥者关闭全员就绪屏障，按原 AGENT-01 确认替换配置与职责；明确撤销旧指令，撤销与旧身份关联的暂停委托，并登记撤销来源、范围和回执。核对旧执行者的文件写入及设备控制已停止，或真实控制能力／凭证已撤权；只发撤销消息不等于旧进程和设备会话已停止。未知设备占用不凭超时自动释放资源锁，不给新执行者并发烧录／调试或重入旧写入范围。保留旧作者、候选、检查与累计预算记录，核对检查点和实际副作用，再把任务与验证归属重新绑定到新具名执行者；旧证据按适用性核对，不能改成新执行者完成。按原 AGENT-01 核齐新确认名单并恢复 TEAM_READY 后签发新指令恢复，不能跳过原全员就绪屏障。
+
 通过完整任务契约、批量状态回报与确定性检查减少瓶颈；不要要求所有角色上交全部聊天历史，也不要增加没有明确价值的管理层。
 
 ### CEN-03：所有动作绑定任期、版本与确认
@@ -154,11 +156,11 @@ v3 中技术验证、下属监督和管理决定是三种独立记录。不能�
 
 旧产物、技术验证和监督事实可在核对版本、身份、覆盖和兼容性后重新引用，但不能复活旧权限。无关计划变化不强制重测全部；影响当前输入或标准的变化必须重验。监督结论还要对应被监督者、指令与行为时间段，不能用一次巡检证明之后没有违规。
 
-副作用重试前查幂等记录和外部状态。缺少任期／幂等服务时受控串行并如实说明，不宣称自动防重。
+副作用重试前查幂等记录和外部状态。缺少任期／幂等服务时，对共享控制写入及相关副作用受控串行并如实说明，锁外就绪独立开发／验证任务仍尽可能并行；不宣称自动防重。
 
 ### CEN-04：审查管理与争议处置
 
-指挥者任命审查者，指定范围、必选检查、重点、时限和预算，可要求补证、复核或合理替换。时限仅决定何时报告／暂停，不把未完成审查自动转为通过；调节审查重点不能删除必选范围。
+指挥者任命审查者，指定范围、必选检查、重点、时限和预算，可要求分析补证需求、复核或合理替换。审查者主要接收执行者与监督者输出，通过只读分析、原始证据对照或复跑已有命令核对问题，禁止编写／修改测试验证代码；相关补证代码只派给具名执行者。审查独立性与所有必选检查要求保持有效，不把只接收输出理解为信任自述或取消独立判断。时限仅决定何时报告／暂停，不把未完成审查自动转为通过；调节审查重点不能删除必选范围。
 
 审查发现必须分类并给出依据：
 
@@ -198,7 +200,7 @@ REWORK 分派返工，PAUSE 暂停，ESCALATE 提出最小授权问题，REJECT 
 
 监督者的目标只能是执行者和审查者：检查规则遵守、不安全行为、是否正确理解指挥者的目标／范围／禁止项／验收。它受指挥者指定、排期、暂停、取消、补证、重派及合理替换，向当前指挥者汇报。它不监督指挥者，不批准其决定，不设“指挥者监督通过”关卡，不接管集成发布。指挥者唯一的角色监督者是人类；不能把“正式上级”或其他Agent代替人类。
 
-监督取证要核对原指令及版本、理解回执、实际工具调用／改动／日志、对应规则和身份。发现按 RULE_VIOLATION、UNSAFE_ACTION、INSTRUCTION_MISUNDERSTANDING 分类，另标 ADVISORY／BLOCKING／UNRESOLVED_RISK 和证据。报告含 finding_id、subject_role（仅executor/reviewer）、subject_identity、command_ref、requirement_ref、expected_behavior、observed_behavior、evidence_refs、severity、status、observed_at、recommended_action。不知道写INCONCLUSIVE，不把未观察到等同于不存在。
+监督取证要核对原指令及版本、理解回执、实际工具调用／改动／日志、对应规则和身份，分析执行者与审查者行为是否符合指挥者的目标、范围、禁止项与验收意图。另监测全部下属 agent（每名执行者及审查者）的实际状态、停滞／失联／失败；在可用且获准的监测手段下记录板卡电压、电流与运行状态，识别软件和硬件异常并向指挥者汇报。每次观测绑定来源、设备／agent身份、时间、单位、阈值依据和原始证据；记录 sampled_at（采样时刻）、evaluated_at（评估时刻）、freshness_rule_ref（适用新鲜度规则依据）与 validity_window（有效窗口起止或带单位时长），不能用报告签发时间替代采样时间。复用监测数据时对照当前评估时刻核对输入／设备／任务及该窗口；无新鲜度依据、采样时刻未知或采样过期，记录 INCONCLUSIVE／不可用，保留旧事实但不得写当前正常、安全或排除风险，也不能改成 NOT_RUN 隐去历史采样；缺权限、手段、有效读数或安全阈值分别写 UNKNOWN／NOT_RUN／INCONCLUSIVE，不伪称已测得、正常或安全。无监测手段不能保证板卡或系统安全；未知阈值不能凭经验自定正常，补能力／阈值需求并请求指挥者处理。硬件观测不是监督指挥者的治理决定，也不自动扩大监督者的暂停／工具权限。发现按 RULE_VIOLATION、UNSAFE_ACTION、INSTRUCTION_MISUNDERSTANDING 分类，另标 ADVISORY／BLOCKING／UNRESOLVED_RISK 和证据。报告含 finding_id、subject_role（仅executor/reviewer）、subject_identity、command_ref、requirement_ref、expected_behavior、observed_behavior、evidence_refs、severity、status、observed_at、recommended_action。不知道写INCONCLUSIVE，不把未观察到等同于不存在。
 
 监督者不得改实现、篡改审查结果、替人补写通过记录、自行派工、终止或发布。发现审查者伪造通过时保存原始声明和缺失证据，立即报告；指挥者安排补证／复核和暂停接受，监督者不直接覆盖原判定。技术审查与过程监督分别留档。监督者不能监督自己正在兼任的执行／审查工作；需真实另一身份，否则记录覆盖缺口。
 
@@ -206,7 +208,7 @@ REWORK 分派返工，PAUSE 暂停，ESCALATE 提出最小授权问题，REJECT 
 
 记录可用证据范围、取证时间段和无法观察的动作。指挥者可在原要求内调整监督重点和人选，不能让未完成覆盖变成通过、隐藏原报告或将真实硬阻塞降级。监督者保留追加历史、原报告与未决项；报告不是批准指挥者的权力。收到越权指令时不执行自身不合法部分并报告指挥者，仍遵守宿主或用户规定的升级路径。
 
-监督的预算与调用计入同一全局额度。既有适用监督证据可以明确核对后复用；不要求无意义重复巡检。监督者子 agent 或其必需能力缺席时保持 WAITING_FOR_TEAM，等待补齐；不得由主会话补位，也不虚构多Agent或通过记录。
+监督的预算与调用计入同一全局额度。既有适用监督证据可以明确核对后复用；不要求无意义重复巡检。监督者真实身份缺席，或独立履职的整体能力缺失时保持 WAITING_FOR_TEAM，关闭全员就绪屏障并等待补齐；不得由主会话补位，也不虚构多Agent或通过记录。单一遥测通道不可测、缺新鲜度依据或过期属于该通道覆盖缺口，报告 INCONCLUSIVE／不可用，阻塞受影响且依赖该监测的硬件动作及其接受／交付门槛，不把采样过期直接等同于角色缺席；在监督者仍能独立履职、其他必需身份就绪的前提下，锁外无关获准开发／验证可继续。风险处置仍立即汇报指挥者，监督者暂停他人动作须既有有效限定授权，通道故障不授予紧急停机权。
 
 ## 4. 状态与结构契约
 
@@ -237,11 +239,11 @@ BLOCKED、PAUSED、AWAITING_SUPERVISION 或 AWAITING_INDEPENDENT_REVIEW 恢复�
 
 附表 `binding` 与当前 run／task／command、接收者、任期、契约、候选摘要和幂等键逐项核对；`lifecycle` 保留各阶段真实宿主回执，原 command 时间字段引用同一事件，不把观察记录当第二份命令。附表 `progress` 是任务进展账本的引用／派生视图；`risk_acceptance` 或 `human_adjudication` 不能代替原 decision，附表 `delivery` 不能代替指挥者的真实交付回执。引用缺失、版本不符或副本冲突时先核对，不能选择其中较有利的一份放行。
 
-- **run**：approval、delegation、runtime、budget、controls、command_scope、supervision、delivery_responsibility 和 release_authorizations。delegation 仅列范围示意，`approved=false` 时不生效。task_ledger 引用实际任务及进展；budget.max_replans 是运行内累计重规划上限，null 表示尚未配置，不能解释为无限。
-- **task**：原任务字段保留；分别记录 verification、supervision、management_decision、integration 与 release 状态引用。dispatch 绑定开发 command_id；progress_ledger 按 1.2 填写，连续无进展阈值、重规划上限及剩余额度须先明确，示例 null 不提供执行额度。
+- **run**：execution_team登记executor_count（整数N≥1）、count_source（default／user／proposed；proposed仅是未授权计划）、executor_roster与assignments，每人按真实identity、task_ids、allowed_paths、verification_owner及test_code_paths绑定职责，planned_distinct_subagents=N+3；默认兼容role_hosting最低值4仅描述N=1的最小团队，实际确认名单按N+3核齐。review_policy声明审查只分析与复跑已有命令、验证代码由具名执行者承担；parallel_dispatch登记主动拆分与资源锁。approval、delegation、runtime、budget、controls、command_scope、supervision、delivery_responsibility 和 release_authorizations。delegation 仅列范围示意，`approved=false` 时不生效。task_ledger 引用实际任务及进展；budget.max_replans 是运行内累计重规划上限，null 表示尚未配置，不能解释为无限。
+- **task**：原任务字段保留；execution_assignment绑定executor_identity、task_id、allowed_paths与verification_owner_identity；test_plan增加code_owner_identity、code_paths与execution_evidence_refs，resource_locks引用实际冲突资源。分别记录 verification、supervision、management_decision、integration 与 release 状态引用。dispatch 绑定开发 command_id；progress_ledger 按 1.2 填写，连续无进展阈值、重规划上限及剩余额度须先明确，示例 null 不提供执行额度。
 - **command**：所有角色共用指令结构。`issued=false`、`acknowledged=false`、身份／时间为空意味着未签发。实际输入必须说明所针对的任务、提交／产物和允许动作。sent_at、received_at、started_at、completed_at 及对应 evidence／receipt 引用只记录真实阶段；latest_checkpoint_ref 与 next_action 供核对后恢复，不自动触发工具或副作用。
-- **review**：record_type=verification，review_assignment 绑定真实指挥者的 REVIEW／REVERIFY 指令；findings 为有 finding_id、category、requirement_id、evidence_refs、description、status 的数组。checks 中每项包含 check_id、required、scope、method、command_or_method、result、exit_code、environment、checked_at、artifact_ref、log_ref。仅具名人工方法可无退出码。
-- **supervision**：先读取并复用监督报告模板的字段结构，不只按正文另造同名schema。`scope`为对象，`scope.target_roles`只含executor/reviewer；`coverage`也是对象，固定rule_compliance、unsafe_actions、instruction_alignment三键，值为NOT_RUN／PASS／FAIL／INCONCLUSIVE；逐人细节放在checks/findings，不把scope或coverage改成数组。`reports_to_role=coordinator`，reports_to_identity绑定当前指挥者。assignment绑定指挥者命令；checks列实际方法、结果和日志，findings结构见CEN-07；pause_actions记录授权和回执。报告status为NOT_RUN／IN_PROGRESS／COMPLETE／INCONCLUSIVE；COMPLETE仅说明约定范围取证已完成，不代表无缺陷、技术通过或管理接受。缺run／contract／command绑定或必需可观察证据时保留真实空值、写明缺口并用INCONCLUSIVE，不伪造补齐。更正生成新报告并引用旧报告，原始记录不改写。
+- **review**：input_refs分别引用executor_outputs与supervisor_outputs，verification_ownership引用具名执行者及验证代码路径，reviewer_may_write_verification_code=false；补证请求指向指挥者，未补足不通过。record_type=verification，review_assignment 绑定真实指挥者的 REVIEW／REVERIFY 指令；findings 为有 finding_id、category、requirement_id、evidence_refs、description、status 的数组。checks 中每项包含 check_id、required、scope、method、command_or_method、result、exit_code、environment、checked_at、artifact_ref、log_ref。仅具名人工方法可无退出码。
+- **supervision**：先读取并复用监督报告模板的字段结构，不只按正文另造同名schema。`scope`为对象，`scope.target_roles`只含executor/reviewer；`coverage`也是对象，固定rule_compliance、unsafe_actions、instruction_alignment三键，值为NOT_RUN／PASS／FAIL／INCONCLUSIVE；逐人细节放在checks/findings，不把scope或coverage改成数组。新增monitoring分别记录subordinate_agent_status、board_voltage、board_current、board_runtime、software_anomalies、hardware_anomalies；各status、observations、source／threshold_ref及sampled_at、evaluated_at、freshness_rule_ref、validity_window保留实际事实或未知值；未执行示例时刻／窗口为空。每条observations有多次采样时也逐条保留采样时刻和证据；当前结论按适用有效窗口评估，不把缺监测或过期旧读数当安全。`reports_to_role=coordinator`，reports_to_identity绑定当前指挥者。assignment绑定指挥者命令；checks列实际方法、结果和日志，findings结构见CEN-07；pause_actions记录授权和回执。报告status为NOT_RUN／IN_PROGRESS／COMPLETE／INCONCLUSIVE；COMPLETE仅说明约定范围取证已完成，不代表无缺陷、技术通过或管理接受。缺run／contract／command绑定或必需可观察证据时保留真实空值、写明缺口并用INCONCLUSIVE，不伪造补齐。更正生成新报告并引用旧报告，原始记录不改写。
 
 
 - **decision**：record_type=management_decision，issued_by 和 coordinator_epoch 表示当前指挥者；verification_refs、supervision_refs、findings 的处置和未决计数绑定实际报告。risk_acceptance_refs 只引用实际例外记录，不改变技术结论或接受前提。advisory_dispositions 每项记录 finding_id、disposition（FIX／DEFER／DECLINE）、reason；DEFER 还需 owner 和 due_or_trigger。计数必须由真实报告核对，不是自填 0 即能放行。
@@ -253,7 +255,7 @@ BLOCKED、PAUSED、AWAITING_SUPERVISION 或 AWAITING_INDEPENDENT_REVIEW 恢复�
 
 用户已允许团队邀请功能、内部接口协调和测试环境部署，但未允许生产发布。指挥者决定内部接口，给前后端派工；接口变化在该授权内由指挥者更新契约，不重复请示。
 
-指挥者指定审查者重点验证越权、过期和重复邀请，同时保留所有必选检查。审查报告指出一项可维护性 ADVISORY，真实必选检查均通过；指挥者决定接受、把建议登记为后续任务，并安排集成候选验证和合并。
+指挥者把前后端独立任务分给两名执行者，各自开发并写验证代码、执行验证；共享接口写入使用资源锁，锁外就绪任务并行。指定审查者接收两名执行者与监督者输出，重点只读分析越权、过期和重复邀请，并可复跑已有命令，同时保留所有必选检查。验证代码缺口由指挥者派给具名执行者补齐，审查者不写测试。审查报告指出一项可维护性 ADVISORY，真实必选检查均通过；指挥者决定接受、把建议登记为后续任务，并安排集成候选验证和合并。
 
 随后指挥者签发对精确产物的测试环境 DEPLOY 指令，指挥者核对原授权与门禁后执行并记录真实状态，不另立审批中心。若出现可复现越权 BLOCKING，指挥者安排修复而不是命令审查者写 PASS；若需要生产发布，才就超出原授权的部分升级。本例未在真实项目执行。
 

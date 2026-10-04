@@ -2,14 +2,17 @@
 from __future__ import annotations
 
 import copy
+from contextlib import contextmanager
 import hashlib
 import importlib.util
 import json
 import os
+import stat
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,6 +76,20 @@ class RuntimeEvidenceTests(unittest.TestCase):
         write_json(self.record_path, record)
         return self.cli("assess", "--candidate", self.candidate, "--manifest", self.manifest,
                         "--record", self.record_path, code=code)
+
+    @contextmanager
+    def symlink_fixture(self, link, target):
+        try:
+            try:
+                link.symlink_to(target)
+                info = link.lstat()
+            except (OSError, NotImplementedError) as exc:
+                self.skipTest("Host cannot create symlinks: " + str(exc))
+            if not (stat.S_ISLNK(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400):
+                self.skipTest("symlink_to() did not create a symlink/reparse point on this host")
+            yield
+        finally:
+            link.unlink(missing_ok=True)
 
     def test_manifest_is_deterministic_and_root_independent(self):
         first = self.freeze()
@@ -156,15 +173,40 @@ class RuntimeEvidenceTests(unittest.TestCase):
                    "' -Target '" + str(target).replace("'", "''") + "' | Out-Null")
         created = subprocess.run(["powershell", "-NoProfile", "-NonInteractive", "-Command", command],
                                  capture_output=True, text=True)
-        if created.returncode != 0:
-            self.skipTest("Host cannot create junction: " + created.stderr)
         try:
+            if created.returncode != 0:
+                self.skipTest("Host cannot create junction: " + created.stderr)
+            try:
+                info = junction.lstat()
+            except OSError as exc:
+                self.skipTest("Host did not create a junction: " + str(exc))
+            if not getattr(info, "st_file_attributes", 0) & 0x400:
+                self.skipTest("Junction creation did not create a reparse point on this host")
             self.cli("manifest", "--candidate", self.candidate, "--output", self.manifest, code=2)
         finally:
-            # rmdir removes only this verified link, never the target directory.
-            self.assertTrue(junction.lstat().st_file_attributes & 0x400)
-            os.rmdir(junction)
+            try:
+                info = junction.lstat()
+            except FileNotFoundError:
+                pass
+            else:
+                # Non-recursive cleanup removes this link or empty stub, never target contents.
+                if stat.S_ISDIR(info.st_mode):
+                    os.rmdir(junction)
+                else:
+                    junction.unlink()
         self.assertEqual((target / "private.txt").read_bytes(), b"private")
+
+    def test_junction_fixture_skips_and_cleans_up_plain_directory_stub(self):
+        if os.name != "nt":
+            self.skipTest("Windows junction test")
+        junction = self.candidate / "junction"
+        junction.mkdir()
+        created = subprocess.CompletedProcess([], 0, stdout="", stderr="")
+        with mock.patch.object(subprocess, "run", return_value=created):
+            with self.assertRaises(unittest.SkipTest):
+                self.test_windows_junction_is_rejected_without_reading_target()
+        self.assertFalse(junction.exists())
+        self.assertEqual((self.folder / "outside-directory/private.txt").read_bytes(), b"private")
 
     def test_duplicate_json_keys_are_rejected(self):
         self.freeze()
@@ -175,16 +217,58 @@ class RuntimeEvidenceTests(unittest.TestCase):
         outside = self.folder / "outside.txt"
         outside.write_bytes(b"private")
         link = self.candidate / "linked.txt"
-        try:
-            link.symlink_to(outside)
-        except (OSError, NotImplementedError) as exc:
-            self.skipTest("Host cannot create symlinks: " + str(exc))
-        self.cli("manifest", "--candidate", self.candidate, "--output", self.manifest, code=2)
-        link.unlink()
+        with self.symlink_fixture(link, outside):
+            self.cli("manifest", "--candidate", self.candidate, "--output", self.manifest, code=2)
         self.freeze()
         alias = self.folder / "alias.json"
-        alias.symlink_to(self.manifest)
-        self.cli("verify", "--candidate", self.candidate, "--manifest", alias, code=2)
+        with self.symlink_fixture(alias, self.manifest):
+            self.cli("verify", "--candidate", self.candidate, "--manifest", alias, code=2)
+
+    def test_symlink_fixture_skips_and_cleans_up_plain_file_stub(self):
+        def create_plain_file(path, target):
+            path.write_bytes(b"")
+
+        with mock.patch.object(Path, "symlink_to", create_plain_file):
+            with self.assertRaises(unittest.SkipTest):
+                self.test_candidate_and_manifest_symlinks_are_rejected()
+        self.assertFalse((self.candidate / "linked.txt").exists())
+
+    def test_stable_invalid_evidence_is_not_reported_as_changed(self):
+        digest = self.freeze()["candidate_digest"]
+        for content in (b"observed\n", b""):
+            with self.subTest(content=content):
+                record = valid_record(self.folder, digest)
+                record["evidence"][0]["sha256"] = "0" * 64
+                (self.folder / "observed.txt").write_bytes(content)
+                outcome = self.assess(record, code=1)
+                self.assertTrue(any(issue.startswith("invalid evidence:") for issue in outcome["issues"]))
+                self.assertFalse(any("changed during assessment" in issue for issue in outcome["issues"]))
+
+    def test_invalid_evidence_readback_still_detects_real_drift(self):
+        digest = self.freeze()["candidate_digest"]
+        spec = importlib.util.spec_from_file_location("gas_runtime_invalid_drift_test", self.script)
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        original = module.read_regular
+        for content in (b"observed\n", b""):
+            with self.subTest(content=content):
+                record = valid_record(self.folder, digest)
+                record["evidence"][0]["sha256"] = "0" * 64
+                evidence_path = self.folder / "observed.txt"
+                evidence_path.write_bytes(content)
+                write_json(self.record_path, record)
+                injected = []
+
+                def read_then_inject(path):
+                    data = original(path)
+                    if Path(path) == evidence_path and not injected:
+                        injected.append(True)
+                        evidence_path.write_bytes(b"changed after first observation")
+                    return data
+
+                with mock.patch.object(module, "read_regular", read_then_inject):
+                    outcome = module.assess(self.candidate, self.manifest, self.record_path)
+                self.assertFalse(outcome["technical_evidence_ready"])
+                self.assertIn("evidence changed during assessment: observation", outcome["issues"])
 
     def test_ready_is_only_technical_and_preserves_other_decisions(self):
         digest = self.freeze()["candidate_digest"]

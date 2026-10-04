@@ -29,8 +29,19 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Verify package and hashes
         run: python -B GAS-Agent-Skills/verify_bundle.py
+      - name: Check shared skill assets
+        run: python -B GAS-Agent-Skills/scripts/sync_shared_assets.py --check
       - name: Package regression tests
         run: python -B -m unittest discover -s GAS-Agent-Skills/tests -v
+      - name: Runtime evidence experiments
+        run: python -B GAS-Agent-Skills/tests/run_runtime_experiments.py --output "${{ runner.temp }}/gas-runtime-experiments-${{ github.run_id }}-${{ github.run_attempt }}"
+      - name: Preserve runtime experiment evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-experiments-${{ matrix.os }}-python-${{ matrix.python }}
+          path: ${{ runner.temp }}/gas-runtime-experiments-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
       - name: Centralized contract checks
         run: python -B GAS-Agent-Skills/gas-centralized-development/scripts/validate_skill.py
       - name: Centralized regression tests

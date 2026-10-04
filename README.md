@@ -4,13 +4,15 @@
 
 **简体中文 | [English](README.en.md)**
 
-**当前版本：1.5** · [v1.5](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.5) · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+**当前版本：2.0** · [v2.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v2.0) · [v1.5](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.5) · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
 
 1.5 运行证据改进：新增三模式运行证据附表与离线核验工具，补充关键能力预检、启动恢复、进展账本、结构化验收及两层证据复用。[使用与验证范围](GAS-Agent-Skills/README.zh-CN.md)。
 
 1.5 角色承载更新：**所有治理角色均由真实子 agent 承担，主会话只作为进展展示与人类交互窗口，不占角色席位。** 完整默认配置分别需要集权 4 个、分权 3 个、组合 6 个子 agent；各另有 1 个主会话。缺席时等待补齐，不能由主会话接任。
 
-[1.5 发布说明](docs/releases/1.5.md)。
+2.0 职责与并行更新：执行者人数可由用户指定；每人负责独立任务开发与验证，审查者分析执行与监督输出，监督者增加运行和安全监控，指挥者主动安排并行。默认人数对应 N=1，实际集权 N+3、分权 N+2、组合 N+5 个子 agent。
+
+[2.0 发布说明](docs/releases/2.0.md) · [1.5 历史发布说明](docs/releases/1.5.md)。
 
 1.4 历史更新：取消子 Agent 独立服务档位（速度）的选择、配置与核验要求，统一沿用主会话／父 Agent 的档位。其他要求保留。
 
@@ -52,14 +54,16 @@
 flowchart TB
     Main["主会话：展示进展，不占角色席位"]
     C["子 agent：指挥者"]
-    E["子 agent：执行者"]
+    E["子 agent：执行者 1…N（各自开发与验证）"]
     R["子 agent：审查者"]
     S["子 agent：监督者"]
     C -->|派工| E
     C -->|派工| R
     C -->|派工| S
     E -.->|成果| C
-    R -.->|审查证据| C
+    E -.->|实现与验证输出| R
+    S -.->|监控与异常输出| R
+    R -.->|问题分析| C
     S -.->|监督证据| C
     C -.->|进展与证据| Main
 ```
@@ -68,15 +72,17 @@ flowchart TB
 
 **适用场景：** 跨模块重构、依赖紧密的功能开发、共享接口频繁变化、需要统一优先级的交付。
 
-- **执行者**负责实施与自测；**审查者**独立验证成果；**监督者**检查执行与审查过程。
+- **执行者 1…N** 各自负责独立任务的开发、测试／验证代码与实际验证；**审查者**接收执行与监督输出，独立分析问题，不编写测试／验证代码。
+- **监督者**对照指挥者意图监督全部执行者和审查者，并监测板卡电压、电流、运行状态、agent 工作状态及软硬件异常，向指挥者汇报。
+- **指挥者**主动并行派出所有就绪且无冲突的独立任务，仅对真实依赖或共享资源占用串行处理。
 - 指挥者亲自修改的成果同样需要独立技术验证，管理接受与实际发布分别记录。
 - 监督者监督执行者与审查者；指挥者的角色监督者是人类。
 
-[阅读 Skill](GAS-Agent-Skills/gas-centralized-development/SKILL.md) · [协作协议](GAS-Agent-Skills/gas-centralized-development/references/protocol.md) · [记录模板](GAS-Agent-Skills/gas-centralized-development/templates) · [48 个压力场景](GAS-Agent-Skills/gas-centralized-development/evals/scenarios.json)
+[阅读 Skill](GAS-Agent-Skills/gas-centralized-development/SKILL.md) · [协作协议](GAS-Agent-Skills/gas-centralized-development/references/protocol.md) · [记录模板](GAS-Agent-Skills/gas-centralized-development/templates) · [压力场景](GAS-Agent-Skills/gas-centralized-development/evals/scenarios.json)
 
 ## 02 分权模式
 
-### 定规则、做实现、判结果，交给三个独立席位。
+### 定规则、做实现、判结果，分属三类独立职责。
 
 **立规有界，执行自主，裁衡独立。** 立规者制定规则与验收标准，执行者在有效契约内自主实施，裁衡者独立检查规则是否忠实于人类意图、成果是否满足验收要求。
 
@@ -84,7 +90,7 @@ flowchart TB
 flowchart TB
     Main["主会话：展示进展，不占角色席位"]
     L["子 agent：立规者"]
-    E["子 agent：执行者"]
+    E["子 agent：执行者 1…N（各自开发与验证）"]
     A["子 agent：裁衡者"]
     L <-->|规则与复议| E
     L <-->|意图审查| A
@@ -98,11 +104,12 @@ flowchart TB
 
 **适用场景：** 边界与接口明确、强调独立验收、需要防止实现者自行降低标准的任务。
 
-- 三方平级，分别承担立规、执行、裁衡，**不兼权**。
+- 三类职责平级，分别承担立规、执行、裁衡，**不兼权**；执行者可为 N 名，在契约内协商独立分工并行开发和验证。
+- 裁衡者分析执行者输出和可用监控证据，不编写测试／验证代码；分权不增加指挥者或监督者。
 - 执行者可以申请规则复议；裁衡者同时审查规则与实现，避免“按错误规则正确执行”。
 - 交付后的阶段复盘形成改规建议，经过既有流程审查后生效。
 
-[阅读 Skill](GAS-Agent-Skills/gas-decentralized-development/SKILL.md) · [协作协议](GAS-Agent-Skills/gas-decentralized-development/references/protocol.md) · [记录模板](GAS-Agent-Skills/gas-decentralized-development/templates) · [32 个压力场景](GAS-Agent-Skills/gas-decentralized-development/evals/scenarios.json)
+[阅读 Skill](GAS-Agent-Skills/gas-decentralized-development/SKILL.md) · [协作协议](GAS-Agent-Skills/gas-decentralized-development/references/protocol.md) · [记录模板](GAS-Agent-Skills/gas-decentralized-development/templates) · [压力场景](GAS-Agent-Skills/gas-decentralized-development/evals/scenarios.json)
 
 ## 03 组合模式
 
@@ -113,7 +120,7 @@ flowchart TB
 ```mermaid
 flowchart TB
     Main["主会话：进展展示与人类交互，不占角色席位"]
-    subgraph Team["6 个真实子 agent"]
+    subgraph Team["N+5 个真实子 agent（默认 N=1）"]
       subgraph Outer["外层：三席平级"]
         L["立规者"]
         C["外层执行者 = 内层指挥者"]
@@ -122,13 +129,17 @@ flowchart TB
         C <-->|成果与裁衡| A
       end
       subgraph Inner["内层下属"]
-        E["执行者"]
+        E["执行者 1…N（开发与验证）"]
         R["审查者"]
         S["监督者"]
       end
       C --> E
       C --> R
       C --> S
+      E -.->|开发与验证输出| R
+      S -.->|监控与异常输出| R
+      R -.->|问题分析| C
+      S -.->|监督与安全告警| C
     end
     L -.->|进展与证据| Main
     C -.->|进展与证据| Main
@@ -141,7 +152,7 @@ flowchart TB
 
 - **外层执行者 = 内层指挥者**：同一身份、同一任期，承担最终集成发布责任。
 - **两层门禁，一次交付**：内层接受 → 集成候选与必要重验 → 外层独立裁衡 → 获准交付。
-- 完整默认配置需要 **6 个独立子 agent，另加 1 个展示主会话**；内层通过不能替代外层验收。
+- 内层执行者人数 N 可由用户指定，需要 **N+5 个独立子 agent，另加 1 个展示主会话**；默认 N=1 为 6 个子 agent。内层职责与并行要求沿用集权，外层裁衡者分析证据并把新增验证工作交回具名执行者；内层通过不能替代外层验收。
 
 [阅读 Skill](GAS-Agent-Skills/gas-combined-development/SKILL.md) · [组合协议](GAS-Agent-Skills/gas-combined-development/references/protocol.md) · [运行模板](GAS-Agent-Skills/gas-combined-development/templates/run.example.json) · [架构与使用详解](GAS-Agent-Skills/gas-combined-development/references/architecture-guide.md)
 
@@ -151,9 +162,9 @@ flowchart TB
 
 | 模式 | 核心机制 | 治理子 agent（主会话另计） | 适合优先解决的问题 |
 | --- | --- | --- | --- |
-| **集权** | 指挥者统一派工与裁决 | 4 个：指挥者、执行者、审查者、监督者 | 依赖协调、优先级统一、集成交付 |
-| **分权** | 立规、执行、裁衡三方平级 | 3 个：立规者、执行者、裁衡者 | 规则与实现分离、意图一致性、独立验收 |
-| **组合** | 外层分权，执行席内嵌集权团队 | 默认 6 个，桥接职责由同一子 agent 承担 | 复杂实施与独立制衡同时成立 |
+| **集权** | 指挥者统一派工与裁决 | N+3 个：指挥者、N 名执行者、审查者、监督者（默认 4） | 依赖协调、优先级统一、集成交付 |
+| **分权** | 立规、执行、裁衡三方平级 | N+2 个：立规者、N 名执行者、裁衡者（默认 3） | 规则与实现分离、意图一致性、独立验收 |
+| **组合** | 外层分权，执行席内嵌集权团队 | N+5 个（默认 6），桥接职责由同一子 agent 承担 | 复杂实施与独立制衡同时成立 |
 
 模式选择是工程设计建议，尚无本项目的实测性能排名。普通小改动可按实际需要选择更轻的流程。
 
@@ -201,6 +212,8 @@ $gasSkillDestination = Join-Path ([Environment]::GetFolderPath('UserProfile')) '
 # 安装三个完整技能，逐文件校验 SHA-256
 & .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $gasSkillDestination
 ```
+
+本次修订的安装器省略 `-Destination` 时默认使用当前用户的 `.agents/skills`；仍可显式选择其他绝对路径。历史 v1.5 标签保持原发布内容。
 
 脚本适用于 PowerShell 5.1+。若本机执行策略阻止运行，可在 PowerShell 7 中执行，或手动将包内的三个 `gas-*-development` 完整目录复制到上述目标目录。macOS/Linux 也可手动复制到 `~/.agents/skills/`。请先处理既有同名安装，避免同一技能存在多份不同版本；不要只复制 `SKILL.md`。
 

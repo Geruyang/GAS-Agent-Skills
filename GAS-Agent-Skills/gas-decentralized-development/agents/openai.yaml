@@ -1,2 +1,4 @@
 interface:
   display_name: "GAS Decentralized Development"
+  short_description: "立规、执行、裁衡三类平级职能，N 名执行者开发验证，主会话展示进展"
+  default_prompt: "请使用 $gas-decentralized-development 完成当前开发任务，按技能要求确认角色配置与职责，主会话展示进展。"

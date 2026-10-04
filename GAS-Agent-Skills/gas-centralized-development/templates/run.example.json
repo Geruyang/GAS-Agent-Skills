@@ -160,7 +160,18 @@
       "coordinator_epoch": null,
       "expires_at": null,
       "revoked": false
-    }
+    },
+    "monitoring_requirements": [
+      "subordinate_agent_status",
+      "board_voltage",
+      "board_current",
+      "board_runtime",
+      "software_anomalies",
+      "hardware_anomalies"
+    ],
+    "monitoring_capabilities_verified": false,
+    "monitoring_authorization_ref": null,
+    "board_thresholds_ref": null
   },
   "main_session": {
     "purpose": "progress_display",
@@ -180,5 +191,40 @@
     ],
     "roster": [],
     "verified": false
+  },
+  "execution_team": {
+    "executor_count": 1,
+    "count_source": "default",
+    "executor_roster": [],
+    "assignments": [],
+    "planned_distinct_subagents": 4,
+    "note": "默认示例未组建；实际按用户指定数量、真实身份、任务/路径/验证归属登记。"
+  },
+  "review_policy": {
+    "primary_inputs": [
+      "executor_outputs",
+      "supervisor_outputs"
+    ],
+    "reviewer_may_write_verification_code": false,
+    "verification_code_owner_role": "executor",
+    "allowed_methods": [
+      "read_only_analysis",
+      "evidence_comparison",
+      "rerun_existing_commands"
+    ],
+    "supplement_requests_via": "coordinator"
+  },
+  "parallel_dispatch": {
+    "strategy": "maximize_ready_independent_tasks",
+    "resource_locks": [],
+    "constraints": [
+      "dependencies",
+      "conflicting_writes",
+      "shared_board_flash",
+      "exclusive_debug_session",
+      "host_concurrency",
+      "global_budget"
+    ],
+    "note": "只串行实际冲突资源动作；锁外就绪独立任务在授权、全员就绪与预算内并行。"
   }
 }

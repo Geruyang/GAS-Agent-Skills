@@ -68,5 +68,8 @@
   },
   "runtime_evidence_ref": null,
   "criterion_ids": [],
-  "risk_acceptance_refs": []
+  "risk_acceptance_refs": [],
+  "raised_by_executor_name": null,
+  "challenged_executor_name": null,
+  "evidence_supplement_executor_identity": null
 }

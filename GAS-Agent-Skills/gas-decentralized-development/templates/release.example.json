@@ -25,7 +25,7 @@
   "status": "NOT_RUN",
   "actions": [],
   "receipt": null,
-  "note": "合并、部署、回滚各记一次行动；门禁须来自真实记录。现有适用授权可复用。 action_id、idempotency_key、目标和精确摘要绑定同一副作用；UNKNOWN 先查询回执再决定恢复。组合模式两层引用同一行动与回执，不重复执行。",
+  "note": "合并、部署、回滚各记一次行动；门禁须来自真实记录。现有适用授权可复用。 action_id、idempotency_key、目标和精确摘要绑定同一副作用；UNKNOWN 先查询回执再决定恢复。组合模式两层引用同一行动与回执，不重复执行。 获准集成/发布绑定具名执行者任务归属，N 名执行者不取得互相指挥权；all_roles_available 按完整 N+2 名计划成员核对。",
   "runtime_evidence_ref": null,
   "action_id": null,
   "idempotency_key": null,
@@ -41,5 +41,8 @@
     "evidence_refs": [],
     "receipt": null
   },
-  "target": null
+  "target": null,
+  "actor_executor_name": null,
+  "integration_task_ref": null,
+  "monitor_record_refs": []
 }

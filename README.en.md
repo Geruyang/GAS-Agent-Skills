@@ -4,13 +4,15 @@
 
 **[简体中文](README.md) | English**
 
-**Current version: 1.5** · [v1.5](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.5) · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
+**Current version: 2.0** · [v2.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v2.0) · [v1.5](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.5) · [v1.4](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.4) · [v1.3](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.3) · [v1.2](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.2) · [v1.1](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.1) · [v1.0](https://github.com/Geruyang/GAS-Agent-Skills/tree/v1.0)
 
 Version 1.5 runtime evidence updates: shared runtime evidence records and offline verification tools, capability probes, startup and recovery receipts, progress tracking, structured acceptance criteria, and evidence reuse across the two combined layers. See the [usage and validation scope](GAS-Agent-Skills/README.zh-CN.md).
 
 Version 1.5 role hosting update: **every governance role runs as a real subagent. The main session displays progress and carries human interaction; it holds no role.** The complete defaults require 4 centralized, 3 decentralized, or 6 combined subagents, plus one display session. Missing roles must be restored rather than filled by the main session.
 
-[Version 1.5 release notes (Chinese)](docs/releases/1.5.md).
+Version 2.0 responsibilities and parallel execution: users can select executor count N (default 1). Each executor owns an independent implementation task and its verification. Reviewers analyze executor and supervision outputs without writing verification code. Supervisors monitor instruction alignment, board voltage/current and runtime, agent status, and software/hardware anomalies. Commanders actively dispatch independent ready tasks in parallel. Required subagent counts are N+3 centralized, N+2 decentralized, and N+5 combined.
+
+[Version 2.0 release notes (Chinese)](docs/releases/2.0.md) · [Historical 1.5 release notes (Chinese)](docs/releases/1.5.md).
 
 Version 1.4 removed independent child-agent service-tier selection, configuration, and verification. Child agents inherit the main session's or direct parent's tier. All other requirements remain.
 
@@ -54,14 +56,16 @@ Current architecture diagrams are provided below. Earlier raster diagrams remain
 flowchart TB
     Main["Main session: progress display; no role"]
     C["Subagent: commander"]
-    E["Subagent: executor"]
+    E["Subagents: executors 1…N (implement and verify)"]
     R["Subagent: reviewer"]
     S["Subagent: supervisor"]
     C -->|Assignment| E
     C -->|Assignment| R
     C -->|Assignment| S
     E -.->|Artifacts| C
-    R -.->|Review evidence| C
+    E -.->|Implementation and verification outputs| R
+    S -.->|Monitoring and anomalies| R
+    R -.->|Problem analysis| C
     S -.->|Supervision evidence| C
     C -.->|Progress and evidence| Main
 ```
@@ -70,11 +74,13 @@ The main-session commander in the [historical centralized diagram](docs/images/0
 
 **Suggested use cases:** Cross-module refactoring, tightly coupled features, frequently changing shared interfaces, and delivery that needs a single set of priorities.
 
-- **Executors** implement and self-test. **Reviewers** independently verify the artifacts. **Supervisors** check execution and review conduct, including understanding of instructions.
+- Each **executor** owns implementation and verification of an independent task, including test and verification code. **Reviewers** independently analyze executor and supervision outputs and request missing evidence; they do not write test or verification code.
+- **Supervisors** check all executors and reviewers against commander intent and monitor board voltage/current, runtime, agent status, and software/hardware anomalies, reporting to the commander.
+- **Commanders** actively run ready independent tasks in parallel; only actual dependencies or conflicting shared resources serialize the affected actions.
 - Work authored by the commander still requires independent technical verification. Management acceptance and actual release are recorded separately.
 - Supervisors oversee executors and reviewers. The human is the commander's sole role supervisor.
 
-[Skill (Chinese)](GAS-Agent-Skills/gas-centralized-development/SKILL.md) · [Protocol (Chinese)](GAS-Agent-Skills/gas-centralized-development/references/protocol.md) · [Record templates](GAS-Agent-Skills/gas-centralized-development/templates) · [48 pressure-test scenarios](GAS-Agent-Skills/gas-centralized-development/evals/scenarios.json)
+[Skill (Chinese)](GAS-Agent-Skills/gas-centralized-development/SKILL.md) · [Protocol (Chinese)](GAS-Agent-Skills/gas-centralized-development/references/protocol.md) · [Record templates](GAS-Agent-Skills/gas-centralized-development/templates) · [Pressure-test scenarios](GAS-Agent-Skills/gas-centralized-development/evals/scenarios.json)
 
 ## 02 Decentralized mode
 
@@ -86,7 +92,7 @@ The main-session commander in the [historical centralized diagram](docs/images/0
 flowchart TB
     Main["Main session: progress display; no role"]
     L["Subagent: legislator"]
-    E["Subagent: executor"]
+    E["Subagents: executors 1…N (implement and verify)"]
     A["Subagent: arbiter"]
     L <-->|Rules and reconsideration| E
     L <-->|Intent review| A
@@ -100,11 +106,12 @@ The main-session role in the [historical decentralized diagram](docs/images/02-d
 
 **Suggested use cases:** Tasks with clear boundaries and stable interfaces that need independent acceptance and protection against implementers lowering their own acceptance standards.
 
-- The **rulemaker (立规者), executor (执行者), and arbiter (裁衡者)** are peers. Their powers are **not combined**. This mode has one execution seat, not a pool of parallel executors.
+- **Rulemaking (立规者), execution (执行者), and adjudication (裁衡者)** remain peer responsibilities with separate powers. N executors coordinate independent implementation and verification tasks under the effective contract.
+- The arbiter analyzes execution outputs and available monitoring evidence without writing test or verification code. Decentralized mode adds no commander or supervisor.
 - The executor can request reconsideration of the rules. The arbiter reviews both the rules and the implementation, helping catch cases where correct execution follows the wrong requirements.
 - Retrospectives produce proposals for rule changes. Those proposals take effect only through the established review process.
 
-[Skill (Chinese)](GAS-Agent-Skills/gas-decentralized-development/SKILL.md) · [Protocol (Chinese)](GAS-Agent-Skills/gas-decentralized-development/references/protocol.md) · [Record templates](GAS-Agent-Skills/gas-decentralized-development/templates) · [32 pressure-test scenarios](GAS-Agent-Skills/gas-decentralized-development/evals/scenarios.json)
+[Skill (Chinese)](GAS-Agent-Skills/gas-decentralized-development/SKILL.md) · [Protocol (Chinese)](GAS-Agent-Skills/gas-decentralized-development/references/protocol.md) · [Record templates](GAS-Agent-Skills/gas-decentralized-development/templates) · [Pressure-test scenarios](GAS-Agent-Skills/gas-decentralized-development/evals/scenarios.json)
 
 ## 03 Combined mode
 
@@ -115,7 +122,7 @@ The main-session role in the [historical decentralized diagram](docs/images/02-d
 ```mermaid
 flowchart TB
     Main["Main session: progress and human interaction; no governance role"]
-    subgraph Team["6 real subagents"]
+    subgraph Team["N+5 real subagents (default N=1)"]
       subgraph Outer["Outer layer: three peer seats"]
         L["Legislator"]
         C["Outer executor = inner commander"]
@@ -124,13 +131,17 @@ flowchart TB
         C <-->|Artifacts and adjudication| A
       end
       subgraph Inner["Inner subordinates"]
-        E["Executor"]
+        E["Executors 1…N (implement and verify)"]
         R["Reviewer"]
         S["Supervisor"]
       end
       C --> E
       C --> R
       C --> S
+      E -.->|Implementation and verification outputs| R
+      S -.->|Monitoring and anomalies| R
+      R -.->|Problem analysis| C
+      S -.->|Supervision and safety alerts| C
     end
     L -.->|Progress and evidence| Main
     C -.->|Progress and evidence| Main
@@ -143,7 +154,7 @@ The [historical combined diagram](docs/images/03-combined-en.png) contains the s
 
 - **Outer executor = inner commander:** one identity and one term of appointment, responsible for final integration and release.
 - **Two layers of verification, one delivery:** inner acceptance → integration candidate and necessary rechecks → independent outer adjudication → authorized delivery.
-- The complete default configuration needs **6 distinct subagents plus one display session**. Passing the inner review does not substitute for outer acceptance.
+- With N inner executors, combined mode needs **N+5 distinct subagents plus one display session** (default N=1: 6 subagents). Inner roles follow centralized responsibilities and parallel dispatch. The outer arbiter analyzes evidence and returns new verification work to a named executor. Inner review does not substitute for outer acceptance.
 
 [Skill (Chinese)](GAS-Agent-Skills/gas-combined-development/SKILL.md) · [Combined protocol (Chinese)](GAS-Agent-Skills/gas-combined-development/references/protocol.md) · [Run template](GAS-Agent-Skills/gas-combined-development/templates/run.example.json) · [Architecture and usage guide (Chinese)](GAS-Agent-Skills/gas-combined-development/references/architecture-guide.md)
 
@@ -153,9 +164,9 @@ The [historical combined diagram](docs/images/03-combined-en.png) contains the s
 
 | Mode | Coordination model | Governance subagents; main session is additional | Main concerns it addresses |
 | --- | --- | --- | --- |
-| **Centralized** | Commander assigns tasks and makes decisions | 4 subagents: commander, executor, reviewer, supervisor | Dependencies, shared priorities, integration and delivery |
-| **Decentralized** | Rulemaking, execution, and adjudication are peers | 3 subagents: legislator, executor, arbiter | Separation of rules from implementation, intent alignment, independent acceptance |
-| **Combined** | Outer separation of powers with an inner centralized team | 6 subagents; one subagent holds both bridge responsibilities | Complex implementation alongside independent checks and balances |
+| **Centralized** | Commander assigns tasks and makes decisions | N+3 subagents: commander, N executors, reviewer, supervisor (default 4) | Dependencies, shared priorities, integration and delivery |
+| **Decentralized** | Rulemaking, execution, and adjudication are peers | N+2 subagents: legislator, N executors, arbiter (default 3) | Separation of rules from implementation, intent alignment, independent acceptance |
+| **Combined** | Outer separation of powers with an inner centralized team | N+5 subagents (default 6); one subagent holds both bridge responsibilities | Complex implementation alongside independent checks and balances |
 
 These are engineering design suggestions, not a measured performance ranking. Small changes may warrant a lighter workflow.
 
@@ -206,6 +217,8 @@ $gasSkillDestination = Join-Path ([Environment]::GetFolderPath('UserProfile')) '
 # Install all three complete Skills, verifying every file's SHA-256.
 & .\GAS-Agent-Skills\Install-GAS-Skills.ps1 -Destination $gasSkillDestination
 ```
+
+The revised installer defaults to the current user’s `.agents/skills` when `-Destination` is omitted. An explicit absolute destination remains supported. The historical v1.5 tag retains its original release contents.
 
 The script targets PowerShell 5.1+. If local execution policy blocks it, use PowerShell 7 or manually copy the three complete `gas-*-development` folders from the package to that destination. On macOS/Linux, you can also copy them into `~/.agents/skills/`. Resolve existing installations first to avoid duplicate versions; copying only `SKILL.md` is insufficient.
 

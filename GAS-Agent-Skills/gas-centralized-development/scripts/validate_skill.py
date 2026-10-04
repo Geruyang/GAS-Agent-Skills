@@ -13,7 +13,7 @@ from pathlib import Path
 NAMES=('run','task','review','command','decision','release','supervision')
 COMMON={'AUTH-01','AUTH-02','EVID-01','EVID-02','SAFE-01','BUDGET-01','FALLBACK-01','CHANGE-01'}
 RULES=COMMON | {f'CEN-{i:02}' for i in range(1,8)}
-TAGS={'reviewer-subordination','authorized-release','delegated-api-change','review-shopping','central-author-acceptance','all-role-fencing','fact-decision-separation','supervisor-scope','supervisor-safety','instruction-alignment','human-only-oversight','commander-delivery','supervision-not-verification'}
+TAGS={'telemetry-freshness','telemetry-gap-scope','executor-replacement-fencing','review-analysis-only','verification-code-owner','existing-command-rerun','configurable-executors','per-executor-development-verification','hardware-monitoring','unknown-monitoring','all-subordinate-status','proactive-parallel-dispatch','resource-locks','control-write-not-global-serial','reviewer-subordination','authorized-release','delegated-api-change','review-shopping','central-author-acceptance','all-role-fencing','fact-decision-separation','supervisor-scope','supervisor-safety','instruction-alignment','human-only-oversight','commander-delivery','supervision-not-verification'}
 
 def validate(root: Path) -> dict:
     root=root.resolve()
@@ -54,8 +54,8 @@ def validate(root: Path) -> dict:
         meta=dict(re.findall(r'^(name|description): (.+)$',fm.group(1),re.M))
         add('stable-name',meta.get('name')=='gas-centralized-development')
         description=meta.get('description','')
-        add('description',description.startswith('Use when ') and len(description)<500)
-        add('metadata-size',len(fm.group(1))<=1024)
+        add('description',description.startswith('Use when ') and bool(description[9:].strip()))
+        add('description-size',len(description)<=1024)
     add('short-display-name','# 集权开发模式技能\n' in main)
     add('main-length',len(main.splitlines())<=120)
     for h in ('启动与适用边界','权责边界','执行流程','停止与升级','交付格式'):
@@ -108,6 +108,83 @@ def validate(root: Path) -> dict:
         and set(roles)=={'coordinator','executor','reviewer','supervisor'})
     add('run:role-hosting:unverified-example',defaults_match(hosting,{'verified':False}))
     add('run:role-hosting:empty-roster',defaults_match(hosting,{'roster':[]}))
+    # Additive schema-3 declarations: these remain unexecuted examples, not authorization.
+    team=obj(run,'execution_team','run')
+    count=team.get('executor_count')
+    count_ok=type(count) is int and count>=1
+    add('execution-team:positive-count',count_ok)
+    source=team.get('count_source')
+    add('execution-team:count-source',source in ('default','user','proposed')
+        and (source!='default' or count==1))
+    add('execution-team:team-formula',count_ok
+        and type(team.get('planned_distinct_subagents')) is int
+        and team.get('planned_distinct_subagents')==count+3)
+    add('execution-team:uncreated',team.get('executor_roster')==[] and team.get('assignments')==[])
+    review_policy=obj(run,'review_policy','run')
+    add('review-policy:inputs',set(strings(review_policy,'primary_inputs','review-policy'))
+        =={'executor_outputs','supervisor_outputs'})
+    add('review-policy:code-owner',review_policy.get('reviewer_may_write_verification_code') is False
+        and review_policy.get('verification_code_owner_role')=='executor'
+        and review_policy.get('supplement_requests_via')=='coordinator')
+    methods={'read_only_analysis','evidence_comparison','rerun_existing_commands'}
+    add('review-policy:analysis-methods',set(strings(review_policy,'allowed_methods','review-policy'))==methods)
+    parallel=obj(run,'parallel_dispatch','run')
+    add('parallel-dispatch:strategy',parallel.get('strategy')=='maximize_ready_independent_tasks')
+    add('parallel-dispatch:resource-locks-unexecuted',parallel.get('resource_locks')==[])
+    add('parallel-dispatch:constraints',{'dependencies','conflicting_writes','shared_board_flash',
+        'exclusive_debug_session','host_concurrency','global_budget'}
+        <=set(strings(parallel,'constraints','parallel-dispatch')))
+    assignment=obj(task,'execution_assignment','task')
+    add('task:development-verification-binding',defaults_match(assignment,{
+        'executor_identity':None,'task_id':task.get('id'),'verification_owner_identity':None})
+        and assignment.get('allowed_paths')==task.get('allowed_paths'))
+    test_plan=obj(task,'test_plan','task')
+    add('task:verification-code-owner-unknown',defaults_match(test_plan,{'code_owner_identity':None})
+        and test_plan.get('code_paths')==[] and test_plan.get('execution_evidence_refs')==[])
+    add('task:resource-locks-unexecuted',task.get('resource_locks')==[])
+    inputs=obj(review,'input_refs','review')
+    add('review:inputs-unexecuted',defaults_match(inputs,{'executor_outputs':[],'supervisor_outputs':[]}))
+    add('review:analysis-only',review.get('reviewer_may_write_verification_code') is False
+        and set(strings(review,'allowed_methods','review'))==methods)
+    ownership_defaults={'executor_identity':None,'task_ref':None,'test_code_paths':[],
+        'execution_evidence_refs':[],'analysis_owner_identity':None,'supplement_request_refs':[]}
+    ownership=obj(review,'verification_ownership','review')
+    add('review:verification-owner-unknown',defaults_match(ownership,ownership_defaults))
+    command_scope=obj(command,'scope','command')
+    add('command:analysis-only',command_scope.get('reviewer_may_write_verification_code') is False
+        and command_scope.get('verification_code_owner_identity') is None
+        and command_scope.get('verification_code_paths')==[])
+    command_inputs=obj(command_scope,'input_refs','command-scope')
+    add('command:inputs-unexecuted',defaults_match(command_inputs,{'executor_outputs':[],'supervisor_outputs':[]}))
+    monitoring_names={'subordinate_agent_status','board_voltage','board_current','board_runtime',
+        'software_anomalies','hardware_anomalies'}
+    supervision_config=obj(run,'supervision','run')
+    add('supervision:monitoring-requirements',set(strings(supervision_config,'monitoring_requirements','supervision'))==monitoring_names)
+    add('supervision:monitoring-unverified',defaults_match(supervision_config,{
+        'monitoring_capabilities_verified':False,'monitoring_authorization_ref':None,'board_thresholds_ref':None}))
+    sr=docs['supervision']
+    monitoring=obj(sr,'monitoring','supervision')
+    add('supervision:monitoring-dimensions',set(monitoring)==monitoring_names)
+    for name in sorted(monitoring_names):
+        dimension=obj(monitoring,name,'monitoring')
+        add('monitoring:'+name+':unobserved',defaults_match(dimension,{
+            'status':'NOT_RUN','source_ref':None,'observations':[]}))
+        add('monitoring:'+name+':freshness-unknown',defaults_match(dimension,{
+            'sampled_at':None,'evaluated_at':None,'freshness_rule_ref':None,'validity_window':None}))
+        if name in ('board_voltage','board_current'):
+            add('monitoring:'+name+':threshold-unknown',defaults_match(dimension,{
+                'threshold_ref':None,'unit':'V' if name=='board_voltage' else 'A'}))
+    capabilities=obj(sr,'monitoring_capabilities','supervision')
+    add('monitoring:no-safety-claim',defaults_match(capabilities,{
+        'authorization_ref':None,'tools':[],'verified':False,'safety_guaranteed':False})
+        and bool(strings(capabilities,'limitations','monitoring-capabilities')))
+    runtime_raw=text('templates/runtime.example.json')
+    try:
+        runtime_doc=json.loads(runtime_raw)
+        runtime_owner=obj(runtime_doc,'verification_ownership','runtime') if isinstance(runtime_doc,dict) else {}
+        add('runtime:verification-owner-unknown',defaults_match(runtime_owner,ownership_defaults))
+    except (ValueError,TypeError):
+        add('runtime:verification-owner-unknown',False)
     # Every declared nested contract remains an object even before it is populated.
     for record, fields in {'command':('scope','budget'), 'release':('target',),
                            'run':('dispatch',), 'task':('budget','test_plan','dispatch','integration','release')}.items():

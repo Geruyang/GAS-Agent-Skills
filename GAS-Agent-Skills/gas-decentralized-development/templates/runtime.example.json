@@ -157,6 +157,26 @@
   "limitations": [
     "示例没有执行；业务关键能力小样本只能在原协议全员 TEAM_READY 后进行。",
     "空预检列表必须注明不适用及契约依据，不能表示已验证；工具不验证授权、真实身份或治理权限。",
-    "原模式的角色任期、指令/申领、审查、裁衡与交付记录仍是治理依据；此绑定只检查机械一致性。"
-  ]
+    "原模式的角色任期、指令/申领、审查、裁衡与交付记录仍是治理依据；此绑定只检查机械一致性。",
+    "verification_ownership 与 execution_monitoring 是原治理归属记录；gas_runtime.py 未声明已验证新增人数/归属或真实身份。裁衡者不能编写或修改验证代码。"
+  ],
+  "verification_ownership": {
+    "executor_identity": null,
+    "task_ref": null,
+    "test_code_paths": [],
+    "execution_evidence_refs": [],
+    "analysis_owner_identity": null,
+    "supplement_request_refs": []
+  },
+  "execution_monitoring": {
+    "executor_name": null,
+    "executor_identity": null,
+    "executor_epoch": null,
+    "task_ref": null,
+    "execution": "NOT_RUN",
+    "monitor_record_refs": [],
+    "anomaly_evidence_refs": [],
+    "arbiter_analysis_ref": null,
+    "note": "每名执行者监控自身执行并上报共享记录；裁衡者分析可用证据及异常，无监督席。多执行者按任务/身份分片或真实单写投影，缺数据不宣称监控成功。"
+  }
 }

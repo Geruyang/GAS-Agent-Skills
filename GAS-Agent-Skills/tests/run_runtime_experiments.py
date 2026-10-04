@@ -203,7 +203,10 @@ def main():
     parser.add_argument("--output", type=Path, required=True, help="new directory; existing paths are never overwritten")
     args = parser.parse_args()
     destination = args.output.absolute()
-    destination.mkdir(parents=True, exist_ok=False)
+    try:
+        destination.mkdir(parents=True, exist_ok=False)
+    except FileExistsError:
+        parser.error("output path already exists; choose a new directory: " + str(destination))
     started = time.perf_counter()
     results = []
     for mode in MODES:

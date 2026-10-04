@@ -81,8 +81,16 @@
         "contract_version": null,
         "plan_version": null
       },
-      "coverage": [{"clause_id": null, "scope": null}],
-      "environment_applicability": {"status": "NOT_VERIFIED", "basis_ref": null},
+      "coverage": [
+        {
+          "clause_id": null,
+          "scope": null
+        }
+      ],
+      "environment_applicability": {
+        "status": "NOT_VERIFIED",
+        "basis_ref": null
+      },
       "checker_identity": null,
       "check_method": null,
       "check_result_ref": null,
@@ -91,7 +99,15 @@
       "rerun_evidence_refs": [],
       "full_independent_check_required": null,
       "full_independent_check_ref": null,
-      "independent_judgment_ref": null
+      "independent_judgment_ref": null,
+      "verification_ownership": {
+        "executor_identity": null,
+        "task_ref": null,
+        "test_code_paths": [],
+        "execution_evidence_refs": [],
+        "analysis_owner_identity": null,
+        "supplement_request_refs": []
+      }
     }
   ],
   "change_impacts": [
@@ -104,9 +120,18 @@
       "changed_rule_or_interface_refs": [],
       "affected_clause_ids": [],
       "affected_check_ids": [],
-      "inner_acceptance": {"affected": null, "record_refs": []},
-      "outer_adjudication": {"affected": null, "record_refs": []},
-      "delivery": {"affected": null, "action_refs": []},
+      "inner_acceptance": {
+        "affected": null,
+        "record_refs": []
+      },
+      "outer_adjudication": {
+        "affected": null,
+        "record_refs": []
+      },
+      "delivery": {
+        "affected": null,
+        "action_refs": []
+      },
       "earliest_required_stage": null,
       "revalidation_refs": [],
       "new_acceptance_or_adjudication_refs": [],
@@ -117,5 +142,8 @@
     }
   ],
   "delivery_record_ref": null,
-  "unverified_items": []
+  "unverified_items": [],
+  "supplement_requests": [],
+  "supplement_request_fields": ["request_id", "requesting_analysis_identity", "question", "expected_coverage", "raw_basis_refs", "bridge_identity", "bridge_epoch", "assigned_executor_identity", "task_ref", "test_code_paths", "result_evidence_refs", "status"],
+  "supplement_routing_note": "内层审查者或外层裁衡者只分析输出与提出补证；新增/修改测试验证代码须由唯一桥接席指派具名内层执行者。已有命令复跑或证据对读不等于验证代码编写；原始执行身份与独立分析身份分别登记。"
 }

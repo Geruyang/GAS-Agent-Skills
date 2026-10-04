@@ -36,6 +36,7 @@ HEADINGS = (
     "## 停止与升级", "## 交付格式",
 )
 COMMON_RULES = {"AUTH-01", "AUTH-02", "EVID-01", "EVID-02", "SAFE-01", "BUDGET-01", "FALLBACK-01", "CHANGE-01"}
+EVAL_VERSIONS = {"gas-decentralized-development": 1, "gas-centralized-development": 3, COMBINED: 1}
 
 
 def validate(root: Path, selected: list[str], package: bool = False) -> dict[str, Any]:
@@ -67,7 +68,115 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
             key in value and type(value[key]) is type(default) and value[key] == default
             for key, default in expected.items())
 
+    def nonempty_text(value: Any) -> bool:
+        return isinstance(value, str) and bool(value.strip())
+
+    def text_list(value: Any) -> bool:
+        return isinstance(value, list) and bool(value) and all(nonempty_text(item) for item in value)
+
+    def common_skill_checks(base: Path, name: str) -> set[str]:
+        main = base / "SKILL.md"
+        try:
+            text = main.read_text(encoding="utf-8")
+            protocol = (base / "references/protocol.md").read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as exc:
+            add(f"{name}:utf8", False, str(exc))
+            return set()
+        add(f"{name}:utf8", True)
+        fm = re.match(r"\A---\n(.*?)\n---\n", text, re.S)
+        add(f"{name}:frontmatter", fm is not None)
+        if fm:
+            metadata = dict(re.findall(r"^(name|description): (.+)$", fm.group(1), re.M))
+            add(f"{name}:name", metadata.get("name") == name and bool(re.fullmatch(r"[a-z0-9-]+", name)))
+            description = metadata.get("description", "")
+            add(f"{name}:description", description.startswith("Use when ") and bool(description[9:].strip()))
+            add(f"{name}:description-size", len(description) <= 1024)
+        add(f"{name}:main-size", len(text.splitlines()) <= 200)
+        for heading in HEADINGS:
+            add(f"{name}:heading:{heading}", heading in text)
+        # Combined intentionally references its two sibling skills. This does not
+        # allow their text to substitute for this skill's own safety declarations.
+        link_root = root if name == COMBINED else base
+        docs = [main, base / "references/protocol.md"]
+        if name == COMBINED:
+            docs = [main, *sorted((base / "references").glob("*.md"))]
+        for doc in docs:
+            try:
+                content = doc.read_text(encoding="utf-8")
+                add(f"{name}:utf8:{doc.name}", True)
+            except (OSError, UnicodeError) as exc:
+                add(f"{name}:utf8:{doc.name}", False, str(exc))
+                continue
+            for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", content):
+                if target.startswith(("http:", "https:", "#")):
+                    continue
+                resolved = (doc.parent / target.split("#", 1)[0]).resolve()
+                add(f"{name}:link:{doc.name}:{target}",
+                    resolved.is_relative_to(link_root.resolve()) and resolved.is_file())
+        own_text = text + "\n" + protocol
+        rules = set(re.findall(r"\b[A-Z]+-\d{2}\b", own_text))
+        add(f"{name}:common-rules", COMMON_RULES.issubset(rules))
+        add(f"{name}:enforcement-limits", all(term in own_text for term in
+            ("权限隔离", "worktree", "独立", "未执行", "不自动")))
+        return rules
+
+    def eval_checks(base: Path, name: str, rules: set[str]) -> None:
+        scenarios = read_json(base / "evals/scenarios.json", f"{name}:eval-json")
+        if not isinstance(scenarios, dict):
+            return
+        # Evals are independently versioned; run-contract versions are not their schema.
+        add(f"{name}:eval-metadata", type(scenarios.get("schema_version")) is int
+            and scenarios.get("schema_version") == EVAL_VERSIONS[name]
+            and scenarios.get("skill") == name
+            and all(nonempty_text(scenarios.get(key)) for key in ("purpose", "procedure")))
+        cases = scenarios.get("cases")
+        valid_cases = isinstance(cases, list) and all(
+            isinstance(case, dict) and nonempty_text(case.get("id"))
+            and text_list(case.get("rules"))
+            and all(re.fullmatch(r"[A-Z]+-\d{2}", rule) for rule in case["rules"])
+            and isinstance(case.get("pressures", []), list)
+            and all(nonempty_text(value) for value in case.get("pressures", []))
+            for case in cases)
+        add(f"{name}:eval-structure", valid_cases)
+        if not valid_cases:
+            cases = []
+        # Preserve pure-mode regression baselines; combined has a distinct set.
+        add(f"{name}:eval-count", bool(cases) if name == COMBINED else len(cases) >= 12)
+        ids = [case["id"] for case in cases]
+        add(f"{name}:eval-unique", len(set(ids)) == len(ids))
+        add(f"{name}:eval-not-run", scenarios.get("execution_status") == "NOT_RUN"
+            and all(case.get("status") == "NOT_RUN" for case in cases))
+        add(f"{name}:eval-assertions", bool(cases) and all(nonempty_text(case.get("prompt"))
+            and text_list(case.get("expected_actions")) and text_list(case.get("failure_actions"))
+            for case in cases))
+        referenced = {rule for case in cases for rule in case["rules"]}
+        required = {f"COM-{index:02}" for index in range(1, 9)} if name == COMBINED else COMMON_RULES
+        add(f"{name}:eval-rule-coverage", required.issubset(referenced) and referenced.issubset(rules))
+        if name != COMBINED:
+            add(f"{name}:eval-pressure", any(len(case.get("pressures", [])) >= 3 for case in cases))
+
+    def execution_team_defaults(run: dict, name: str) -> None:
+        # Configurable plans remain unapproved examples; this does not authenticate a roster.
+        team = object_field(run, "execution_team", name)
+        count = team.get("executor_count")
+        valid_count = type(count) is int and count > 0
+        add(f"{name}:execution-team:count", valid_count)
+        source = team.get("count_source")
+        add(f"{name}:execution-team:count-source", source in ("default", "user", "proposed")
+            and (source != "default" or count == 1 and type(count) is int))
+        offset = {"gas-centralized-development": 3, "gas-decentralized-development": 2, COMBINED: 5}[name]
+        planned = team.get("planned_distinct_subagents")
+        add(f"{name}:execution-team:headcount", valid_count and type(planned) is int
+            and planned == count + offset)
+        if "planned_total_sessions" in team:
+            add(f"{name}:execution-team:total-sessions", valid_count
+                and type(team["planned_total_sessions"]) is int
+                and team["planned_total_sessions"] == count + offset + 1)
+        add(f"{name}:execution-team:unassigned-example", defaults_match(team, {
+            "executor_roster": [], "assignments": []}))
+
     def role_hosting_defaults(run: dict, name: str) -> None:
+        execution_team_defaults(run, name)
         # These are conservative example declarations, not live host attestations.
         main_session = object_field(run, "main_session", name)
         add(f"{name}:main-session:display-only", defaults_match(main_session, {
@@ -136,6 +245,10 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
                 "independent_method": None, "independence_basis_refs": [],
                 "deterministic_calculation_refs": [], "full_scope_required_by_contract": None,
                 "coverage_refs": [], "unverified_items": []}))
+            add(f"{name}:verification-ownership:unobserved", defaults_match(record.get("verification_ownership"), {
+                "executor_identity": None, "task_ref": None, "test_code_paths": [],
+                "execution_evidence_refs": [], "analysis_owner_identity": None,
+                "supplement_request_refs": []}))
             add(prefix + ":risk-not-decided", defaults_match(record.get("risk_acceptance"), {
                 "status": "NOT_DECIDED", "authority": None, "record_ref": None}))
             add(prefix + ":human-not-decided", defaults_match(record.get("human_adjudication"), {
@@ -162,6 +275,8 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
         base = root / name
         if base.is_dir():
             runtime_examples(base, name)
+            rules = common_skill_checks(base, name)
+            eval_checks(base, name, rules)
         if name == COMBINED:
             for relative in ("SKILL.md", "references/protocol.md", "references/architecture-guide.md",
                              "references/runtime-evidence.md", "references/research-basis.md",
@@ -169,18 +284,6 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
                              "templates/runtime.example.json", "templates/review-reuse.example.json",
                              "evals/scenarios.json", "evals/runtime-scenarios.json"):
                 add(f"{name}:file:{relative}", (base / relative).is_file())
-            for doc in sorted((base / "references").glob("*.md")) + [base / "SKILL.md"]:
-                try:
-                    content = doc.read_text(encoding="utf-8-sig")
-                    add(f"{name}:utf8:{doc.name}", True)
-                    for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", content):
-                        if target.startswith(("http:", "https:", "#")):
-                            continue
-                        resolved = (doc.parent / target.split("#", 1)[0]).resolve()
-                        add(f"{name}:link:{doc.name}:{target}",
-                            resolved.is_relative_to(root.resolve()) and resolved.is_file())
-                except (OSError, UnicodeError) as exc:
-                    add(f"{name}:utf8:{doc.name}", False, str(exc))
             run = read_json(base / "templates/run.example.json", f"{name}:run-json")
             if isinstance(run, dict):
                 role_hosting_defaults(run, name)
@@ -214,6 +317,8 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
                     "independent_inner_review_required", "inner_supervision_required",
                     "independent_outer_adjudication_required", "exact_candidate_binding_required"))
                     and controls.get("production_release_enabled") is False)
+                add(f"{name}:review-code-boundary", defaults_match(controls, {
+                    "reviewers_write_test_code": False, "supplemental_verification_assigned_by_bridge": True}))
                 delivery = object_field(run, "delivery", name)
                 add(f"{name}:delivery-not-run", delivery.get("status") == "NOT_RUN"
                     and delivery.get("gates_verified") is False and delivery.get("receipt_ref") is None
@@ -235,48 +340,12 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
                 add(f"{name}:dependency-check-not-run", defaults_match(reuse.get("dependency_details"), {
                     "check_execution": "NOT_RUN", "checked_by_identity": None,
                     "check_method": None, "check_evidence_ref": None}))
-            scenarios = read_json(base / "evals/scenarios.json", f"{name}:eval-json")
-            if isinstance(scenarios, dict):
-                cases = scenarios.get("cases")
-                add(f"{name}:eval-not-run", scenarios.get("execution_status") == "NOT_RUN"
-                    and isinstance(cases, list) and bool(cases)
-                    and all(isinstance(case, dict) and case.get("status") == "NOT_RUN" for case in cases))
             continue
         for relative in REQUIRED:
             add(f"{name}:file:{relative}", (base / relative).is_file())
         main = base / "SKILL.md"
         if not main.is_file():
             continue
-        try:
-            text = main.read_text(encoding="utf-8")
-            protocol = (base / "references/protocol.md").read_text(encoding="utf-8")
-        except (OSError, UnicodeError) as exc:
-            add(f"{name}:utf8", False, str(exc))
-            continue
-        add(f"{name}:utf8", True)
-        fm = re.match(r"\A---\n(.*?)\n---\n", text, re.S)
-        add(f"{name}:frontmatter", fm is not None)
-        if fm:
-            metadata = dict(re.findall(r"^(name|description): (.+)$", fm.group(1), re.M))
-            add(f"{name}:name", metadata.get("name") == name and bool(re.fullmatch(r"[a-z0-9-]+", name)))
-            description = metadata.get("description", "")
-            add(f"{name}:description", description.startswith("Use when ") and len(description) < 500)
-            add(f"{name}:frontmatter-size", len(fm.group(1)) <= 1024)
-        add(f"{name}:main-size", len(text.splitlines()) <= 200)
-        for heading in HEADINGS:
-            add(f"{name}:heading:{heading}", heading in text)
-        for doc in (main, base / "references/protocol.md"):
-            content = doc.read_text(encoding="utf-8")
-            for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", content):
-                if target.startswith(("http:", "https:", "#")):
-                    continue
-                clean = target.split("#", 1)[0]
-                resolved = (doc.parent / clean).resolve()
-                within = resolved.is_relative_to(base.resolve())
-                add(f"{name}:link:{doc.name}:{target}", within and resolved.is_file())
-        rules = set(re.findall(r"\b[A-Z]+-\d{2}\b", text + "\n" + protocol))
-        add(f"{name}:common-rules", COMMON_RULES.issubset(rules))
-        add(f"{name}:enforcement-limits", all(term in text + protocol for term in ("权限隔离", "worktree", "独立", "未执行", "不自动")))
 
         run = read_json(base / "templates/run.example.json", f"{name}:run-json")
         if isinstance(run, dict):
@@ -291,19 +360,29 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
             add(f"{name}:protected-paths", bool(controls.get("protected_paths")))
             runtime = object_field(run, "runtime", name)
             add(f"{name}:unknown-capabilities", runtime.get("subagents_verified") is False and runtime.get("permission_isolation_verified") is False and runtime.get("reviewer_identity") is None)
-            expected_dispatch = "single-executor-self-claim" if MODES[name] == "decentralized" else "coordinator-assignment"
+            team = run.get("execution_team") if isinstance(run.get("execution_team"), dict) else {}
+            expected_dispatch = (("single-executor-self-claim" if team.get("executor_count") == 1
+                                  else "peer-executor-self-claim")
+                                 if MODES[name] == "decentralized" else "coordinator-assignment")
             add(f"{name}:dispatch-distinction", object_field(run, "dispatch", name).get("method") == expected_dispatch)
             if MODES[name] == "decentralized":
                 prefix = f"{name}:separation:"
                 governance = object_field(run, "governance", prefix)
                 roles = object_field(governance, "roles", prefix)
                 add(prefix + "three-roles", set(roles) == {"legislator", "executor", "arbiter"}
-                    and governance.get("agent_count") == 3)
+                    and type(governance.get("agent_count")) is int
+                    and governance.get("agent_count") == (run.get("execution_team", {}).get("planned_distinct_subagents")
+                         if isinstance(run.get("execution_team"), dict) else None))
                 add(prefix + "separate-powers", governance.get("role_combination_allowed") is False
                     and governance.get("majority_override_allowed") is False
                     and "main_session_role" in governance and governance["main_session_role"] is None)
-                add(prefix + "single-executor", budget.get("max_active_workers") == 1
-                    and budget.get("max_active_agents") == 3)
+                team = run.get("execution_team") if isinstance(run.get("execution_team"), dict) else {}
+                count = team.get("executor_count")
+                add(prefix + "executor-capacity", type(count) is int and count > 0
+                    and type(budget.get("max_active_workers")) is int
+                    and 1 <= budget["max_active_workers"] <= count
+                    and type(budget.get("max_active_agents")) is int
+                    and budget["max_active_agents"] >= count + 2)
                 add(prefix + "identities-not-invented", all(isinstance(role, dict)
                     and role.get("identity") is None and role.get("epoch") is None
                     and role.get("available") is False for role in roles.values())
@@ -342,6 +421,11 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
             findings_field = "findings" if name == "gas-centralized-development" and review.get("schema_version") in (2, 3) else "blocking_findings"
             add(f"{name}:review-scope", {"base_commit", "head_commit", "integration_commit", "contract_version", "independence_verified", findings_field, "unverified_items"}.issubset(review))
             add(f"{name}:no-fake-independence", review.get("independence_verified") is False)
+            if name == "gas-centralized-development":
+                add(f"{name}:review-code-boundary", review.get("reviewer_may_write_verification_code") is False)
+            else:
+                add(f"{name}:review-code-boundary", defaults_match(review.get("review_boundary"), {
+                    "test_code_write_allowed": False, "analysis_only": True, "existing_command_rerun_allowed": True}))
 
         if MODES[name] == "decentralized":
             prefix = f"{name}:separation:"
@@ -392,41 +476,21 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
                     and record.get("run_id") == run.get("run_id")
                     and record.get("contract_version") == run.get("contract_version"))
 
-        scenarios = read_json(base / "evals/scenarios.json", f"{name}:eval-json")
-        if isinstance(scenarios, dict):
-            cases = scenarios.get("cases", [])
-            valid_cases = isinstance(cases, list) and all(
-                isinstance(c, dict) and isinstance(c.get("id"), str)
-                and isinstance(c.get("rules"), list)
-                and all(isinstance(rule, str) for rule in c["rules"])
-                and isinstance(c.get("pressures", []), list)
-                for c in cases
-            )
-            add(f"{name}:eval-structure", valid_cases)
-            if not valid_cases:
-                cases = []
-            add(f"{name}:eval-count", len(cases) >= 12)
-            ids = [c.get("id") for c in cases]
-            add(f"{name}:eval-unique", len(set(ids)) == len(ids))
-            add(f"{name}:eval-not-run", scenarios.get("execution_status") == "NOT_RUN" and all(c.get("status") == "NOT_RUN" for c in cases))
-            add(f"{name}:eval-assertions", all(c.get("prompt") and c.get("expected_actions") and c.get("failure_actions") for c in cases))
-            referenced = {r for c in cases for r in c.get("rules", [])}
-            add(f"{name}:eval-rule-coverage", COMMON_RULES.issubset(referenced) and referenced.issubset(rules))
-            add(f"{name}:eval-pressure", any(len(c.get("pressures", [])) >= 3 for c in cases))
-
         # Keep common checks, and enforce the new hub records through its own validator.
         if name == "gas-centralized-development":
             validator_path = base / "scripts/validate_skill.py"
             try:
                 spec = importlib.util.spec_from_file_location("gas_commander_v3_validator", validator_path)
+                if spec is None or spec.loader is None:
+                    raise ImportError("validator module has no usable loader")
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 result = module.validate(base)
                 add(f"{name}:v3:validator", True)
                 for check in result["checks"]:
                     add(f"{name}:v3:{check['name']}", check["ok"], check["detail"])
-            except (OSError, ValueError, TypeError, AttributeError, KeyError, SyntaxError) as exc:
-                add(f"{name}:v3:validator", False, str(exc))
+            except Exception as exc:  # Isolate validator defects, not control-flow BaseExceptions.
+                add(f"{name}:v3:validator", False, f"{type(exc).__name__}: {exc}")
 
     if package:
         for item in ("README.zh-CN.md", "Install-GAS-Skills.ps1", "VALIDATION.md", "manifest.sha256.json"):
@@ -434,7 +498,9 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
         installer = root / "Install-GAS-Skills.ps1"
         if installer.is_file():
             script = installer.read_text(encoding="utf-8-sig")
-            add("package:installer-target", "E:\\AIProject\\GAS" in script)
+            add("package:installer-default", "GetFolderPath('UserProfile')" in script
+                and "'.agents\\skills'" in script and "Join-Path" in script)
+            add("package:installer-absolute-destination", "IsPathRooted($Destination)" in script)
             add("package:installer-preflight", all(term in script for term in ("ShouldProcess", "Refusing to overwrite", "Get-FileHash", "Directory]::Move")))
             add("package:installer-no-network-or-policy-change", not re.search(r"(?i)Invoke-WebRequest|Invoke-RestMethod|Set-ExecutionPolicy|Start-Process.*RunAs", script))
         manifest = read_json(root / "manifest.sha256.json", "package:manifest-json")
@@ -457,10 +523,13 @@ def validate(root: Path, selected: list[str], package: bool = False) -> dict[str
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent)
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent,
+                        help="Package root containing skill folders and manifest.sha256.json (default: this script's folder). All checks, including hashes, use this root.")
     parser.add_argument("--skill", choices=[*MODES, COMBINED])
     parser.add_argument("--report", type=Path, help="Optional JSON report; keep it outside the package to preserve the manifest.")
     args = parser.parse_args()
+    if not (args.root / "manifest.sha256.json").is_file() and (args.root / "GAS-Agent-Skills").is_dir():
+        print("Invalid --root: this appears to be the repository root. Use --root", args.root / "GAS-Agent-Skills")
     report = validate(args.root, [args.skill] if args.skill else list(MODES), package=args.skill is None)
     for check in report["checks"]:
         if not check["passed"]:

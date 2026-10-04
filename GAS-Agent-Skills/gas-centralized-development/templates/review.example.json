@@ -31,5 +31,23 @@
   "supersedes_review_id": null,
   "prior_review_refs": [],
   "reassignment_reason": null,
-  "notes": "只记录事实与专业判断；不代替指挥者的管理接受或发布命令。补证／复核追加记录，不覆盖原始报告。"
+  "notes": "只记录事实与专业判断；不代替指挥者的管理接受或发布命令。补证／复核追加记录，不覆盖原始报告。",
+  "input_refs": {
+    "executor_outputs": [],
+    "supervisor_outputs": []
+  },
+  "verification_ownership": {
+    "executor_identity": null,
+    "task_ref": null,
+    "test_code_paths": [],
+    "execution_evidence_refs": [],
+    "analysis_owner_identity": null,
+    "supplement_request_refs": []
+  },
+  "reviewer_may_write_verification_code": false,
+  "allowed_methods": [
+    "read_only_analysis",
+    "evidence_comparison",
+    "rerun_existing_commands"
+  ]
 }

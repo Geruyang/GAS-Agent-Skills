@@ -80,7 +80,8 @@
         "authority_record": null,
         "allowed_scope": [],
         "hard_gate_override_allowed": false
-      }
+      },
+      "verification_owner_identity": null
     },
     {
       "criterion_id": "INV-02",
@@ -105,7 +106,8 @@
         "authority_record": null,
         "allowed_scope": [],
         "hard_gate_override_allowed": false
-      }
+      },
+      "verification_owner_identity": null
     },
     {
       "criterion_id": "INV-03",
@@ -130,7 +132,8 @@
         "authority_record": null,
         "allowed_scope": [],
         "hard_gate_override_allowed": false
-      }
+      },
+      "verification_owner_identity": null
     },
     {
       "criterion_id": "INV-04",
@@ -155,10 +158,23 @@
         "authority_record": null,
         "allowed_scope": [],
         "hard_gate_override_allowed": false
-      }
+      },
+      "verification_owner_identity": null
     }
   ],
   "runtime_evidence_ref": null,
   "feasibility_evidence_refs": [],
-  "intent_coverage_matrix": []
+  "intent_coverage_matrix": [],
+  "execution_ownership": {
+    "executor_name": null,
+    "development_owner_identity": null,
+    "verification_owner_identity": null,
+    "module_ref": null,
+    "development_paths": [],
+    "test_code_paths": [],
+    "shared_resources": [],
+    "ownership_agreement_ref": null,
+    "monitor_record_refs": [],
+    "note": "READY 前绑定同一具名执行者负责开发、测试/验证代码和该项验证，核对身份/任期、允许路径及共享资源协商；未填写不表示已派工或已认领。多执行者平级自主认领，不指挥彼此。"
+  }
 }

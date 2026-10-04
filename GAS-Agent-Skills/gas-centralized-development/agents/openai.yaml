@@ -1,2 +1,4 @@
 interface:
   display_name: "GAS Centralized Development"
+  short_description: "默认四个子 agent，可配置 N 名执行者；具名开发验证、独立分析与监测"
+  default_prompt: "请使用 $gas-centralized-development 完成当前开发任务，按技能要求确认角色配置与职责，主会话展示进展。"
