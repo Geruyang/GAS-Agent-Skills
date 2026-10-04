@@ -253,7 +253,9 @@ class RuntimeEvidenceTests(unittest.TestCase):
             with self.subTest(content=content):
                 record = valid_record(self.folder, digest)
                 record["evidence"][0]["sha256"] = "0" * 64
-                evidence_path = self.folder / "observed.txt"
+                # read_regular receives paths under checked_path's canonical parent.
+                # Match the actual file even when TEMP uses a Windows 8.3 alias.
+                evidence_path = (self.folder / "observed.txt").resolve()
                 evidence_path.write_bytes(content)
                 write_json(self.record_path, record)
                 injected = []
@@ -267,8 +269,27 @@ class RuntimeEvidenceTests(unittest.TestCase):
 
                 with mock.patch.object(module, "read_regular", read_then_inject):
                     outcome = module.assess(self.candidate, self.manifest, self.record_path)
+                self.assertEqual(injected, [True], "evidence-drift fault was not injected")
                 self.assertFalse(outcome["technical_evidence_ready"])
                 self.assertIn("evidence changed during assessment: observation", outcome["issues"])
+
+    def test_invalid_evidence_drift_with_short_temp_alias(self):
+        if os.name != "nt":
+            self.skipTest("Windows short-path alias regression")
+        import ctypes
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = ctypes.windll.kernel32.GetShortPathNameW(str(self.folder), buffer, len(buffer))
+        if not length or length >= len(buffer):
+            self.skipTest("Host cannot provide a usable short-path alias")
+        alias = Path(buffer.value)
+        if alias == self.folder:
+            self.skipTest("Host did not provide a differing short-path alias")
+        original_folder = self.folder
+        try:
+            self.folder = alias
+            self.test_invalid_evidence_readback_still_detects_real_drift()
+        finally:
+            self.folder = original_folder
 
     def test_ready_is_only_technical_and_preserves_other_decisions(self):
         digest = self.freeze()["candidate_digest"]
