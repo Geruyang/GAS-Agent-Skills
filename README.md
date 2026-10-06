@@ -50,23 +50,9 @@
 
 **统一指挥，独立取证，集中裁决。** 指挥者拆解任务、统一派工、汇总技术事实，并负责集成发布；执行者、审查者、监督者各司其职，向指挥者汇报。
 
-```mermaid
-flowchart TB
-    Main["主会话：展示进展，不占角色席位"]
-    C["子 agent：指挥者"]
-    E["子 agent：执行者 1…N（各自开发与验证）"]
-    R["子 agent：审查者"]
-    S["子 agent：监督者"]
-    C -->|派工| E
-    C -->|派工| R
-    C -->|派工| S
-    E -.->|成果| C
-    E -.->|实现与验证输出| R
-    S -.->|监控与异常输出| R
-    R -.->|问题分析| C
-    S -.->|监督证据| C
-    C -.->|进展与证据| Main
-```
+![集权模式 2.0：角色架构与使用说明](docs/images/v2/01-centralized.png)
+
+[查看高清图](docs/images/v2/01-centralized.png) · [SVG 矢量版](docs/images/v2/01-centralized.svg)
 
 [历史集权框架图](docs/images/01-centralized.png) 中的「主会话担任指挥者」已撤销。
 
@@ -86,19 +72,9 @@ flowchart TB
 
 **立规有界，执行自主，裁衡独立。** 立规者制定规则与验收标准，执行者在有效契约内自主实施，裁衡者独立检查规则是否忠实于人类意图、成果是否满足验收要求。
 
-```mermaid
-flowchart TB
-    Main["主会话：展示进展，不占角色席位"]
-    L["子 agent：立规者"]
-    E["子 agent：执行者 1…N（各自开发与验证）"]
-    A["子 agent：裁衡者"]
-    L <-->|规则与复议| E
-    L <-->|意图审查| A
-    E <-->|成果与裁衡| A
-    L -.->|进展与证据| Main
-    E -.->|进展与证据| Main
-    A -.->|进展与证据| Main
-```
+![分权模式 2.0：角色架构与使用说明](docs/images/v2/02-decentralized.png)
+
+[查看高清图](docs/images/v2/02-decentralized.png) · [SVG 矢量版](docs/images/v2/02-decentralized.svg)
 
 [历史分权框架图](docs/images/02-decentralized.png) 中的「主会话 + 两个子 agent」已撤销。
 
@@ -117,34 +93,9 @@ flowchart TB
 
 **外层分权制衡，内层集中执行。** 外层保留立规者、执行者、裁衡者三个平级席位；其中的执行者同时担任内层指挥者，组织执行、审查与监督团队。
 
-```mermaid
-flowchart TB
-    Main["主会话：进展展示与人类交互，不占角色席位"]
-    subgraph Team["N+5 个真实子 agent（默认 N=1）"]
-      subgraph Outer["外层：三席平级"]
-        L["立规者"]
-        C["外层执行者 = 内层指挥者"]
-        A["裁衡者"]
-        L <-->|契约与复议| C
-        C <-->|成果与裁衡| A
-      end
-      subgraph Inner["内层下属"]
-        E["执行者 1…N（开发与验证）"]
-        R["审查者"]
-        S["监督者"]
-      end
-      C --> E
-      C --> R
-      C --> S
-      E -.->|开发与验证输出| R
-      S -.->|监控与异常输出| R
-      R -.->|问题分析| C
-      S -.->|监督与安全告警| C
-    end
-    L -.->|进展与证据| Main
-    C -.->|进展与证据| Main
-    A -.->|进展与证据| Main
-```
+![组合模式 2.0：角色架构与使用说明](docs/images/v2/03-combined.png)
+
+[查看高清图](docs/images/v2/03-combined.png) · [SVG 矢量版](docs/images/v2/03-combined.svg)
 
 [历史组合框架图](docs/images/03-combined.png) 中的主会话任职与「1 主 + 5 子」已被上述规则替代。
 
@@ -156,7 +107,7 @@ flowchart TB
 
 [阅读 Skill](GAS-Agent-Skills/gas-combined-development/SKILL.md) · [组合协议](GAS-Agent-Skills/gas-combined-development/references/protocol.md) · [运行模板](GAS-Agent-Skills/gas-combined-development/templates/run.example.json) · [架构与使用详解](GAS-Agent-Skills/gas-combined-development/references/architecture-guide.md)
 
-> 历史图片仅保留归档链接，其中主会话任职、旧人数和 YAML 修复提示不再作为现行指南。当前角色承载以本页流程图、技能入口和协议为准。
+> 历史图片仅保留归档链接，其中主会话任职、旧人数和 YAML 修复提示不再作为现行指南。当前角色承载以本页架构图、技能入口和协议为准。
 
 ## 怎样选择
 
@@ -243,7 +194,7 @@ GAS-Agent-Skills/
 ├── README.md                          # 中文展示与快速开始
 ├── README.en.md                       # English overview
 ├── docs/
-│   ├── images/                        # 集权 → 分权 → 组合，三张原始高清图
+│   ├── images/                        # v2/ 为当前中英文架构图；旧图保留归档
 │   └── history/                       # 历史验证说明
 └── GAS-Agent-Skills/                  # 可复制的完整技能包
     ├── gas-centralized-development/  # 集权：指挥、执行、审查、监督

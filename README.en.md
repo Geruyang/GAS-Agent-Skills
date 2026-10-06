@@ -52,23 +52,9 @@ Current architecture diagrams are provided below. Earlier raster diagrams remain
 
 **Unified direction. Independent evidence. Centralized decisions.** The commander breaks down work, assigns tasks, evaluates technical evidence, and handles integration and release. Executors, reviewers, and supervisors have distinct responsibilities and report to the commander.
 
-```mermaid
-flowchart TB
-    Main["Main session: progress display; no role"]
-    C["Subagent: commander"]
-    E["Subagents: executors 1…N (implement and verify)"]
-    R["Subagent: reviewer"]
-    S["Subagent: supervisor"]
-    C -->|Assignment| E
-    C -->|Assignment| R
-    C -->|Assignment| S
-    E -.->|Artifacts| C
-    E -.->|Implementation and verification outputs| R
-    S -.->|Monitoring and anomalies| R
-    R -.->|Problem analysis| C
-    S -.->|Supervision evidence| C
-    C -.->|Progress and evidence| Main
-```
+![Centralized mode 2.0: architecture and usage](docs/images/v2/01-centralized-en.png)
+
+[Full-resolution image](docs/images/v2/01-centralized-en.png) · [SVG vector version](docs/images/v2/01-centralized-en.svg)
 
 The main-session commander in the [historical centralized diagram](docs/images/01-centralized-en.png) is no longer permitted.
 
@@ -88,19 +74,9 @@ The main-session commander in the [historical centralized diagram](docs/images/0
 
 **Bounded rulemaking. Autonomous execution. Independent adjudication.** The rulemaker defines rules and acceptance criteria. The executor works autonomously within the effective contract. The arbiter independently checks both whether the rules reflect the human's intent and whether the result meets those rules.
 
-```mermaid
-flowchart TB
-    Main["Main session: progress display; no role"]
-    L["Subagent: legislator"]
-    E["Subagents: executors 1…N (implement and verify)"]
-    A["Subagent: arbiter"]
-    L <-->|Rules and reconsideration| E
-    L <-->|Intent review| A
-    E <-->|Artifacts and adjudication| A
-    L -.->|Progress and evidence| Main
-    E -.->|Progress and evidence| Main
-    A -.->|Progress and evidence| Main
-```
+![Decentralized mode 2.0: architecture and usage](docs/images/v2/02-decentralized-en.png)
+
+[Full-resolution image](docs/images/v2/02-decentralized-en.png) · [SVG vector version](docs/images/v2/02-decentralized-en.svg)
 
 The main-session role in the [historical decentralized diagram](docs/images/02-decentralized-en.png) is no longer permitted.
 
@@ -119,34 +95,9 @@ The main-session role in the [historical decentralized diagram](docs/images/02-d
 
 **Separation of powers outside. Centralized execution inside.** The outer rulemaker, executor, and arbiter remain peers. The outer executor also serves as the inner commander, directing an implementation, review, and supervision team.
 
-```mermaid
-flowchart TB
-    Main["Main session: progress and human interaction; no governance role"]
-    subgraph Team["N+5 real subagents (default N=1)"]
-      subgraph Outer["Outer layer: three peer seats"]
-        L["Legislator"]
-        C["Outer executor = inner commander"]
-        A["Arbiter"]
-        L <-->|Contract and reconsideration| C
-        C <-->|Artifacts and adjudication| A
-      end
-      subgraph Inner["Inner subordinates"]
-        E["Executors 1…N (implement and verify)"]
-        R["Reviewer"]
-        S["Supervisor"]
-      end
-      C --> E
-      C --> R
-      C --> S
-      E -.->|Implementation and verification outputs| R
-      S -.->|Monitoring and anomalies| R
-      R -.->|Problem analysis| C
-      S -.->|Supervision and safety alerts| C
-    end
-    L -.->|Progress and evidence| Main
-    C -.->|Progress and evidence| Main
-    A -.->|Progress and evidence| Main
-```
+![Combined mode 2.0: architecture and usage](docs/images/v2/03-combined-en.png)
+
+[Full-resolution image](docs/images/v2/03-combined-en.png) · [SVG vector version](docs/images/v2/03-combined-en.svg)
 
 The [historical combined diagram](docs/images/03-combined-en.png) contains the superseded main-session role and one-main-plus-five-children arrangement.
 

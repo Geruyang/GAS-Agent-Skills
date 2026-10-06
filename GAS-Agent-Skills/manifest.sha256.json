@@ -3,7 +3,7 @@
   "algorithm": "sha256",
   "files": {
     "Install-GAS-Skills.ps1": "43ca6f3dc0ff8199a79a6e3c41ae152ba3516e7cdd06af2caee6dcdad1ff12a9",
-    "README.zh-CN.md": "1ac14f9496bc6fcf954a2328b746b20f269d9a294cf72b84bcbde52267e3fe90",
+    "README.zh-CN.md": "c42980ab895dbf45fdabb68bfcfde29dbc62dadb737c18c12d7c7aeefbaaa7de",
     "VALIDATION.md": "0c42250b106f823e483d47eacb3728c18c2863dc86eedae5c0139facd8803ae4",
     "gas-centralized-development/CHANGELOG.md": "1f84f8222b31fe9ec95a5a6c04a2dfc2dd4c430fb0f00c7876d17f441da9b4c3",
     "gas-centralized-development/README.zh-CN.md": "c3b9148da6d13db56514d4f167facacbd27dcf1cc5342ff2655b97e0d0bcdc6f",

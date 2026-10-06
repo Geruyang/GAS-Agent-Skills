@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1380" viewBox="0 0 1800 1380" role="img" aria-labelledby="title desc">
+<title id="title">Decentralized mode</title><desc id="desc">GAS 2.0: all governance roles are real subagents; the main session displays progress. N is configurable.</desc>
+<rect x="0" y="0" width="1800" height="1380" rx="0" fill="#F5F7FB" stroke="none" stroke-width="2"/>
+<text x="58" y="44" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="49" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">Decentralized mode</text>
+<text x="60" y="116" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">Bounded rules · Autonomous execution · Independent judgment</text>
+<rect x="1520" y="54" width="220" height="50" rx="25" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1630" y="64" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">GAS  /  2.0</text>
+<rect x="40" y="185" width="1080" height="1120" rx="18" fill="white" stroke="none" stroke-width="2"/>
+<rect x="1144" y="185" width="616" height="1120" rx="18" fill="white" stroke="none" stroke-width="2"/>
+<text x="76" y="217" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="31" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">01  Role architecture</text>
+<text x="1180" y="217" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="31" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">02  Use in Codex</text>
+<rect x="320" y="280" width="520" height="106" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="338" y="300" width="4" height="30" rx="2" fill="#285DAD" stroke="none" stroke-width="2"/>
+<text x="580.0" y="302" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="30" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">Human / authorizer</text>
+<text x="580.0" y="350" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Goals · Authorization · Budget · Acceptance</text>
+<polyline points="450,386 450,423 268,423 268,493" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="268,493 274.0,480.0 262.0,480.0" fill="#285DAD"/>
+<polyline points="710,386 710,423 892,423 892,493" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="892,493 898.0,480.0 886.0,480.0" fill="#285DAD"/>
+<text x="580" y="449" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="700" fill="#087D86" dominant-baseline="text-before-edge" text-anchor="middle">Three peer functions · Separate powers</text>
+<rect x="88" y="493" width="360" height="177" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="106" y="513" width="4" height="30" rx="2" fill="#087D86" stroke="none" stroke-width="2"/>
+<text x="268.0" y="515" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="29" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">Rulemaker</text>
+<text x="268.0" y="563" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Define rules and acceptance</text>
+<text x="268.0" y="597" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Consider appeals · Revise rules</text>
+<rect x="712" y="493" width="360" height="177" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="730" y="513" width="4" height="30" rx="2" fill="#087D86" stroke="none" stroke-width="2"/>
+<text x="892.0" y="515" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="29" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">Arbiter</text>
+<text x="892.0" y="563" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Review rules against intent</text>
+<text x="892.0" y="597" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Analyze results and evidence</text>
+<text x="892.0" y="631" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">No test / verification coding</text>
+<polyline points="460,564 700,564" fill="none" stroke="#087D86" stroke-width="3"/>
+<polygon points="700,564 687.0,558.0 687.0,570.0" fill="#087D86"/>
+<polygon points="460,564 473.0,570.0 473.0,558.0" fill="#087D86"/>
+<text x="580" y="526" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#087D86" dominant-baseline="text-before-edge" text-anchor="middle">Submit rules</text>
+<text x="580" y="587" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="20" font-weight="400" fill="#087D86" dominant-baseline="text-before-edge" text-anchor="middle">Intent review / objections</text>
+<polyline points="268,670 268,727 444,727 444,812" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="444,812 450.0,799.0 438.0,799.0" fill="#285DAD"/>
+<polygon points="268,670 262.0,683.0 274.0,683.0" fill="#285DAD"/>
+<polyline points="892,670 892,727 716,727 716,812" fill="none" stroke="#087D86" stroke-width="3"/>
+<polygon points="716,812 722.0,799.0 710.0,799.0" fill="#087D86"/>
+<polygon points="892,670 886.0,683.0 898.0,683.0" fill="#087D86"/>
+<text x="270" y="753" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">Rules / appeals</text>
+<text x="895" y="753" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#087D86" dominant-baseline="text-before-edge" text-anchor="middle">Evidence / judgment</text>
+<rect x="340" y="812" width="480" height="170" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="358" y="832" width="4" height="30" rx="2" fill="#285DAD" stroke="none" stroke-width="2"/>
+<text x="580.0" y="834" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="29" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">Executors 1…N</text>
+<text x="580.0" y="882" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Independent tasks · Parallel work</text>
+<text x="580.0" y="916" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Each owns test code and verification</text>
+<text x="580.0" y="950" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Share runtime facts and anomalies</text>
+<polyline points="580,982 580,1022" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="580,1022 586.0,1009.0 574.0,1009.0" fill="#285DAD"/>
+<rect x="88" y="1022" width="984" height="99" rx="14" fill="#F2F6FC" stroke="none" stroke-width="2"/>
+<text x="580" y="1040" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="26" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">Effective rules + Independent judgment + Authorization</text>
+<text x="580" y="1083" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">Authorized delivery → Retrospective → Rule proposals</text>
+<rect x="76" y="1163" width="1008" height="99" rx="14" fill="#F0F3F7" stroke="none" stroke-width="2"/>
+<text x="100" y="1181" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="26" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">Main session: progress display and human interaction</text>
+<text x="100" y="1225" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">All governance roles are real subagents; the main session holds no role.</text>
+<rect x="1180" y="281" width="40" height="40" rx="10" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1200" y="286" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">1</text>
+<text x="1238" y="284" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">Read the Skill and protocol</text>
+<text x="1238" y="337" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">In the target project, read SKILL.md and</text>
+<text x="1238" y="373" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">its protocol. Combined mode requires</text>
+<text x="1238" y="409" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">all three sibling skill folders.</text>
+<rect x="1180" y="471" width="548" height="84" rx="12" fill="#F2F6FC" stroke="none" stroke-width="2"/>
+<text x="1202" y="486" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">After installation and discovery:</text>
+<text x="1202" y="524" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="start">$gas-decentralized-development</text>
+<rect x="1180" y="595" width="40" height="40" rx="10" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1200" y="600" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">2</text>
+<text x="1238" y="598" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">Confirm roles and the team</text>
+<text x="1238" y="651" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">Choose N executors: N+2 real</text>
+<text x="1238" y="687" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">subagents plus one main session. With</text>
+<text x="1238" y="723" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">N=1, use 3 subagents.</text>
+<text x="1238" y="807" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">Confirm models, reasoning effort and</text>
+<text x="1238" y="841" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">roles. Wait for the whole team.</text>
+<rect x="1180" y="902" width="40" height="40" rx="10" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1200" y="907" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">3</text>
+<text x="1238" y="905" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">Execute and judge independently</text>
+<text x="1238" y="958" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">Executors implement and verify in</text>
+<text x="1238" y="994" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">parallel under the effective contract. The</text>
+<text x="1238" y="1030" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">arbiter analyzes outputs; named</text>
+<text x="1238" y="1066" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">executors add any missing tests.</text>
+<rect x="1180" y="1163" width="548" height="99" rx="14" fill="#FFF8E9" stroke="none" stroke-width="2"/>
+<text x="1200" y="1178" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="21" font-weight="400" fill="#926017" dominant-baseline="text-before-edge" text-anchor="start">Three functions remain peers.</text>
+<text x="1200" y="1207" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="21" font-weight="400" fill="#926017" dominant-baseline="text-before-edge" text-anchor="start">No commander or supervisor is added.</text>
+<text x="60" y="1330" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">Solid lines: authority / assignments / rules    Teal: evidence / analysis    N: user-selected executor count; default 1</text>
+</svg>

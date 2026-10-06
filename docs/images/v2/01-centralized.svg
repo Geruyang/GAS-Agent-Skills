@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1380" viewBox="0 0 1800 1380" role="img" aria-labelledby="title desc">
+<title id="title">集权开发模式</title><desc id="desc">GAS 2.0: all governance roles are real subagents; the main session displays progress. N is configurable.</desc>
+<rect x="0" y="0" width="1800" height="1380" rx="0" fill="#F5F7FB" stroke="none" stroke-width="2"/>
+<text x="58" y="44" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="49" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">集权开发模式</text>
+<text x="60" y="116" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">统一指挥 · 独立分析 · 并行开发</text>
+<rect x="1520" y="54" width="220" height="50" rx="25" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1630" y="64" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">GAS  /  2.0</text>
+<rect x="40" y="185" width="1080" height="1120" rx="18" fill="white" stroke="none" stroke-width="2"/>
+<rect x="1144" y="185" width="616" height="1120" rx="18" fill="white" stroke="none" stroke-width="2"/>
+<text x="76" y="217" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="31" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">01  角色架构</text>
+<text x="1180" y="217" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="31" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">02  在 Codex 中使用</text>
+<rect x="320" y="280" width="520" height="106" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="338" y="300" width="4" height="30" rx="2" fill="#285DAD" stroke="none" stroke-width="2"/>
+<text x="580.0" y="302" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="30" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">人类用户／授权者</text>
+<text x="580.0" y="350" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">目标 · 授权 · 预算 · 验收边界</text>
+<polyline points="580,386 580,459" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="580,459 586.0,446.0 574.0,446.0" fill="#285DAD"/>
+<text x="608" y="408" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="start">授权与角色监督</text>
+<rect x="340" y="459" width="480" height="133" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="358" y="479" width="4" height="30" rx="2" fill="#285DAD" stroke="none" stroke-width="2"/>
+<text x="580.0" y="481" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="32" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">指挥者</text>
+<text x="580.0" y="529" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">拆分任务 · 主动并行 · 汇总裁决</text>
+<text x="580.0" y="563" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">集成 · 发布 · 回滚 · 回执</text>
+<polyline points="580,592 580,620 232,620 232,675" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="232,675 238.0,662.0 226.0,662.0" fill="#285DAD"/>
+<polyline points="580,592 580,620 580,620 580,675" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="580,675 586.0,662.0 574.0,662.0" fill="#285DAD"/>
+<polyline points="580,592 580,620 928,620 928,675" fill="none" stroke="#285DAD" stroke-width="3"/>
+<polygon points="928,675 934.0,662.0 922.0,662.0" fill="#285DAD"/>
+<rect x="477" y="628" width="206" height="32" rx="18" fill="white" stroke="none" stroke-width="2"/>
+<text x="580" y="631" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">派工与协调</text>
+<rect x="76" y="675" width="312" height="185" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="94" y="695" width="4" height="30" rx="2" fill="#285DAD" stroke="none" stroke-width="2"/>
+<text x="232.0" y="697" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="28" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">执行者 1…N</text>
+<text x="232.0" y="745" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">独立任务开发</text>
+<text x="232.0" y="779" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">编写测试／验证代码</text>
+<text x="232.0" y="813" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">完成验证并提交证据</text>
+<rect x="424" y="675" width="312" height="185" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="442" y="695" width="4" height="30" rx="2" fill="#285DAD" stroke="none" stroke-width="2"/>
+<text x="580.0" y="697" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="28" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">审查者</text>
+<text x="580.0" y="745" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">接收执行与监督输出</text>
+<text x="580.0" y="779" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">分析问题与证据缺口</text>
+<text x="580.0" y="813" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">不编写测试／验证代码</text>
+<rect x="772" y="675" width="312" height="185" rx="18" fill="#EDF3FC" stroke="#C7D5E7" stroke-width="2"/>
+<rect x="790" y="695" width="4" height="30" rx="2" fill="#285DAD" stroke="none" stroke-width="2"/>
+<text x="928.0" y="697" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="28" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="middle">监督者</text>
+<text x="928.0" y="745" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">核对指挥意图与行为</text>
+<text x="928.0" y="779" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">监控软硬件与工作状态</text>
+<text x="928.0" y="813" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="middle">异常与安全告警上报</text>
+<polyline points="232,860 232,908 580,908 580,860" fill="none" stroke="#087D86" stroke-width="3"/>
+<polygon points="580,860 574.0,873.0 586.0,873.0" fill="#087D86"/>
+<polyline points="928,860 928,908 580,908 580,860" fill="none" stroke="#087D86" stroke-width="3"/>
+<polygon points="580,860 574.0,873.0 586.0,873.0" fill="#087D86"/>
+<text x="580" y="926" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#087D86" dominant-baseline="text-before-edge" text-anchor="middle">开发与验证输出 + 监控与异常输出 → 审查分析</text>
+<rect x="76" y="965" width="1008" height="154" rx="14" fill="#F2F6FC" stroke="none" stroke-width="2"/>
+<text x="100" y="985" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">所有下属向指挥者汇报</text>
+<text x="100" y="1032" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">执行成果与验证证据／审查问题分析／监督与安全告警。</text>
+<text x="100" y="1067" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">监督者核对执行与审查是否符合指挥者意图。</text>
+<rect x="76" y="1163" width="1008" height="99" rx="14" fill="#F0F3F7" stroke="none" stroke-width="2"/>
+<text x="100" y="1181" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="26" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">主会话：进展展示与人类交互</text>
+<text x="100" y="1225" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">所有治理角色均由真实子 agent 承担，主会话不占角色席位。</text>
+<rect x="1180" y="281" width="40" height="40" rx="10" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1200" y="286" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">1</text>
+<text x="1238" y="284" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">读取技能与协议</text>
+<text x="1238" y="337" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">在实际项目中读取完整 SKILL.md</text>
+<text x="1238" y="373" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">及关联协议。组合模式需将三个</text>
+<text x="1238" y="409" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">技能目录保持同级。</text>
+<rect x="1180" y="471" width="548" height="84" rx="12" fill="#F2F6FC" stroke="none" stroke-width="2"/>
+<text x="1202" y="486" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">安装并识别后，可按名称调用：</text>
+<text x="1202" y="524" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="22" font-weight="400" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="start">$gas-centralized-development</text>
+<rect x="1180" y="595" width="40" height="40" rx="10" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1200" y="600" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">2</text>
+<text x="1238" y="598" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">确认职责与团队</text>
+<text x="1238" y="651" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">执行者人数 N 可由用户指定。</text>
+<text x="1238" y="687" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">治理团队：N+3 个真实子 agent。</text>
+<text x="1238" y="723" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">另加 1 个主会话。</text>
+<text x="1238" y="759" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">默认 N=1：4 个治理子 agent。</text>
+<text x="1238" y="807" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">确认模型、推理强度及职责；</text>
+<text x="1238" y="841" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">全员就绪后开始。</text>
+<rect x="1180" y="902" width="40" height="40" rx="10" fill="#EDF3FC" stroke="none" stroke-width="2"/>
+<text x="1200" y="907" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" fill="#285DAD" dominant-baseline="text-before-edge" text-anchor="middle">3</text>
+<text x="1238" y="905" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="27" font-weight="700" fill="#17283F" dominant-baseline="text-before-edge" text-anchor="start">并行开发、审查与监控</text>
+<text x="1238" y="958" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">指挥者主动安排独立任务。执行、已有输出</text>
+<text x="1238" y="994" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">审查及监控可并行；真实依赖和共享设备按</text>
+<text x="1238" y="1030" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">需串行。</text>
+<rect x="1180" y="1163" width="548" height="99" rx="14" fill="#FFF8E9" stroke="none" stroke-width="2"/>
+<text x="1200" y="1178" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="21" font-weight="400" fill="#926017" dominant-baseline="text-before-edge" text-anchor="start">监督重点：电压／电流、运行与 agent 状态、软硬件</text>
+<text x="1200" y="1207" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="21" font-weight="400" fill="#926017" dominant-baseline="text-before-edge" text-anchor="start">异常。缺测或过期读数不能认定安全。</text>
+<text x="60" y="1330" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="23" font-weight="400" fill="#50627A" dominant-baseline="text-before-edge" text-anchor="start">实线：授权／派工／规则关系    青色：证据与分析    N：用户指定的执行者人数，默认 1</text>
+</svg>

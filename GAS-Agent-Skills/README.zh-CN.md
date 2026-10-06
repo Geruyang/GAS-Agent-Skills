@@ -103,7 +103,7 @@ powershell -NoProfile -File .\Install-GAS-Skills.ps1 -Destination 'D:\AgentSkill
 
 共同脚本和参考资料在每个技能中保留完整副本，便于分别安装。维护时使用 `scripts/sync_shared_assets.py --check` 检查一致性；确认规范副本改动后才显式 `--write` 同步。AGENT-01 仍位于入口并核对一致性，不隐藏启动规则。
 
-组合技能的 `assets/architecture-codex-guide-v3.png` 与仓库 `docs/images/03-combined.png` 是同源历史图。两份分别服务完整技能复制和历史文档链接，保留旧路径；其中旧主会话任职安排已被现行文字与首页 Mermaid 图替代。
+组合技能的 `assets/architecture-codex-guide-v3.png` 与仓库 `docs/images/03-combined.png` 是同源历史图。两份分别服务完整技能复制和历史文档链接，保留旧路径；其中旧主会话任职安排已被现行文字与首页 2.0 架构图替代。
 
 ## 离线校验
 
